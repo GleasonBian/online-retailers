@@ -44,7 +44,7 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  background: #fafafa;
+  background: #ffffff;
 }
 
 .search_nav {
@@ -65,5 +65,12 @@ export default {
 }
 .search_bar {
   width: 1200px;
+}
+.shortcu_bar {
+  width: 100vw;
+  box-shadow: 1px 1px 1px #3333;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
 }
 </style>

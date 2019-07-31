@@ -96,8 +96,9 @@ export default {
   width: 100%;
   height: 20px;
   position: relative;
+  top: 2px;
 }
-.recommends-content-item span:hover {
+.recommends-content-item:hover {
   cursor: pointer;
 }
 .recommends-content-item:hover .recommends-content-item__info {
@@ -105,7 +106,7 @@ export default {
 }
 .recommends-content-item__info {
   position: absolute;
-  top: 20px;
+  top: 35px;
   left: 10px;
   width: 94px;
   height: 0px;

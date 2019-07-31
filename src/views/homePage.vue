@@ -54,14 +54,6 @@ export default {
   background: #fafafa;
 }
 
-.shortcu_bar {
-  width: 100vw;
-  box-shadow: 1px 1px 1px #3333;
-  margin-bottom: 30px;
-  display: flex;
-  justify-content: center;
-}
-
 .classify_banner_box {
   margin-top: 10px;
 }
