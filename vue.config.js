@@ -21,8 +21,8 @@ module.exports = {
   // 放置生成的静态资源 (js、css、img、fonts) 的 (相对于 outputDir 的) 目录。
   assetsDir: "static",
 
-  // eslint-loader 是否在保存的时候检查
-  lintOnSave: true,
+  // 是否开启eslint检查
+  lintOnSave: false,
 
   // 如果机器有超过1个内核，则在默认情况下为生产构建中的babel&ts使用线程加载器
   parallel: require("os").cpus().length > 1,
@@ -38,6 +38,9 @@ module.exports = {
     // 别名配置 可进行 链式操作
     config.resolve.alias
       .set("@", resolve("src"))
+      .set("#", resolve("src/components"))
+      .set("public", resolve("public"))
+      .set("assets", resolve("src/assets"))
       .set("views", resolve("src/views"));
   },
 
@@ -83,7 +86,7 @@ module.exports = {
   devServer: {
     open: true, // 是否 自动打开浏览器 在项目启动的时候
     host: "",
-    port: 8080, // 端口
+    port: 8085, // 端口
     https: false,
     hotOnly: false,
 
@@ -101,11 +104,18 @@ module.exports = {
           "^/dev": ""
         }
       },
-      "/api": {
+      "/demo": {
         target: process.env.VUE_APP_URL,
         changeOrigin: true,
         pathRewrite: {
-          "^/api": ""
+          "^/demo": ""
+        }
+      },
+      "/prod": {
+        target: process.env.VUE_APP_URL,
+        changeOrigin: true,
+        pathRewrite: {
+          "^/prod": ""
         }
       }
     }
