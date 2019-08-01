@@ -30,7 +30,7 @@ export default new Router({
     {
       path: "/goodsList",
       name: "goodsList",
-      component: () => import("views/productList.vue")
+      component: () => import("views/goodsList.vue")
     }
   ]
 });

@@ -61,6 +61,13 @@ span,p,div{
   justify-content: center;
   align-items: center;
 }
+/* 行 - 居中对齐 - 子项居中对齐 */
+.row_center{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
 /* 列 - 两端对齐 - 子项居中对齐 */
 .column_between_center{
   display: flex;
