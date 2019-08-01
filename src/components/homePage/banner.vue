@@ -83,7 +83,7 @@ export default {
   components: {}
 };
 </script>
-<style>
+<style scoped>
 .classify_banner {
   width: 1200px;
   height: 560px;

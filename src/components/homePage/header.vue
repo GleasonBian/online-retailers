@@ -14,8 +14,8 @@
 </template>
 
 <script>
-import shortcutBar from "#/Other/shortcutBar";
-import searchBar from "#/Other/searchBar";
+import shortcutBar from "#/other/shortcutBar";
+import searchBar from "#/other/searchBar";
 export default {
   name: "headercom",
   data() {
@@ -62,6 +62,7 @@ export default {
   justify-content: space-between;
   border: none;
   align-items: center;
+  padding-bottom: 15px;
 }
 .search_bar {
   width: 1200px;

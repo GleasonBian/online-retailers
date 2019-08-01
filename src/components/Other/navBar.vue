@@ -33,7 +33,7 @@ export default {
 .navBar {
   align-self: flex-end;
   margin-top: 30px;
-  margin-bottom: 15px;
+  /* margin-bottom: 15px; */
   width: 968px;
   height: 20px;
   display: flex;

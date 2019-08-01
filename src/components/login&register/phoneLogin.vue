@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import vSidentify from "#/Other/vsidentify.vue";
+import vSidentify from "#/other/vsidentify.vue";
 export default {
   name: "phoneLogin",
   data() {

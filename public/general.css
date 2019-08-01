@@ -54,3 +54,46 @@ textarea,input{
 span,p,div{ 
   word-wrap:break-word;
 } 
+/* 列 - 居中对齐 - 子项居中对齐 */
+.column_center{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+/* 列 - 两端对齐 - 子项居中对齐 */
+.column_between_center{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+/* 列 - 分散对齐 - 子项居中对齐 */
+.column_around_center{
+  display: flex;
+  flex-direction: column;
+  justify-content:space-around;
+  align-items: center;
+}
+/* 行 - 两端对齐 - 子项居中对齐 */
+.row_between_center{
+  display: flex;
+  flex-direction: row;
+  justify-content:space-between;
+  align-items: center;
+}
+/* 行 - 两端对齐 - 子项居中对齐 - 换行 */
+.row_between_center_wrap{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content:space-between;
+  align-items: center;
+}
+/* 行 - 分散对齐 - 子项居中对齐 */
+.row_around_center{
+  display: flex;
+  flex-direction: row;
+  justify-content:space-around;
+  align-items: center;
+}

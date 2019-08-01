@@ -15,7 +15,7 @@
 import headerCom from "#/homePage/header.vue";
 import banner from "#/homePage/banner";
 import floor from "#/homePage/floor";
-import navBar from "#/Other/navBar";
+import navBar from "#/other/navBar";
 export default {
   name: "homePage",
   data() {
