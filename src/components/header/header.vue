@@ -7,15 +7,16 @@
     <div class="search_nav">
       <div class="search_nav_box">
         <searchBar class="search_bar"></searchBar>
-        <slot class="nav_bar"></slot>
+        <navBar></navBar>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import shortcutBar from "#/other/shortcutBar";
-import searchBar from "#/other/searchBar";
+import shortcutBar from "#/header/shortcutBar";
+import searchBar from "#/header/searchBar";
+import navBar from "#/header/navBar";
 export default {
   name: "headercom",
   data() {
@@ -32,7 +33,8 @@ export default {
 
   components: {
     shortcutBar,
-    searchBar
+    searchBar,
+    navBar
   }
 };
 </script>

@@ -7,8 +7,16 @@
       <div class="row_center">价格区间</div>
       <div></div>
       <div class="row_center interval_price">
-        <input type="text" />-
-        <input type="text" />
+        <input
+          type="text"
+          v-model="minPrice"
+          @keyup="minPrice=minPrice.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')"
+        />-
+        <input
+          type="text"
+          v-model="maxPrice"
+          @keyup="maxPrice=maxPrice.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')"
+        />
       </div>
       <div></div>
       <div class="row_center">品牌</div>
@@ -27,7 +35,10 @@
 export default {
   name: "brandSearch",
   data() {
-    return {};
+    return {
+      minPrice: 0,
+      maxPrice: 99
+    };
   },
 
   computed: {},
@@ -61,13 +72,13 @@ export default {
   width: 60px;
   height: 20px;
   border: 1px solid #cccccc;
+  color: #1c7cce;
 }
 .brand_input input {
   display: block;
   width: 215px;
   height: 20px;
   border: 1px solid #cccccc;
-  font-size: 12px;
 }
 .synthesis_order {
   width: 100%;

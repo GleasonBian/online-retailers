@@ -54,6 +54,7 @@ textarea,input{
 span,p,div{ 
   word-wrap:break-word;
 } 
+
 /* 列 - 居中对齐 - 子项居中对齐 */
 .column_center{
   display: flex;
@@ -67,6 +68,19 @@ span,p,div{
   flex-direction: row;
   justify-content: center;
   align-items: center;
+}
+/* 外层布局 */
+.layout{
+  width:100vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+/* 和模型宽度 */
+.box_width{
+  width: 1200px;
+  box-sizing: border-box;
 }
 /* 列 - 两端对齐 - 子项居中对齐 */
 .column_between_center{
@@ -103,4 +117,26 @@ span,p,div{
   flex-direction: row;
   justify-content:space-around;
   align-items: center;
+}
+/* 行 - 起点对齐 - 子项起点对齐 */
+.row_start_start{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content:flex-start;
+  align-items: flex-start;
+}
+/* 列 - 起点对齐 - 子项起点对齐 */
+.column_start_start{
+  display: flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  align-items: flex-start;
+}
+/*文字超出部分使用省略号显示*/
+.uts {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap !important;
+    outline: 0 !important
 }

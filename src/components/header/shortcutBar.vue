@@ -1,6 +1,6 @@
 <!-- 快捷栏 -->
 <template>
-  <div class="container">
+  <div class="container_layout">
     <div class="shortcutBar_welcome">
       <span>世界高铁网</span>
       <span>欢迎您！</span>
@@ -51,7 +51,7 @@ export default {
 </script>
 <style>
 /* 整体布局 */
-.container {
+.container_layout {
   width: 1410px;
   display: grid;
   grid-template-rows: 100%;

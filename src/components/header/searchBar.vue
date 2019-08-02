@@ -13,7 +13,7 @@
       <div class="shearchBox_input">
         <input placeholder="输入商品名称、规格型号、店铺名称进行搜索" class="search_input" v-model="searchKeyWord" />
       </div>
-      <div class="shearchBox_button" @click="searchHandle">搜&nbsp; &nbsp;索</div>
+      <router-link class="shearchBox_button" to="goodsList">搜&nbsp; &nbsp;索</router-link>
     </div>
     <div></div>
     <div class="searchBar_shopCart">
@@ -35,11 +35,7 @@ export default {
       selectValue: "1"
     };
   },
-  created() {
-    this.$route.query.searchKeyWord
-      ? (this.searchKeyWord = this.$route.query.searchKeyWord)
-      : (this.searchKeyWord = "");
-  },
+  created() {},
   components: {},
 
   computed: {},
@@ -48,12 +44,7 @@ export default {
 
   methods: {
     /* 搜索处理 */
-    searchHandle() {
-      this.$router.push({
-        path: "goodsList",
-        query: { searchKeyWord: this.searchKeyWord }
-      });
-    }
+    searchHandle() {}
   }
 };
 </script>
@@ -154,6 +145,7 @@ export default {
   color: aliceblue;
   background: #1c7cce;
   font-size: 15px;
+  text-decoration: none;
 }
 .shearchBox_button:hover {
   cursor: pointer;

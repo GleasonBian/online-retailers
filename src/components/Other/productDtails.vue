@@ -1,11 +1,13 @@
-<!-- 商品列表 -->
+<!-- 商品详情下半截 -->
 <template>
-  <div></div>
+  <div class="column_center">
+    <div class></div>
+  </div>
 </template>
 
 <script>
 export default {
-  name: "",
+  name: "productDetailsBottom",
   data() {
     return {};
   },

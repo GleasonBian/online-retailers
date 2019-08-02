@@ -24,13 +24,24 @@ export default new Router({
     },
     {
       path: "/",
-      name: "HomePage",
-      component: () => import("views/homePage.vue")
-    },
-    {
-      path: "/goodsList",
-      name: "goodsList",
-      component: () => import("views/goodsList.vue")
+      component: () => import("views/homePage.vue"),
+      children: [
+        {
+          path: "/",
+          name: "homePage",
+          component: () => import("#/homePage/homePageBody.vue")
+        },
+        {
+          path: "/goodsList",
+          name: "productList",
+          component: () => import("views/productList.vue")
+        },
+        {
+          path: "/goodsDetails",
+          name: "productDetails",
+          component: () => import("views/productDetails.vue")
+        }
+      ]
     }
   ]
 });
