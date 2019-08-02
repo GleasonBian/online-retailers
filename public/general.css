@@ -53,7 +53,21 @@ textarea,input{
 } 
 span,p,div{ 
   word-wrap:break-word;
-} 
+}
+/* 和模型宽度 */
+.box_width{
+  width: 1200px;
+  box-sizing: border-box;
+}
+
+/* 外层布局 */
+.layout{
+  width:100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
 /* 列 - 居中对齐 - 子项居中对齐 */
 .column_center{
@@ -62,6 +76,7 @@ span,p,div{
   justify-content: center;
   align-items: center;
 }
+
 /* 行 - 居中对齐 - 子项居中对齐 */
 .row_center{
   display: flex;
@@ -69,19 +84,7 @@ span,p,div{
   justify-content: center;
   align-items: center;
 }
-/* 外层布局 */
-.layout{
-  width:100vw;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-}
-/* 和模型宽度 */
-.box_width{
-  width: 1200px;
-  box-sizing: border-box;
-}
+
 /* 列 - 两端对齐 - 子项居中对齐 */
 .column_between_center{
   display: flex;
@@ -89,6 +92,7 @@ span,p,div{
   justify-content: space-between;
   align-items: center;
 }
+
 /* 列 - 分散对齐 - 子项居中对齐 */
 .column_around_center{
   display: flex;
@@ -96,6 +100,7 @@ span,p,div{
   justify-content:space-around;
   align-items: center;
 }
+
 /* 行 - 两端对齐 - 子项居中对齐 */
 .row_between_center{
   display: flex;
@@ -103,6 +108,7 @@ span,p,div{
   justify-content:space-between;
   align-items: center;
 }
+
 /* 行 - 两端对齐 - 子项居中对齐 - 换行 */
 .row_between_center_wrap{
   display: flex;
@@ -118,6 +124,7 @@ span,p,div{
   justify-content:space-around;
   align-items: center;
 }
+
 /* 行 - 起点对齐 - 子项起点对齐 */
 .row_start_start{
   display: flex;
@@ -125,6 +132,15 @@ span,p,div{
   flex-wrap: wrap;
   justify-content:flex-start;
   align-items: flex-start;
+}
+
+/* 行 - 起点对齐 - 子项居中对齐 */
+.row_start_center{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content:flex-start;
+  align-items: center;
 }
 /* 列 - 起点对齐 - 子项起点对齐 */
 .column_start_start{

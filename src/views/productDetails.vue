@@ -1,9 +1,12 @@
 <!-- 商品详情 -->
 <template>
-  <div class="column_between_center">商品详情</div>
+  <div class="layout">
+    <productInfo></productInfo>
+  </div>
 </template>
 
 <script>
+import productInfo from "#/productDetails/productInfo.vue";
 export default {
   name: "productDetails",
   data() {
@@ -18,7 +21,9 @@ export default {
 
   mounted() {},
 
-  components: {}
+  components: {
+    productInfo
+  }
 };
 </script>
 
