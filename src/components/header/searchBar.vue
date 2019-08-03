@@ -6,14 +6,14 @@
     <div class="searchBar_shearchBox">
       <div class="shearchBox_select">
         <select v-model="selectValue">
-          <option value="1">商品</option>
-          <option value="1">店铺</option>
+          <option :value="1">商品</option>
+          <option :value="2">店铺</option>
         </select>
       </div>
       <div class="shearchBox_input">
         <input placeholder="输入商品名称、规格型号、店铺名称进行搜索" class="search_input" v-model="searchKeyWord" />
       </div>
-      <router-link class="shearchBox_button" to="goodsList">搜&nbsp; &nbsp;索</router-link>
+      <div class="shearchBox_button" @click="toProductORStore">搜&nbsp; &nbsp;索</div>
     </div>
     <div></div>
     <div class="searchBar_shopCart">
@@ -32,7 +32,7 @@ export default {
   data() {
     return {
       searchKeyWord: "",
-      selectValue: "1"
+      selectValue: 1
     };
   },
   created() {},
@@ -44,7 +44,20 @@ export default {
 
   methods: {
     /* 搜索处理 */
-    searchHandle() {}
+    toProductORStore() {
+      switch (this.selectValue) {
+        case 1:
+          this.$router.push({
+            name: "productList"
+          });
+          break;
+        case 2:
+          this.$router.push({
+            name: "storeList"
+          });
+          break;
+      }
+    }
   }
 };
 </script>

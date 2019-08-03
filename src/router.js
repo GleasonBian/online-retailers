@@ -38,8 +38,13 @@ export default new Router({
         },
         {
           path: "/goodsDetails",
-          name: "productDetails",
+          name: "protductDetails",
           component: () => import("views/productDetails.vue")
+        },
+        {
+          path: "/storeList",
+          name: "storeList",
+          component: () => import("views/storeList.vue")
         }
       ]
     }

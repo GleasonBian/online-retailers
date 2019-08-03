@@ -2,11 +2,15 @@
 <template>
   <div class="layout">
     <productInfo></productInfo>
+    <specifications></specifications>
+    <productIntro></productIntro>
   </div>
 </template>
 
 <script>
 import productInfo from "#/productDetails/productInfo.vue";
+import specifications from "#/productDetails/table.vue";
+import productIntro from "#/productDetails/productIntro";
 export default {
   name: "productDetails",
   data() {
@@ -22,7 +26,9 @@ export default {
   mounted() {},
 
   components: {
-    productInfo
+    productInfo,
+    specifications,
+    productIntro
   }
 };
 </script>

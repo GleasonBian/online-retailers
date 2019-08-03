@@ -16,7 +16,10 @@ import {
   FormItem,
   Input,
   Col,
-  Checkbox
+  Checkbox,
+  InputNumber,
+  Tabs,
+  TabPane
 } from "element-ui";
 Vue.use(Button);
 Vue.use(Select);
@@ -29,6 +32,9 @@ Vue.use(FormItem);
 Vue.use(Input);
 Vue.use(Col);
 Vue.use(Checkbox);
+Vue.use(InputNumber);
+Vue.use(Tabs);
+Vue.use(TabPane);
 Vue.prototype.$loading = Loading.service;
 new Vue({
   router,

@@ -69,6 +69,10 @@ span,p,div{
   align-items: center;
 }
 
+/**
+ * 列布局
+ */
+
 /* 列 - 居中对齐 - 子项居中对齐 */
 .column_center{
   display: flex;
@@ -77,11 +81,18 @@ span,p,div{
   align-items: center;
 }
 
-/* 行 - 居中对齐 - 子项居中对齐 */
-.row_center{
+/* 列 - 起点对齐 - 子项起点对齐 */
+.column_start_start{
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  flex-direction:column;
+  justify-content:flex-start;
+  align-items: flex-start;
+}
+/* 列 - 起点对齐 - 子项起点对齐 */
+.column_start_center{
+  display: flex;
+  flex-direction:column;
+  justify-content:flex-start;
   align-items: center;
 }
 
@@ -101,12 +112,39 @@ span,p,div{
   align-items: center;
 }
 
+/* 列 - 分散对齐 - 子项居中对齐 */
+.column_around_start{
+  display: flex;
+  flex-direction: column;
+  justify-content:space-around;
+  align-items: flex-start;
+}
+
+/**
+ * 行 布局
+ */
+/* 行 - 居中对齐 - 子项居中对齐 */
+.row_center{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
 /* 行 - 两端对齐 - 子项居中对齐 */
 .row_between_center{
   display: flex;
   flex-direction: row;
   justify-content:space-between;
   align-items: center;
+}
+
+/* 行 - 两端对齐 - 子项居中对齐 */
+.row_between_start{
+  display: flex;
+  flex-direction: row;
+  justify-content:space-between;
+  align-items: flex-start;
 }
 
 /* 行 - 两端对齐 - 子项居中对齐 - 换行 */
@@ -122,6 +160,14 @@ span,p,div{
   display: flex;
   flex-direction: row;
   justify-content:space-around;
+  align-items: center;
+}
+/* 行 - 分散对齐 - 子项居中对齐 */
+.row_around_center_nowrap{
+  display: flex;
+  flex-direction: row;
+  justify-content:space-around;
+  flex-wrap: nowrap;
   align-items: center;
 }
 
@@ -142,17 +188,22 @@ span,p,div{
   justify-content:flex-start;
   align-items: center;
 }
-/* 列 - 起点对齐 - 子项起点对齐 */
-.column_start_start{
+/* 行 - 起点对齐 - 子项居中对齐 */
+.row_end_center{
   display: flex;
-  flex-direction:column;
-  justify-content:flex-start;
-  align-items: flex-start;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content:flex-end;
+  align-items: center;
 }
+
 /*文字超出部分使用省略号显示*/
 .uts {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap !important;
     outline: 0 !important
+}
+.cursor{
+  cursor: pointer;
 }

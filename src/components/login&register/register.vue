@@ -65,7 +65,7 @@
 
 <script>
 // import { login } from "@/getData.js";
-import vSidentify from "#/other/vsidentify.vue";
+import vSidentify from "#/login&register/vsidentify.vue";
 export default {
   name: "register",
   data() {
