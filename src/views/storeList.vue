@@ -21,7 +21,7 @@
       </div>
       <div class="store_list_box column_center">
         <div class="store_list_item row_between_center">
-          <router-link to class="store_box column_start_start link">
+          <router-link to="storeIndex" class="store_box column_start_start router-link-active">
             <div class="row_start_center store_img_info">
               <img src="~assets/Qr_code.png" alt />
               <div class="store_info column_around_start">
