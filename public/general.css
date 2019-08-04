@@ -42,6 +42,7 @@ a, a:link, a:visited{
    color:#000;
    text-decoration:none;
 }
+
 a:hover{ 
   color:#000; 
   text-decoration:underline;
@@ -206,4 +207,16 @@ span,p,div{
 }
 .cursor{
   cursor: pointer;
+}
+
+.link{
+  text-decoration:none;
+}
+
+a {
+  text-decoration: none;
+}
+ 
+.router-link-active {
+  text-decoration: none;
 }

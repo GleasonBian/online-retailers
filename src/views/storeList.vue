@@ -2,12 +2,26 @@
 <template>
   <div class="layout margin">
     <div class="box_width column_start_start">
-      <div class="store_sort">
-        
+      <div class="store_sort row_between_center">
+        <div class="btn_box row_center">默认排序</div>
+        <div class="row_center btn_box">
+          <span>销量</span>
+          <div class="column_center btn_arr">
+            <span>▲</span>
+            <span>▼</span>
+          </div>
+        </div>
+        <div class="row_center btn_box">
+          <span>价格</span>
+          <div class="column_center btn_arr">
+            <span>▲</span>
+            <span>▼</span>
+          </div>
+        </div>
       </div>
       <div class="store_list_box column_center">
         <div class="store_list_item row_between_center">
-          <div class="store_box column_start_start">
+          <router-link to class="store_box column_start_start link">
             <div class="row_start_center store_img_info">
               <img src="~assets/Qr_code.png" alt />
               <div class="store_info column_around_start">
@@ -25,7 +39,7 @@
                 <span>{{12312312}}</span>
               </div>
             </div>
-          </div>
+          </router-link>
           <div class="product_box row_around_center_nowrap">
             <div class="product_box_item column_start_center">
               <img src="~assets/Qr_code.png" alt />
@@ -80,7 +94,7 @@ export default {
 .store_sort {
   width: 300px;
   height: 50px;
-  background: #efefef;
+  /* background: #efefef; */
 }
 .store_list_box {
   width: 100%;
@@ -134,5 +148,14 @@ export default {
 .product_box_item span {
   font-size: 18px;
   padding-top: 5px;
+}
+.btn_box {
+  width: 100px;
+  height: 50px;
+  border: 1px solid #efefef;
+}
+.btn_arr {
+  font-size: 10px;
+  padding-left: 5px;
 }
 </style>
