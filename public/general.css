@@ -105,6 +105,14 @@ span,p,div{
   align-items: center;
 }
 
+/* 列 - 两端对齐 - 子项居中对齐 */
+.column_between_start{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
 /* 列 - 分散对齐 - 子项居中对齐 */
 .column_around_center{
   display: flex;
@@ -219,4 +227,9 @@ a {
  
 .router-link-active {
   text-decoration: none;
+}
+.bg{
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center center;
 }
