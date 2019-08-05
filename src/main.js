@@ -19,7 +19,8 @@ import {
   Checkbox,
   InputNumber,
   Tabs,
-  TabPane
+  TabPane,
+  Tree
 } from "element-ui";
 Vue.use(Button);
 Vue.use(Select);
@@ -35,6 +36,7 @@ Vue.use(Checkbox);
 Vue.use(InputNumber);
 Vue.use(Tabs);
 Vue.use(TabPane);
+Vue.use(Tree);
 Vue.prototype.$loading = Loading.service;
 new Vue({
   router,

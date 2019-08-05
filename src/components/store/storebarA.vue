@@ -116,8 +116,6 @@ export default {
 .product_sort_body {
   width: 100%;
   height: 80px;
-  /* border: 1px solid #b6b4b6; */
-  /* border-right: none; */
 }
 .sort_item {
   width: 72px;
