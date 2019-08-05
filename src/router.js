@@ -50,6 +50,11 @@ export default new Router({
           path: "/storeIndex",
           name: "storeIndex",
           component: () => import("views/storeIndex.vue")
+        },
+        {
+          path: "/storeProductList",
+          name: "storeProductList",
+          component: () => import("views/storeProductList.vue")
         }
       ]
     }

@@ -54,9 +54,6 @@ export default {
 </script>
 
 <style scoped>
-.brand_search_container {
-  width: 100vw;
-}
 .brand_search_box {
   height: 50px;
   width: 1200px;

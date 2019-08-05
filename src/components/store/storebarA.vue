@@ -68,6 +68,7 @@ export default {
 .store_info_box {
   width: 230px;
   height: 560px;
+  background: #ffffff;
 }
 
 .store_info {
