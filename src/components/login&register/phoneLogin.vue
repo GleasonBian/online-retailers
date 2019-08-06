@@ -4,26 +4,27 @@
     <div class="login_box">
       <h1>验证码登录</h1>
       <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm1" class="fromClass">
-        <el-form-item prop="aphone">
+        <el-form-item prop="phone">
           <el-input type="text" placeholder="11位手机号" v-model="ruleForm.phone">
             <el-button slot="prepend">+ 86</el-button>
           </el-input>
         </el-form-item>
 
-        <el-form-item prop="asidentify">
+        <el-form-item prop="sidentify">
           <el-col :span="15">
             <el-input placeholder="输入图形验证码" v-model="ruleForm.sidentify"></el-input>
           </el-col>
           <el-col :span="6" style="margin-left:10px;" @click.native="sx">
-            <v-sidentify :identifyCode="identifyCode" ref="mychild"></v-sidentify>
+            <!-- <v-sidentify :identifyCode="identifyCode" ref="mychild"></v-sidentify> -->
+            <img src="?" alt="" id='imgInit'>
           </el-col>
         </el-form-item>
 
-        <el-form-item prop="aphoneSidentify" class="aphoneSidentify">
+        <el-form-item prop="phoneSidentify" class="aphoneSidentify">
           <el-col :span="15">
             <el-input type="password" placeholder="请输入验证码" v-model="ruleForm.phoneSidentify"></el-input>
           </el-col>
-          <el-col :span="6" style="margin-left:10px;">
+          <el-col :span="6" style="margin-left:10px;" @click.native="getValid">
             <el-button type="primary">获取验证码</el-button>
           </el-col>
         </el-form-item>
@@ -42,6 +43,7 @@
 </template>
 
 <script>
+import { generateImage, getValid, checkCaptcha, checkphoneistrue, loginByPhone } from "@/getData.js";
 import vSidentify from "#/login&register/vsidentify.vue";
 export default {
   name: "phoneLogin",
@@ -85,19 +87,19 @@ export default {
         phoneSidentify: ""
       },
       rules: {
-        aphone: [
+        phone: [
           {
             validator: validateAccount,
             trigger: "blur"
           }
         ],
-        asidentify: [
+        sidentify: [
           {
             validator: validateSidentify,
             trigger: "blur"
           }
         ],
-        aphoneSidentify: [
+        phoneSidentify: [
           {
             validator: validatePass,
             trigger: "blur"
@@ -113,29 +115,31 @@ export default {
     login(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.getUserInfo();
+          this.loginByPhone();
         } else {
           console.log("error submit!!");
           return false;
         }
       });
     },
-    async getUserInfo() {
-      let dataJson = Object.assign(this.ruleForm);
-      console.log("datajson", dataJson);
-      // const res = await login(dataJson);
-      // if (res.errorCode === 200) {
-      //   console.log(res);
+    async loginByPhone() {
+      let dataJson = {
+        userid:this.ruleForm.phone,
+        mcaptcha:this.ruleForm.phoneSidentify
+      }
+      const res = await loginByPhone(dataJson);
+      console.log(res);
+      if (res.errorCode === 200) {
       // this.$router.push({
       //   name: "HomePage",
       //   params: {
       //     data: res.data.user
       //   }
       // });
-      //   this.$message.success(res.message);
-      // } else {
-      //   this.$message.warning(res.message);
-      // }
+        this.$message.success(res.message);
+      } else {
+        this.$message.warning(res.message);
+      }
     },
     toLogin() {
       this.$router.push({ name: "login" });
@@ -144,13 +148,20 @@ export default {
       this.$router.push({ name: "register" });
     },
     sx() {
-      this.$refs.mychild.drawPic();
+     document.getElementById('imgInit').src = process.env.VUE_APP_URL + '/generateImage'
+    },
+    async getValid() {
+      console.log(this.ruleForm.phone)
+      const res = await getValid({mobile:this.ruleForm.phone})
+      console.log(res)
     }
   },
 
   created() {},
 
-  mounted() {},
+  mounted() {
+    this.sx()
+  },
 
   components: {
     vSidentify

@@ -9,17 +9,17 @@
         ref="ruleForm"
         class="fromClass demo-ruleForm"
       >
-        <el-form-item prop="account">
-          <el-input type="text" v-model="ruleForm.username">
+        <el-form-item prop="userid">
+          <el-input type="text" v-model="ruleForm.userid">
             <el-button slot="prepend" icon="el-icon-search"></el-button>
           </el-input>
         </el-form-item>
-        <el-form-item prop="pass">
+        <el-form-item prop="password">
           <el-input type="password" v-model="ruleForm.password">
             <el-button slot="prepend" icon="el-icon-search"></el-button>
           </el-input>
         </el-form-item>
-        <el-button style="margin-right:-180px;padding-top:0;" type="text">找回密码</el-button>
+        <el-button style="margin-right:-180px;padding-top:0;" type="text" @click="toFindPassword">找回密码</el-button>
         <el-form-item>
           <el-button class="elBtn" type="primary" @click="login('ruleForm')">登录</el-button>
         </el-form-item>
@@ -45,8 +45,8 @@ export default {
       if (value === "") {
         callback(new Error("请输入账号"));
       } else {
-        if (this.ruleForm.username !== "") {
-          this.$refs.ruleForm.validateField("username");
+        if (this.ruleForm.userid !== "") {
+          this.$refs.ruleForm.validateField("userid");
         }
         callback();
       }
@@ -63,17 +63,17 @@ export default {
     };
     return {
       ruleForm: {
-        username: "",
+        userid: "",
         password: ""
       },
       rules: {
-        account: [
+        userid: [
           {
             validator: validateAccount,
             trigger: "blur"
           }
         ],
-        pass: [
+        password: [
           {
             validator: validatePass,
             trigger: "blur"
@@ -98,17 +98,17 @@ export default {
       });
     },
     async getUserInfo() {
-      let dataJson = Object.assign(this.ruleForm, { userType: 1 });
+      let dataJson = Object.assign(this.ruleForm);
       console.log("datajson", dataJson);
       const res = await login(dataJson);
-      if (res.errorCode === 200) {
+      if (res.errorCode === 0) {
         console.log(res);
-        // this.$router.push({
-        //   name: "HomePage",
-        //   params: {
-        //     data: res.data.user
-        //   }
-        // });
+        this.$router.push({
+          name: "homePage",
+          params: {
+            data: res.data.user
+          }
+        });
         this.$message.success(res.message);
       } else {
         this.$message.warning(res.message);
@@ -122,6 +122,11 @@ export default {
     toRegister() {
       this.$router.push({
         name: "register"
+      });
+    },
+    toFindPassword() {
+      this.$router.push({
+        name: "findPassword"
       });
     }
   }

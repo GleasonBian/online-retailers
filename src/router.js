@@ -23,6 +23,11 @@ export default new Router({
       component: () => import("#/login&register/register.vue")
     },
     {
+      path: "/findPassword",
+      name: "findPassword",
+      component: () => import("#/login&register/findPassword.vue")
+    },
+    {
       path: "/",
       component: () => import("views/homePage.vue"),
       children: [
