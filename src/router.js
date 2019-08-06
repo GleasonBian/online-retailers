@@ -28,6 +28,11 @@ export default new Router({
       component: () => import("#/login&register/findPassword.vue")
     },
     {
+      path: "/storeJoin",
+      name: "storeJoin",
+      component: () => import("#/store/storeJoin.vue")
+    },
+    {
       path: "/",
       component: () => import("views/homePage.vue"),
       children: [
@@ -60,6 +65,11 @@ export default new Router({
           path: "/storeProductList",
           name: "storeProductList",
           component: () => import("views/storeProductList.vue")
+        },
+        {
+          path: "/shoppingCart",
+          name: "shopCart",
+          component: () => import("views/shopCart.vue")
         }
       ]
     }

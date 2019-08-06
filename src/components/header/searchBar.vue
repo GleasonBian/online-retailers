@@ -17,11 +17,11 @@
     </div>
     <div></div>
     <div class="searchBar_shopCart">
-      <div class="shop_cart">
+      <router-link to="shoppingCart" class="shop_cart">
         <img src="~assets/shopCart.png" />
         <span>我的购物车</span>
         <span class="shop_cart_count">0</span>
-      </div>
+      </router-link>
     </div>
   </div>
 </template>
