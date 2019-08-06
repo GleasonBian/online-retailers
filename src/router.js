@@ -33,6 +33,11 @@ export default new Router({
       component: () => import("#/store/storeJoin.vue")
     },
     {
+      path: "/brand",
+      name: "brand",
+      component: () => import("#/store/brand.vue")
+    },
+    {
       path: "/",
       component: () => import("views/homePage.vue"),
       children: [

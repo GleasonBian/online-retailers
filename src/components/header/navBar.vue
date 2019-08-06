@@ -1,12 +1,16 @@
 <!-- 导航栏 -->
 <template>
   <div class="navBar">
-    <div class="home_page">首页</div>
+    <div class="home_page">
+      <router-link to="/">首页</router-link>
+    </div>
     <div class="item">通讯设备</div>
     <div class="item">梁场物料</div>
     <div class="item">货车配件</div>
     <div class="item">解决方案</div>
-    <div class="item">企业品牌</div>
+    <div class="item">
+      <router-link to="/brand">企业品牌</router-link>
+    </div>
     <div class="phone"></div>
   </div>
 </template>

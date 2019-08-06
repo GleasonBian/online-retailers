@@ -1,43 +1,57 @@
 <!-- 楼层 -->
 <template>
-  <div class="floor">
-    <h3>楼层名称</h3>
-    <div class="floor_continer">
-      <div class="classify_goods">
-        <div class="floor_classify" style="background: #5c7ac3;">
-          <div class="floor_Box">
-            <div
-              class="floor_classify_name"
-              v-for="(item,index) in floor"
-              :key="index"
-            >{{item.name}}</div>
-          </div>
-          <div class="floor_hot">
-            <div style="font-size:20px; color:#fff;margin-bottom:24px;">热销HOT</div>
-            <div class="floor_hot_box">
-              <div
-                class="floor_hot_name"
-                v-for="(item,index) in floorHot"
+  <div>
+    <div class="floor" v-for="(item, index) in floor" :key="index">
+      <h3>{{item.frontName}}</h3>
+      <div class="floor_continer">
+        <div class="classify_goods">
+          <div class="floor_classify" style="background: #5c7ac3;">
+            <div class="floor_Box">
+              <router-link
+                class="floor_classify_name uts"
+                v-for="(each,index) in item.children"
                 :key="index"
-              >{{item.name}}</div>
+                :to="{ path: 'goodsList', query: { id:each.id  }}"
+              >{{each.frontName}}</router-link>
+            </div>
+            <div class="floor_hot">
+              <div style="font-size:20px; color:#fff;margin-bottom:24px;">热销HOT</div>
+              <div class="floor_hot_box">
+                <div
+                  class="floor_hot_name uts"
+                  v-for="(each,index) in item.sellGoodsVOS"
+                  :key="index"
+                >{{each.goodsName}}</div>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="floor_item_box">
-          <div class="floor_item" v-for="(item,index) in floorItem" :key="index">
-            <img src="~assets/logo.png" width="202px" height="153px" />
-            <div class="floor_item_details">
-              <div class="item_details_name">名称</div>
-              <div class="item_details_desc">描述</div>
-              <div class="item_details_price">售价</div>
-            </div>
+          <div class="floor_item_box">
+            <router-link
+              :to="{ path: 'goodsDetails', query: { id:each.id  }}"
+              class="floor_item"
+              v-for="(each,index) in item.goodsVOList"
+              :key="index"
+            >
+              <img :src="img+each.mainImagePath" width="202px" height="153px" />
+              <div class="floor_item_details">
+                <div class="item_details_name uts">{{each.goodsName}}</div>
+                <div class="item_details_desc uts">{{each.typeModel}}</div>
+                <div class="item_details_price uts">¥ {{each.goodsPrice}}</div>
+              </div>
+            </router-link>
           </div>
         </div>
-      </div>
-      <div class="hot_brand">
-        <div class="hot_brand_title">品牌 HOT</div>
-        <div class="hot_brand_body">
-          <img src="~assets/logo.png" v-for="(item,index) in floor" :key="index" />
+        <div class="hot_brand">
+          <div class="hot_brand_title">品牌 HOT</div>
+          <div class="hot_brand_body">
+            <router-link
+              v-for="(each,index) in item.brandVOS"
+              :key="index"
+              :to="{ path: 'brand', query: { id:each.id  }}"
+            >
+              <img :src="img+each.logoImg" />
+            </router-link>
+          </div>
         </div>
       </div>
     </div>
@@ -45,49 +59,21 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   name: "floor",
   data() {
     return {
-      floor: [
-        { name: "名称名称名称" },
-        { name: "名称名称名称" },
-        { name: "名称名称名称" },
-        { name: "名称名称名称" },
-        { name: "名称名称名称" },
-        { name: "名称名称名称" },
-        { name: "名称名称名称" },
-        { name: "名称名称名称" },
-        { name: "名称名称名称" },
-        { name: "名称名称名称" },
-        { name: "名称名称名称" },
-        { name: "名称名称名称" },
-        { name: "名称名称名称" },
-        { name: "名称名称名称" }
-      ],
-      floorHot: [
-        { name: "名称名称名称" },
-        { name: "名称名称名称" },
-        { name: "名称名称名称" },
-        { name: "名称名称名称" }
-      ],
-      floorItem: [
-        { name: "名称名称名称" },
-        { name: "名称名称名称" },
-        { name: "名称名称名称" },
-        { name: "名称名称名称" },
-        { name: "名称名称名称" },
-        { name: "名称名称名称" },
-        { name: "名称名称名称" },
-        { name: "名称名称名称" }
-      ]
+      img: process.env.VUE_APP_IMG
     };
   },
 
-  created() {},
+  created() {
+    this.$store.dispatch("handle");
+  },
   components: {},
 
-  computed: {},
+  computed: mapState(["floor"]),
 
   mounted() {},
 
@@ -124,7 +110,8 @@ h3 {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: flex-start;
+  align-items: flex-start;
   border-bottom: 3px solid #ffffff;
 }
 .floor_hot {
@@ -172,6 +159,7 @@ h3 {
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
+  border-radius: 5px;
 }
 .floor_item:hover {
   border-top: 2px solid #1c7cce;
@@ -186,9 +174,9 @@ h3 {
   font-size: 18px;
   color: #ffffff;
 }
-.floor_item_details {
+/* .floor_item_details {
   margin-top: 20px;
-}
+} */
 .item_details_name {
   font-size: 14px;
   color: #666666;
@@ -220,9 +208,10 @@ h3 {
   align-items: center;
   width: 1200px;
   height: 85px;
+  overflow: hidden;
 }
 .hot_brand_body img {
-  margin: 0px 15px;
+  margin: 0px 14px;
   width: 123px;
   height: 82px;
 }

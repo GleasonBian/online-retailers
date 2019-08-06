@@ -20,7 +20,9 @@ import {
   InputNumber,
   Tabs,
   TabPane,
-  Tree
+  Tree,
+  Cascader,
+  Upload
 } from "element-ui";
 Vue.use(Button);
 Vue.use(Select);
@@ -37,6 +39,8 @@ Vue.use(InputNumber);
 Vue.use(Tabs);
 Vue.use(TabPane);
 Vue.use(Tree);
+Vue.use(Cascader);
+Vue.use(Upload);
 Vue.prototype.$loading = Loading.service;
 new Vue({
   router,

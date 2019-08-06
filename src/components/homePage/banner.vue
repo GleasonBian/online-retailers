@@ -1,58 +1,59 @@
-<!-- 分类 与 banner -->
 <template>
   <div class="classify_banner">
     <div class="classify">
       <div
         class="classify_item"
-        v-for="(item,index) in classify"
+        v-for="(item,index) in LevelOneData"
         :key="index"
-        @mouseenter="subclassHandle(item,index)"
-        @mouseleave="subclassLeaveHandle(item,index)"
+        @click="LevelTwo(item,index)"
       >
-        <span>{{item.name}}</span>
+        <span>{{item.frontName}}</span>
         <span>＞</span>
       </div>
     </div>
-    <div class="banner" v-show="isShowMaskLayer">
-      <el-carousel height="560px">
+    <div class="classify_mask_layer">
+      <el-carousel height="560px" class="banner">
         <el-carousel-item v-for="item in 4" :key="item">
           <h3 class="small">{{ item }}</h3>
         </el-carousel-item>
       </el-carousel>
+      <div class="LevelTwo" v-show="isLevelTwoShow">
+        <div
+          class="LevelTwo_item"
+          v-for="(item,index) in LevelTwoData"
+          :key="index"
+          @click="LevelThree(item,index)"
+        >
+          <span>{{item.frontName}}</span>
+          <span>＞</span>
+        </div>
+      </div>
+      <div class="LevelThree" v-show="isLevelThreeShow" @mouseleave="subclassLeaveHandle()">
+        <div
+          class="LevelThree_item"
+          v-for="(item,index) in LevelThreeData"
+          :key="index"
+          @click="JumpHandle(item,index)"
+        >
+          <span>{{item.frontName}}</span>
+          <span>＞</span>
+        </div>
+      </div>
     </div>
-    <div
-      class="classify_mask_layer"
-      v-show="!isShowMaskLayer"
-      v-loading="loading"
-      element-loading-text="拼命加载中"
-      element-loading-spinner="el-icon-loading"
-      element-loading-background="rgba(0, 0, 0, 0.3)"
-      @mouseenter="subclassHandle()"
-      @mouseleave="subclassLeaveHandle()"
-    >class</div>
   </div>
 </template>
 
 <script>
+import { loadChildListData } from "@/getData.js";
 export default {
   name: "banner",
   data() {
     return {
-      classify: [
-        { name: "工具及配件", id: "123123123" },
-        { name: "工具及配件", id: "123123123" },
-        { name: "工具及配件", id: "123123123" },
-        { name: "工具及配件", id: "123123123" },
-        { name: "工具及配件", id: "123123123" },
-        { name: "工具及配件", id: "123123123" },
-        { name: "工具及配件", id: "123123123" },
-        { name: "工具及配件", id: "123123123" },
-        { name: "工具及配件", id: "123123123" },
-        { name: "工具及配件", id: "123123123" },
-        { name: "工具及配件", id: "123123123" }
-      ],
-      isShowMaskLayer: true,
-      loading: false
+      LevelOneData: [],
+      LevelTwoData: [],
+      LevelThreeData: [],
+      isLevelTwoShow: false,
+      isLevelThreeShow: false
     };
   },
 
@@ -60,23 +61,43 @@ export default {
 
   methods: {
     /**
-     * 子类处理
+     * 二级分类
      */
-    subclassHandle(item, index) {
-      console.log("进入");
-      this.isShowMaskLayer = false;
-      this.loading = true;
-      if (!item) return;
+    async LevelTwo(item, index) {
+      this.isLevelTwoShow = true;
+      const res = await loadChildListData({ parentId: item.id });
+      this.LevelTwoData = res.data;
     },
-    subclassLeaveHandle(item, index) {
-      console.log("离开");
-      this.loading = false;
-      this.isShowMaskLayer = true;
-      if (!item) return;
+    /**
+     * 三级分类
+     */
+    async LevelThree(item, index) {
+      this.isLevelThreeShow = true;
+      const res = await loadChildListData({ parentId: item.id });
+      this.LevelThreeData = res.data;
+    },
+    /**
+     * 一级分类
+     */
+    async LevelOne() {
+      const res = await loadChildListData({ parentId: 0 });
+      this.LevelOneData = res.data;
+    },
+    /**
+     * 鼠标移出
+     */
+    subclassLeaveHandle() {
+      this.isLevelTwoShow = false;
+      this.isLevelThreeShow = false;
+    },
+    JumpHandle(item) {
+      this.$router.push({ path: "goodsList", query: { id: item.id } });
     }
   },
 
-  created() {},
+  created() {
+    this.LevelOne();
+  },
 
   mounted() {},
 
@@ -91,37 +112,12 @@ export default {
   justify-content: space-between;
   align-items: center;
 }
-.classify {
-  width: 230px;
-  height: 560px;
-  background: #5d7ac4;
-  padding: 10px 0px;
-}
-.banner {
-  width: 970px;
-  height: 560px;
-}
-.classify_item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 230px;
-  height: 40px;
-  font-size: 16px;
-  padding: 3px 10px;
-  color: white;
-}
-.classify_item:hover {
-  background: #5d5dc1;
-  cursor: pointer;
-}
-
 .classify_mask_layer {
   width: 970px;
   height: 560px;
-  background: #5d5dc1;
   position: relative;
 }
+
 .el-carousel__item h3 {
   color: #475669;
   font-size: 14px;
@@ -130,11 +126,75 @@ export default {
   margin: 0;
 }
 
+.classify_list {
+  width: 960px;
+  z-index: 10;
+}
+.banner {
+  z-index: 10;
+  width: 960px;
+}
 .el-carousel__item:nth-child(2n) {
   background-color: #99a9bf;
 }
 
 .el-carousel__item:nth-child(2n + 1) {
   background-color: #d3dce6;
+}
+.classify {
+  width: 230px;
+  height: 560px;
+  background: #5d7ac4;
+  border-left: 1px solid #ffffff;
+  padding: 10px 0px;
+  box-sizing: border-box;
+}
+
+.classify_item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 230px;
+  height: 36px;
+  font-size: 16px;
+  padding: 3px 10px;
+  color: white;
+}
+.classify_item:hover {
+  background: #5d5dc1;
+  cursor: pointer;
+}
+.LevelTwo,
+.LevelThree {
+  position: absolute;
+  top: 0px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 230px;
+  height: 560px;
+  background: #5d7ac4;
+  border-left: 1px solid #ffffff;
+  padding: 10px 0px;
+  box-sizing: border-box;
+  z-index: 10;
+}
+.LevelTwo_item,
+.LevelThree_item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 230px;
+  height: 36px;
+  font-size: 16px;
+  padding: 3px 20px 3px 10px;
+  color: white;
+}
+.LevelTwo_item:hover,
+.LevelThree_item:hover {
+  background: #5d5dc1;
+  cursor: pointer;
+}
+.LevelThree {
+  left: 230px;
 }
 </style>

@@ -9,12 +9,12 @@
         ref="ruleForm"
         class="fromClass demo-ruleForm"
       >
-        <el-form-item prop="userid">
+        <el-form-item prop="auserid">
           <el-input type="text" v-model="ruleForm.userid">
             <el-button slot="prepend" icon="el-icon-search"></el-button>
           </el-input>
         </el-form-item>
-        <el-form-item prop="password">
+        <el-form-item prop="apassword">
           <el-input type="password" v-model="ruleForm.password">
             <el-button slot="prepend" icon="el-icon-search"></el-button>
           </el-input>
@@ -67,16 +67,16 @@ export default {
         password: ""
       },
       rules: {
-        userid: [
+        auserid: [
           {
             validator: validateAccount,
-            trigger: "blur"
+            trigger: ["blur"]
           }
         ],
-        password: [
+        apassword: [
           {
             validator: validatePass,
-            trigger: "blur"
+            trigger: ["blur"]
           }
         ]
       }
@@ -98,9 +98,8 @@ export default {
       });
     },
     async getUserInfo() {
-      let dataJson = Object.assign(this.ruleForm);
-      console.log("datajson", dataJson);
-      const res = await login(dataJson);
+      // let dataJson = Object.assign(this.ruleForm);
+      const res = await login(this.ruleForm);
       if (res.errorCode === 0) {
         console.log(res);
         this.$router.push({
