@@ -40,3 +40,8 @@ export const floorGoods = data => fetch("floorGoods", data, "post");
  */
 export const loadChildListData = data =>
   fetch("frontClass/loadChildListData", data, "post");
+
+/**
+ * 商品列表
+ */
+export const productListData = data => fetch("product/listData", data, "post");

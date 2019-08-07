@@ -44,7 +44,9 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
 import { loadChildListData } from "@/getData.js";
+
 export default {
   name: "banner",
   data() {
@@ -61,12 +63,20 @@ export default {
 
   methods: {
     /**
+     * 一级分类
+     */
+    async LevelOne() {
+      const res = await loadChildListData({ parentId: 0 });
+      this.LevelOneData = res.data;
+    },
+    /**
      * 二级分类
      */
     async LevelTwo(item, index) {
       this.isLevelTwoShow = true;
       const res = await loadChildListData({ parentId: item.id });
       this.LevelTwoData = res.data;
+      this.classifyHandle(item);
     },
     /**
      * 三级分类
@@ -75,13 +85,7 @@ export default {
       this.isLevelThreeShow = true;
       const res = await loadChildListData({ parentId: item.id });
       this.LevelThreeData = res.data;
-    },
-    /**
-     * 一级分类
-     */
-    async LevelOne() {
-      const res = await loadChildListData({ parentId: 0 });
-      this.LevelOneData = res.data;
+      this.classifyHandle(item);
     },
     /**
      * 鼠标移出
@@ -91,8 +95,11 @@ export default {
       this.isLevelThreeShow = false;
     },
     JumpHandle(item) {
+      this.classifyHandle(item);
       this.$router.push({ path: "goodsList", query: { id: item.id } });
-    }
+      this.levelThreeHandle({ id: item.id });
+    },
+    ...mapMutations(["classifyHandle", "levelThreeHandle"])
   },
 
   created() {

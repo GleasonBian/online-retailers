@@ -3,47 +3,37 @@
   <div class="layout">
     <div class="box_width row_start_start">
       <router-link
-        v-for="(item,index) in product"
+        v-for="(item,index) in productData"
         :key="index"
-        :to="{ path: 'goodsDetails', query: { id: '21341234123412' }}"
+        :to="{ path: 'goodsDetails', query: { id: item.id}}"
         style="text-decoration: none;"
       >
         <div class="product_item column_between_center">
           <img src="~assets/Qr_code.png" alt />
           <div class="product_desc column_start_start">
-            <span class="product_desc_name uts">{{'产品名称'}}</span>
-            <span class="product_desc_brand uts">品牌: {{"多乐士"}}</span>
-            <span class="product_desc_unit uts">单位: {{"个"}}</span>
-            <span class="product_desc_spec uts">共{{"10"}}个规格型号</span>
-            <span class="product_desc_price">¥ {{123123}} - {{12312}}</span>
+            <span class="product_desc_name uts">{{item.productName}}</span>
+            <span class="product_desc_brand uts">品牌: {{item.brandName}}</span>
+            <span class="product_desc_unit uts">单位: {{"没有字段"}}</span>
+            <span class="product_desc_spec uts">共{{"saleCount"+item.saleCount}}个规格型号</span>
+            <span class="product_desc_price">¥ {{item.minPrice}} - {{item.maxPrice}}</span>
           </div>
         </div>
       </router-link>
     </div>
+    <pagination param="productParams" funHandle="productListData"></pagination>
   </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: "",
   data() {
-    return {
-      product: [
-        { name: "12222" },
-        { name: "12222" },
-        { name: "12222" },
-        { name: "12222" },
-        { name: "12222" },
-        { name: "12222" },
-        { name: "12222" },
-        { name: "12222" },
-        { name: "12222" },
-        { name: "12222" }
-      ]
-    };
+    return {};
   },
 
-  computed: {},
+  computed: mapState(["productData"]),
 
   methods: {},
 

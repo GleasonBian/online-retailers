@@ -25,7 +25,9 @@ export default {
 
   methods: {},
 
-  created() {},
+  created() {
+    this.$store.dispatch("productListData");
+  },
 
   mounted() {},
 

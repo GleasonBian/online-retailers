@@ -9,41 +9,43 @@
       <div class="row_center interval_price">
         <input
           type="text"
-          v-model="minPrice"
-          @keyup="minPrice=minPrice.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')"
+          v-model="productParams.startPrice"
+          @keyup="productParams.startPrice=productParams.startPrice.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')"
         />-
         <input
           type="text"
-          v-model="maxPrice"
-          @keyup="maxPrice=maxPrice.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')"
+          v-model="productParams.endPrice"
+          @keyup="productParams.endPrice=productParams.endPrice.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')"
         />
       </div>
       <div></div>
       <div class="row_center">品牌</div>
       <div></div>
       <div class="row_center brand_input">
-        <input type="text" placeholder="输入品牌进行搜索" />
+        <input type="text" v-model="productParams.brandName" placeholder="输入品牌进行搜索" />
       </div>
       <div></div>
-      <div class="row_center search_button">搜 索</div>
+      <div class="row_center search_button" @click="brandHandle()">搜 索</div>
       <div></div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   name: "brandSearch",
   data() {
-    return {
-      minPrice: 0,
-      maxPrice: 99
-    };
+    return {};
   },
 
-  computed: {},
+  computed: mapState(["productParams"]),
 
-  methods: {},
+  methods: {
+    brandHandle() {
+      this.$store.dispatch("productListData");
+    }
+  },
 
   created() {},
 

@@ -3,9 +3,9 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import "element-ui/lib/theme-chalk/index.css";
-
+import pagination from "#/other/pagination.vue";
 Vue.config.productionTip = false;
-
+Vue.component("pagination", pagination);
 import {
   Button,
   Select,
@@ -22,7 +22,10 @@ import {
   TabPane,
   Tree,
   Cascader,
-  Upload
+  Upload,
+  CheckboxGroup,
+  Pagination,
+  Message
 } from "element-ui";
 Vue.use(Button);
 Vue.use(Select);
@@ -41,7 +44,10 @@ Vue.use(TabPane);
 Vue.use(Tree);
 Vue.use(Cascader);
 Vue.use(Upload);
+Vue.use(CheckboxGroup);
+Vue.use(Pagination);
 Vue.prototype.$loading = Loading.service;
+Vue.prototype.$message = Message;
 new Vue({
   router,
   store,

@@ -11,7 +11,11 @@
         </select>
       </div>
       <div class="shearchBox_input">
-        <input placeholder="输入商品名称、规格型号、店铺名称进行搜索" class="search_input" v-model="searchKeyWord" />
+        <input
+          placeholder="输入商品名称、规格型号、店铺名称进行搜索"
+          class="search_input"
+          v-model="productParams.productName"
+        />
       </div>
       <div class="shearchBox_button" @click="toProductORStore">搜&nbsp; &nbsp;索</div>
     </div>
@@ -27,18 +31,18 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   name: "searchBar",
   data() {
     return {
-      searchKeyWord: "",
       selectValue: 1
     };
   },
   created() {},
   components: {},
 
-  computed: {},
+  computed: mapState(["productParams"]),
 
   mounted() {},
 
@@ -50,6 +54,7 @@ export default {
           this.$router.push({
             name: "productList"
           });
+          this.$store.dispatch("productListData");
           break;
         case 2:
           this.$router.push({

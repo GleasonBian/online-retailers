@@ -4,34 +4,105 @@
     <div class="classify_container column_center">
       <div class="selected_classify row_between_center">
         <div>
-          <span style="color:#333; font-size:16px;">已选类目</span>&nbsp;＞
-          <span class="classify">一级类目</span>&nbsp;＞
-          <span class="classify">二级类目</span>&nbsp;＞
-          <span class="classify">三级类目</span>
+          <span style="color:#333; font-size:16px;">已选类目</span>
+          <span
+            v-for="(item,index) in classify"
+            :key="index"
+            class="classify"
+          >&nbsp;＞{{item.frontName}}</span>
         </div>
-        <div class="total_goods">共 121212 件商品</div>
+        <div class="total_goods">共 {{total}} 件商品</div>
       </div>
       <div class="classify_items">
         <div class="row_between_center classify_items_layout">
           <div class="classify_items_name">一级类目</div>
           <div class="row_between_center classify_items_body">
-            <div>类目名称</div>
-            <div>类目名称</div>
-            <div>类目名称</div>
-            <div>类目名称</div>
-            <div>类目名称</div>
-            <div>类目名称</div>
+            <div
+              class="classify_items_body_text"
+              v-for="(item,index) in LevelOneData"
+              :key="index"
+              v-if="index < 8"
+              @click="LevelTwo(item,index)"
+            >{{item.frontName}}</div>
           </div>
-          <div class="classify_items_more" @click="dropDownHandle">更多 ﹀</div>
+          <div class="classify_items_more" @click="dropDownHandle('showdropDownOne')">
+            <span v-show="LevelOneData.length >= 8">更多 ﹀</span>
+          </div>
         </div>
         <transition name="fade">
-          <div class="classify_items_drop_down_body row_between_center_wrap" v-show="showdropDown">
-            <div class="classify_items_drop_down_body_name"></div>
-            <div class="classify_items_drop_down_body_name"></div>
-            <div class="classify_items_drop_down_body_name"></div>
-            <div class="classify_items_drop_down_body_name"></div>
-            <div class="classify_items_drop_down_body_name"></div>
-            <div class="classify_items_drop_down_body_name"></div>
+          <div
+            class="classify_items_drop_down_body row_between_center_wrap"
+            v-show="showdropDownOne"
+          >
+            <div
+              class="classify_items_drop_down_body_name"
+              v-for="(item,index) in LevelOneData"
+              :key="index"
+              v-if="index >= 8"
+              @click="LevelTwo(item,index)"
+            >{{item.frontName}}</div>
+          </div>
+        </transition>
+      </div>
+      <div class="classify_items" v-show="LevelTwoData.length> 0">
+        <div class="row_between_center classify_items_layout">
+          <div class="classify_items_name">二级类目</div>
+          <div class="row_between_center classify_items_body">
+            <div
+              class="classify_items_body_text"
+              v-for="(item,index) in LevelTwoData"
+              :key="index"
+              v-if="index < 8"
+              @click="LevelThree(item,index)"
+            >{{item.frontName}}</div>
+          </div>
+          <div class="classify_items_more" @click="dropDownHandle('showdropDownTwo')">
+            <span v-show="LevelTwoData.length >= 8">更多 ﹀</span>
+          </div>
+        </div>
+        <transition name="fade">
+          <div
+            class="classify_items_drop_down_body row_between_center_wrap"
+            v-show="showdropDownTwo"
+          >
+            <div
+              class="classify_items_drop_down_body_name"
+              v-for="(item,index) in LevelTwoData"
+              :key="index"
+              v-if="index >= 8"
+              @click="LevelThree(item,index)"
+            >{{item.frontName}}</div>
+          </div>
+        </transition>
+      </div>
+      <div class="classify_items" v-show="LevelThreeData.length> 0">
+        <div class="row_between_center classify_items_layout">
+          <div class="classify_items_name">三级类目</div>
+          <div class="row_between_center classify_items_body">
+            <div
+              class="classify_items_body_text"
+              v-for="(item,index) in LevelThreeData"
+              :key="index"
+              v-if="index < 8"
+              @click="JumpHandle(item,index)"
+            >{{item.frontName}}</div>
+          </div>
+          <div class="classify_items_more" @click="dropDownHandle('showdropDownThree')">
+            <span v-show="LevelThreeData.length >= 8">更多 ﹀</span>
+          </div>
+        </div>
+        <transition name="fade">
+          <div
+            class="classify_items_drop_down_body row_between_center_wrap"
+            v-show="showdropDownThree"
+          >
+            <div
+              class="classify_items_drop_down_body_name"
+              v-for="(item,index) in LevelThreeData"
+              :key="index"
+              v-if="index >= 8"
+              @click="JumpHandle(item,index)"
+            >{{item.frontName}}</div>
           </div>
         </transition>
       </div>
@@ -40,23 +111,63 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from "vuex";
+import { loadChildListData } from "@/getData.js";
 export default {
   name: "",
   data() {
     return {
-      showdropDown: false
+      showdropDownOne: false,
+      showdropDownTwo: false,
+      showdropDownThree: false,
+      LevelOneData: [],
+      LevelTwoData: [],
+      LevelThreeData: []
     };
   },
 
-  computed: {},
+  computed: mapState(["classify", "total"]),
 
   methods: {
-    dropDownHandle() {
-      this.showdropDown = !this.showdropDown;
-    }
+    dropDownHandle(param) {
+      this[param] = !this[param];
+    },
+    /**
+     * 一级分类
+     */
+    async LevelOne() {
+      const res = await loadChildListData({ parentId: 0 });
+      this.LevelOneData = res.data;
+    },
+    /**
+     * 二级分类
+     */
+    async LevelTwo(item, index) {
+      this.isLevelTwoShow = true;
+      const res = await loadChildListData({ parentId: item.id });
+      this.LevelTwoData = res.data;
+      this.classifyHandle(item);
+    },
+    /**
+     * 三级分类
+     */
+    async LevelThree(item, index) {
+      this.isLevelThreeShow = true;
+      const res = await loadChildListData({ parentId: item.id });
+      this.LevelThreeData = res.data;
+      this.classifyHandle(item);
+    },
+    JumpHandle(item) {
+      this.classifyHandle(item);
+      this.$router.push({ path: "goodsList", query: { id: item.id } });
+      this.levelThreeHandle({ id: item.id });
+    },
+    ...mapMutations(["classifyHandle", "levelThreeHandle"])
   },
 
-  created() {},
+  created() {
+    this.LevelOne();
+  },
 
   mounted() {},
 
@@ -82,7 +193,7 @@ export default {
   width: 100%;
   min-height: 60px;
   border: 1px solid rgba(0, 0, 0, 0.2);
-  /* border-bottom: none; */
+  border-top: none;
   padding: 0px 30px;
 }
 .classify {
@@ -101,6 +212,7 @@ export default {
 .classify_items_name {
   width: 90px;
   border-right: 1px solid rgba(0, 0, 0, 0.2);
+  color: red;
 }
 .classify_items_more {
   width: 90px;
@@ -112,6 +224,7 @@ export default {
 }
 .classify_items_body {
   width: 900px;
+  overflow: hidden;
 }
 .classify_items_drop_down_body {
   border-top: 1px solid rgba(0, 0, 0, 0.2);
@@ -127,8 +240,13 @@ export default {
   width: 166px;
   height: 30px;
   line-height: 30px;
-  border: 1px solid seagreen;
+  border: 1px solid #dbdbdb;
 }
+.classify_items_drop_down_body_name:hover,
+.classify_items_body_text:hover {
+  cursor: pointer;
+}
+
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.5s;
