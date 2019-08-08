@@ -12,6 +12,8 @@ export default new Vuex.Store({
     classify: [],
     // 产品列表
     productData: [],
+    // 产品详情
+    productDetails: {},
     // 产品获取传参
     productParams: {
       productStatusCode: 0,
@@ -58,6 +60,9 @@ export default new Vuex.Store({
       state.productData = payload.rows;
       state.total = payload.total;
     },
+    productDetailsHandle(state, payload) {
+      state.productDetails = payload.data;
+    },
     // 分页处理
     pagination(state, payload) {
       state[payload.param][payload.field] = payload.value;
@@ -71,6 +76,14 @@ export default new Vuex.Store({
       commit(
         "productListHandle",
         await fun.productListData(state.productParams)
+      );
+    },
+    async productGetProduct({ commit }, { productId }) {
+      commit(
+        "productDetailsHandle",
+        await fun.productGetProduct({
+          productId: productId
+        })
       );
     }
   }

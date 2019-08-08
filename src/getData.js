@@ -45,3 +45,9 @@ export const loadChildListData = data =>
  * 商品列表
  */
 export const productListData = data => fetch("product/listData", data, "post");
+
+/**
+ * 商品详情
+ */
+export const productGetProduct = data =>
+  fetch("product/getProduct", data, "post");

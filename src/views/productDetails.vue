@@ -11,6 +11,7 @@
 import productInfo from "#/productDetails/productInfo.vue";
 import specifications from "#/productDetails/table.vue";
 import productIntro from "#/productDetails/productIntro";
+import { mapActions } from "vuex";
 export default {
   name: "productDetails",
   data() {
@@ -19,9 +20,18 @@ export default {
 
   computed: {},
 
-  methods: {},
+  methods: {
+    ...mapActions(["productGetProduct"]),
+    productDetailsHandle() {
+      this.productGetProduct({
+        productId: this.$route.query.id
+      });
+    }
+  },
 
-  created() {},
+  created() {
+    this.productDetailsHandle();
+  },
 
   mounted() {},
 

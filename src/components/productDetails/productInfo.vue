@@ -4,39 +4,38 @@
     <div class="product_info box_width">
       <div class="selected_class_box row_start_center">
         <div class="selected_class">已选类目</div>
-        <span>一级类目</span>＞
-        <span>二级类目</span>＞
-        <span>三级类目</span>＞
-        <span>物资名称</span>
+        <span v-for="(item,index) in classify" :key="index" class="classify">
+          <span v-if="index !== 0">&nbsp;＞</span>
+          {{item.frontName}}
+        </span>
       </div>
       <div class="product_intro row_center">
         <div class="preview_wrap column_between_center">
           <div class="preview_img_box">
-            <img src="~assets/Qr_code.png" class="preview_img" />
+            <img :src="img+imageList[1].imagePaths[imgMain]" class="preview_img" />
           </div>
           <div class="preview_img_list row_center">
-            <img src="~assets/Qr_code.png" alt />
-            <img src="~assets/Qr_code.png" alt />
-            <img src="~assets/Qr_code.png" alt />
-            <img src="~assets/Qr_code.png" alt />
-            <img src="~assets/Qr_code.png" alt />
-            <img src="~assets/Qr_code.png" alt />
+            <img
+              :src="img+item"
+              v-for="(item,index) in imageList[0].imagePaths"
+              @click="switchImgIndex(index)"
+            />
           </div>
         </div>
         <div class="itemInfo_wrap column_between_center">
-          <div class="itemInfo_title">三级螺纹钢 HRB400-500</div>
+          <div class="itemInfo_title">{{productName}}</div>
           <div class="itemInfo_price row_start_center">
             <span>价格</span>
-            <span>¥{{"18.00"}}~{{"25.00"}}</span>
+            <span>¥{{"没有字段"}}~{{"没有字段"}}</span>
           </div>
           <div class="itemInfo_other column_between_center">
             <div class="itemInfo_other_distribution row_start_center">
               <span>配送方式</span>
-              <span>平台配送</span>
+              <span>{{"没有字段"}}</span>
             </div>
             <div class="itemInfo_other_specification row_start_center">
               <span>规格型号</span>
-              <span>共计{{"83"}}种型号</span>
+              <span>共计{{"| 没有字段 |"}}种型号</span>
             </div>
           </div>
           <div class="itemInfo_img row_around_center">
@@ -50,15 +49,28 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   name: "productDetailsBottom",
   data() {
-    return {};
+    return {
+      img: process.env.VUE_APP_IMG,
+      imgMain: 0
+    };
   },
 
-  computed: {},
+  computed: {
+    ...mapState({
+      productName: state => state.productDetails.productName,
+      imageList: state => state.productDetails.imageList
+    })
+  },
 
-  methods: {},
+  methods: {
+    switchImgIndex(index) {
+      this.imgMain = index;
+    }
+  },
 
   created() {},
 
@@ -168,5 +180,9 @@ export default {
   height: 108px;
   background-size: 100%;
   background-position: center center;
+}
+.classify {
+  font-size: 16px;
+  color: #1c7cce;
 }
 </style>
