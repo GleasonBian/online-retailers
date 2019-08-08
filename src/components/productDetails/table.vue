@@ -19,7 +19,7 @@
             <td>{{item.goodsPrice}}</td>
             <td>
               <el-input-number
-                v-model="buyCount"
+                v-model="item.buyCount"
                 :min="0"
                 :max="100"
                 :step="2"

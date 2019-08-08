@@ -11,8 +11,6 @@ let baseurl =
     ? process.env.VUE_APP_PROXY // 本地 使用代理 => '/dev' 此处在 vue.config.js 中代理请求处有配置
     : process.env.VUE_APP_URL; // 线上 使用域名 => 'https://api.apiopen.top/'
 
-console.log("baseurl", baseurl);
-
 axios.defaults.baseURL = baseurl; // 将 baseurl 设置为 axios 的默认 baseURL
 
 /*

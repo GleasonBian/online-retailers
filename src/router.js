@@ -33,6 +33,56 @@ export default new Router({
       component: () => import("#/store/storeJoin.vue")
     },
     {
+      path: "/personalCenter",
+      name: "personalCenter",
+      component: () => import("#/personalCenter/personalCenter.vue"),
+      children: [
+        {
+          path: "/personInfo",
+          name: "personInfo",
+          component: () => import("#/personalCenter/person/personInfo.vue")
+        },
+        {
+          path: "/accountSecurity",
+          name: "accountSecurity",
+          component: () => import("#/personalCenter/person/accountSecurity.vue")
+        },
+        {
+          path: "/receiverAddress",
+          name: "receiverAddress",
+          component: () => import("#/personalCenter/person/receiverAddress.vue")
+        },
+        {
+          path: "/invoiceManagement",
+          name: "invoiceManagement",
+          component: () =>
+            import("#/personalCenter/person/invoiceManagement.vue")
+        },
+        {
+          path: "/myMessage",
+          name: "myMessage",
+          component: () => import("#/personalCenter/person/myMessage.vue")
+        },
+        {
+          path: "/myOrder",
+          name: "myOrder",
+          component: () => import("#/personalCenter/order/myOrder.vue")
+        },
+        {
+          path: "/supplyCertificate",
+          name: "supplyCertificate",
+          component: () =>
+            import("#/personalCenter/order/supplyCertificate.vue")
+        },
+        {
+          path: "/afterSalesRecord",
+          name: "afterSalesRecord",
+          component: () => import("#/personalCenter/order/afterSalesRecord.vue")
+        }
+      ]
+    },
+
+    {
       path: "/brand",
       name: "brand",
       component: () => import("#/store/brand.vue")

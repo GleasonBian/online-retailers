@@ -2,6 +2,14 @@ const path = require("path");
 function resolve(dir) {
   return path.join(__dirname, dir);
 }
+
+let baseurl =
+  process.env.VUE_APP_TITLE === "local" // 通过判断 当前的环境变量 得知 项目 运行在 本地 或者 线上
+    ? process.env.VUE_APP_PROXY // 本地 使用代理 => '/dev' 此处在 vue.config.js 中代理请求处有配置
+    : process.env.VUE_APP_URL; // 线上 使用域名 => 'https://api.apiopen.top/'
+
+console.log("当前环境", baseurl);
+
 /**
  *  Date: 1562573921043
  *  author: \u535e \u5218 \u8457

@@ -23,6 +23,46 @@
             <div class="item_info_price item_info_main">12312</div>
           </div>
         </div>
+        <div class="list_item_box column_between_start">
+          <img class="list_item_img" src="~assets/Qr_code.png" alt />
+          <div class="list_item_info_box column_center">
+            <div class="item_info_title item_info_main">13231</div>
+            <div class="item_info_brand item_info_main">123123</div>
+            <div class="item_info_price item_info_main">12312</div>
+          </div>
+        </div>
+        <div class="list_item_box column_between_start">
+          <img class="list_item_img" src="~assets/Qr_code.png" alt />
+          <div class="list_item_info_box column_center">
+            <div class="item_info_title item_info_main">13231</div>
+            <div class="item_info_brand item_info_main">123123</div>
+            <div class="item_info_price item_info_main">12312</div>
+          </div>
+        </div>
+        <div class="list_item_box column_between_start">
+          <img class="list_item_img" src="~assets/Qr_code.png" alt />
+          <div class="list_item_info_box column_center">
+            <div class="item_info_title item_info_main">13231</div>
+            <div class="item_info_brand item_info_main">123123</div>
+            <div class="item_info_price item_info_main">12312</div>
+          </div>
+        </div>
+        <div class="list_item_box column_between_start">
+          <img class="list_item_img" src="~assets/Qr_code.png" alt />
+          <div class="list_item_info_box column_center">
+            <div class="item_info_title item_info_main">13231</div>
+            <div class="item_info_brand item_info_main">123123</div>
+            <div class="item_info_price item_info_main">12312</div>
+          </div>
+        </div>
+        <div class="list_item_box column_between_start">
+          <img class="list_item_img" src="~assets/Qr_code.png" alt />
+          <div class="list_item_info_box column_center">
+            <div class="item_info_title item_info_main">13231</div>
+            <div class="item_info_brand item_info_main">123123</div>
+            <div class="item_info_price item_info_main">12312</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
