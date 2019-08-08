@@ -12,13 +12,14 @@
       <div class="product_intro row_center">
         <div class="preview_wrap column_between_center">
           <div class="preview_img_box">
-            <img :src="img+imageList[1].imagePaths[imgMain]" class="preview_img" />
+            <img :src="img + bigImg[imgMain]" class="preview_img" />
           </div>
           <div class="preview_img_list row_center">
             <img
-              :src="img+item"
-              v-for="(item,index) in imageList[0].imagePaths"
+              :src="img + item"
+              v-for="(item, index) in smallImg"
               @click="switchImgIndex(index)"
+              :key="index"
             />
           </div>
         </div>
@@ -26,16 +27,16 @@
           <div class="itemInfo_title">{{productName}}</div>
           <div class="itemInfo_price row_start_center">
             <span>价格</span>
-            <span>¥{{"没有字段"}}~{{"没有字段"}}</span>
+            <span>¥{{minPrice}}~{{maxPrice}}</span>
           </div>
           <div class="itemInfo_other column_between_center">
             <div class="itemInfo_other_distribution row_start_center">
               <span>配送方式</span>
-              <span>{{"没有字段"}}</span>
+              <span>商家配送</span>
             </div>
             <div class="itemInfo_other_specification row_start_center">
               <span>规格型号</span>
-              <span>共计{{"| 没有字段 |"}}种型号</span>
+              <span>共计{{GoodsAttrCount}}种型号</span>
             </div>
           </div>
           <div class="itemInfo_img row_around_center">
@@ -55,14 +56,20 @@ export default {
   data() {
     return {
       img: process.env.VUE_APP_IMG,
-      imgMain: 0
+      imgMain: 0,
+      bigImg: [],
+      smallImg: []
     };
   },
 
   computed: {
     ...mapState({
       productName: state => state.productDetails.productName,
-      imageList: state => state.productDetails.imageList
+      imageList: state => state.productDetails.imageList,
+      minPrice: state => state.productDetails.minPrice,
+      maxPrice: state => state.productDetails.maxPrice,
+      GoodsAttrCount: state => state.productDetails.GoodsAttrCount,
+      classify: "classify"
     })
   },
 
@@ -75,7 +82,10 @@ export default {
   created() {},
 
   mounted() {},
-
+  updated() {
+    this.bigImg = this.imageList[0]["imagePaths"];
+    this.smallImg = this.imageList[1]["imagePaths"];
+  },
   components: {}
 };
 </script>
@@ -117,6 +127,7 @@ export default {
 }
 .preview_img {
   width: 100%;
+  height: 100%;
 }
 .preview_img_list {
   width: 300px;

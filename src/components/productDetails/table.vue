@@ -12,22 +12,23 @@
           <td>库存</td>
         </thead>
         <tbody>
-          <tr>
-            <td>A</td>
-            <td>10</td>
-            <td>吨</td>
-            <td>12.00</td>
+          <tr v-for="(item,index) in goodsList">
+            <td>{{item.brandName}}</td>
+            <td>{{item.typeModel}}</td>
+            <td>{{item.unit}}</td>
+            <td>{{item.goodsPrice}}</td>
             <td>
               <el-input-number
-                v-model="num"
+                v-model="buyCount"
                 :min="0"
                 :max="100"
                 :step="2"
                 step-strictly
                 size="small"
+                @change="handleChange(item)"
               ></el-input-number>
             </td>
-            <td>有货</td>
+            <td>{{item.amount}}</td>
           </tr>
         </tbody>
       </table>
@@ -45,24 +46,36 @@
       </div>
       <div class="row_center">
         <div class="btn_Purchase prod_btn cursor">立即采购</div>
-        <div class="add_shop_cart prod_btn cursor">加入购物车</div>
+        <div class="add_shop_cart prod_btn cursor" @click="addShopCart">加入购物车</div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
-  name: "",
+  name: "productDetailsTable",
   data() {
     return {
       num: 1
     };
   },
 
-  computed: {},
+  computed: {
+    ...mapState({
+      goodsList: state => state.productDetails.goodsList
+    })
+  },
 
-  methods: {},
+  methods: {
+    addShopCart() {
+      console.log();
+    },
+    handleChange(val, item) {
+      console.log(val, item);
+    }
+  },
 
   created() {},
 
@@ -76,8 +89,6 @@ export default {
 .product_spec {
   margin-top: 24px;
   border: 1px solid #e6e6e6;
-}
-.product_table {
 }
 .product_thead {
   background: #1c7cce;

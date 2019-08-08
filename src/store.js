@@ -6,6 +6,8 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    // 图片前缀
+    img: process.env.VUE_APP_IMG,
     // 首页 楼层
     floor: [],
     // 已选分类

@@ -2,48 +2,83 @@
 <template>
   <div class="layout">
     <div class="box_width row_between_start">
-      <div class="store_info"></div>
+      <div class="store_info">
+        <div class="store_title_bg"></div>
+        <div class="stroe_Box column_between_center">
+          <div class="stroe_name">{{name}}</div>
+          <div class="row_between_start store_avatar_box">
+            <img :src="logo" class="store_avatar" alt />
+            <router-link
+              :to="{ path: 'storeIndex', query: { id:id }}"
+              style="margin-top:10px;color:#1C7CCE"
+            >进入店铺</router-link>
+          </div>
+          <div>联系电话: {{phone}}</div>
+        </div>
+      </div>
       <div class="product_intro column_start_start">
         <el-tabs type="border-card" class="options_btn_box">
           <el-tab-pane label="商品介绍">
-            <img v-for="(item,index) in imgList" :src="item.src" :key="index" class="introduce" />
+            <div class="introduce" v-html="pcDescription"></div>
           </el-tab-pane>
           <el-tab-pane label="规格参数">
             <table>
               <tr>
                 <td>产品名称</td>
-                <td>委任为</td>
+                <td>{{productName}}</td>
               </tr>
               <tr>
                 <td>品牌</td>
-                <td>顶顶顶顶</td>
+                <td>{{brandName}}</td>
               </tr>
               <tr>
                 <td>规格型号</td>
-                <td>顶顶顶顶</td>
+                <td>
+                  <table class="table_attr">
+                    <tr class="table_tr">
+                      <td class="table_title">属性名称</td>
+                      <td class="table_title">属性值</td>
+                    </tr>
+                    <tr v-for="(each, index) in attributes" :key="index">
+                      <td style="color:#333333" class="table_body">{{each.attrName}}</td>
+                      <td style="color:#333333" class="table_body">{{each.attrValue}}</td>
+                    </tr>
+                  </table>
+                </td>
               </tr>
               <tr>
                 <td>材质</td>
-                <td>顶顶顶顶</td>
+                <td>
+                  <table class="table_attr">
+                    <tr class="table_tr">
+                      <td class="table_title">属性名称</td>
+                      <td class="table_title">属性值</td>
+                    </tr>
+                    <tr v-for="(each, index) in attributeList" :key="index">
+                      <td style="color:#333333" class="table_body">{{each.attrName}}</td>
+                      <td style="color:#333333" class="table_body">{{each.attrValue}}</td>
+                    </tr>
+                  </table>
+                </td>
               </tr>
               <tr>
                 <td>其他参数</td>
-                <td>顶顶顶顶</td>
+                <td>无</td>
               </tr>
             </table>
           </el-tab-pane>
           <el-tab-pane label="包装售后">
-            <div class="after_sales">
+            <!-- <div class="after_sales">
               <div class="pack_list">包装清单</div>
-              <div class="instructions">撒旦发射点发射点发</div>
-            </div>
+              <div class="instructions">{{"暂无字段"}}</div>
+            </div>-->
             <div class="after_sales">
               <div class="pack_list">售后保障</div>
-              <div class="instructions">撒旦发射点发射点发</div>
+              <div class="instructions">{{afterSaleService}}</div>
             </div>
             <div class="after_sales">
               <div class="pack_list">运费说明</div>
-              <div class="instructions">撒旦发射点发射点发</div>
+              <div class="instructions">{{dispatchExplain}}</div>
             </div>
           </el-tab-pane>
         </el-tabs>
@@ -53,44 +88,74 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
-  name: "",
+  name: "storeMain",
   data() {
     return {
-      imgList: [
-        {
-          src:
-            "http://img10.360buyimg.com/imgzone/jfs/t1/27330/37/7495/109928/5c6a6c9cE54c11192/72696edd1a4f751b.jpg"
-        },
-        {
-          src:
-            "//img10.360buyimg.com/imgzone/jfs/t1/37101/19/1831/181603/5cb45310E6e358e70/8e548200f7e25f3c.jpg"
-        },
-        {
-          src:
-            "//img10.360buyimg.com/imgzone/jfs/t1/20423/12/10778/241363/5c88d3e2Ee90968d8/e55dd628b4c3a2cb.jpg"
-        }
-      ]
+      name: "",
+      logo: "",
+      phone: "",
+      id: ""
     };
   },
 
-  computed: {},
+  computed: {
+    ...mapState({
+      productName: state => state.productDetails.productName,
+      brandName: state => state.productDetails.brandName,
+      pcDescription: state => state.productDetails.pcDescription,
+      enterpriseVO: state => state.productDetails.enterpriseVO,
+      attributeList: state => state.productDetails.attributeList, //关键属性
+      attributes: state => state.productDetails.attributes, // 规格型号
+      afterSaleService: state => state.productDetails.afterSaleService,
+      dispatchExplain: state => state.productDetails.dispatchExplain
+    })
+  },
 
   methods: {},
 
   created() {},
 
   mounted() {},
-
+  updated() {
+    this.name = this.enterpriseVO.name;
+    this.logo = this.enterpriseVO.logo;
+    this.phone = this.enterpriseVO.phone;
+    this.id = this.enterpriseVO.id;
+  },
   components: {}
 };
 </script>
 
 <style scoped>
+.stroe_Box {
+  padding: 15px;
+  border: 1px solid #dcdfe6;
+}
+.store_avatar_box {
+  width: 90%;
+  margin: 15px 0px;
+}
+.store_avatar {
+  width: 100px;
+  height: 100px;
+}
+.stroe_name {
+  width: 200px;
+  height: 30px;
+  line-height: 30px;
+  text-align: left;
+  font-size: 20px;
+}
 .store_info {
-  width: 210px;
+  width: 230px;
   height: 230px;
-  background: #4d4d81;
+}
+.store_title_bg {
+  width: 230px;
+  height: 40px;
+  background: url("~assets/tit-lianxi.png");
 }
 .product_intro {
   width: 950px;
@@ -116,6 +181,18 @@ td {
   vertical-align: middle;
   border-left: 1px solid #e6e6e6;
   border-top: 1px solid #e6e6e6;
+}
+.table_title {
+  border-top: none;
+  border-left: none;
+}
+.table_attr {
+  width: 100%;
+  border: none;
+}
+.table_body {
+  border-bottom: none;
+  border-right: none;
 }
 .after_sales {
   width: 100%;
