@@ -51,3 +51,9 @@ export const productListData = data => fetch("product/listData", data, "post");
  */
 export const productGetProduct = data =>
   fetch("product/getProduct", data, "post");
+
+/**
+ * 店铺主页
+ */
+export const enterpriseSearchEnterprise = data =>
+  fetch("enterprise/searchEnterprise", data, "post");

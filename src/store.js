@@ -6,6 +6,39 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    // 导航栏
+    navBar: [
+      {
+        to: "/",
+        name: "首页",
+        color: ""
+      },
+      {
+        to: "/",
+        name: "通讯设备",
+        color: ""
+      },
+      {
+        to: "/",
+        name: "梁场物料",
+        color: ""
+      },
+      {
+        to: "/",
+        name: "货车配件",
+        color: ""
+      },
+      {
+        to: "/",
+        name: "解决方案",
+        color: ""
+      },
+      {
+        to: "/brand",
+        name: "企业品牌",
+        color: ""
+      }
+    ],
     // 图片前缀
     img: process.env.VUE_APP_IMG,
     // 首页 楼层
@@ -27,6 +60,16 @@ export default new Vuex.Store({
       limit: 12,
       offset: 0
     },
+    // 店铺列表 传参
+    storeParams: {
+      name: "",
+      sortSale: "",
+      timeSort: "",
+      limit: 12,
+      offset: 0
+    },
+    // 店铺列表数据
+    storeListData: [],
     // 分页总条数
     total: 0
   },
@@ -55,15 +98,46 @@ export default new Vuex.Store({
         state.classify.splice(idx, 1, payload);
       } else state.classify.push(payload); // 不存在 直接添加 元素
     },
+    // 分类
     levelThreeHandle(state, payload) {
       state.productParams.frontClassId = payload.id;
     },
+    // 商品列表
     productListHandle(state, payload) {
       state.productData = payload.rows;
       state.total = payload.total;
     },
+    // 商品详情
     productDetailsHandle(state, payload) {
       state.productDetails = payload.data;
+    },
+    // 店铺列表
+    SearchEnterpriseHandle(state, payload) {
+      state.storeListData = payload.rows;
+      state.total = payload.total;
+    },
+    // 店铺列表 参数处理
+    storeParamsHandle({ storeParams }, payload) {
+      switch (payload) {
+        case "order_count":
+          {
+            storeParams.sortSale = payload;
+            storeParams.timeSort = "";
+          }
+          break;
+        case "create_time":
+          {
+            storeParams.sortSale = "";
+            storeParams.timeSort = payload;
+          }
+          break;
+        default:
+          {
+            storeParams.sortSale = "";
+            storeParams.timeSort = "";
+          }
+          break;
+      }
     },
     // 分页处理
     pagination(state, payload) {
@@ -74,18 +148,27 @@ export default new Vuex.Store({
     async handle({ commit }) {
       commit("gotData", await fun.floorGoods());
     },
+    // 商品列表
     async productListData({ commit, state }) {
       commit(
         "productListHandle",
         await fun.productListData(state.productParams)
       );
     },
+    // 商品 详情
     async productGetProduct({ commit }, { productId }) {
       commit(
         "productDetailsHandle",
         await fun.productGetProduct({
           productId: productId
         })
+      );
+    },
+    // 商家 列表
+    async SearchEnterprise({ commit, state }) {
+      commit(
+        "SearchEnterpriseHandle",
+        await fun.enterpriseSearchEnterprise(state.storeParams)
       );
     }
   }

@@ -1,43 +1,35 @@
 <!-- 导航栏 -->
 <template>
   <div class="navBar">
-    <div class="home_page">
-      <router-link to="/">首页</router-link>
-    </div>
-    <div class="item">通讯设备</div>
-    <div class="item">梁场物料</div>
-    <div class="item">货车配件</div>
-    <div class="item">解决方案</div>
-    <div class="item">
-      <router-link to="/brand">企业品牌</router-link>
+    <div class="home_page" v-for="(item, index) in navBar" :key="index">
+      <router-link :to="item.to" :style="`color:${item.color}`">{{ item.name }}</router-link>
     </div>
     <div class="phone"></div>
   </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   name: "navBar",
   data() {
     return {};
   },
+  computed: mapState(["navBar"]),
 
   created() {},
 
-  components: {},
-
-  computed: {},
-
   mounted() {},
 
-  methods: {}
+  methods: {},
+
+  components: {}
 };
 </script>
 <style>
 .navBar {
   align-self: flex-end;
   margin-top: 30px;
-  /* margin-bottom: 15px; */
   width: 968px;
   height: 20px;
   display: flex;

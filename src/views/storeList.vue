@@ -3,83 +3,107 @@
   <div class="layout margin">
     <div class="box_width column_start_start">
       <div class="store_sort row_between_center">
-        <div class="btn_box row_center">默认排序</div>
-        <div class="row_center btn_box">
-          <span>销量</span>
-          <div class="column_center btn_arr">
-            <span>▲</span>
-            <span>▼</span>
-          </div>
+        <div class="btn_box row_center">
+          <span
+            @click="searchHandle('default',1)"
+            :class="{
+              sortActive: sortActive === 1 ? true: false
+            }"
+          >默认排序</span>
         </div>
         <div class="row_center btn_box">
-          <span>价格</span>
-          <div class="column_center btn_arr">
-            <span>▲</span>
-            <span>▼</span>
-          </div>
+          <span
+            @click="searchHandle('order_count',2)"
+            :class="{
+              sortActive: sortActive === 2 ? true: false
+            }"
+          >销量</span>
+        </div>
+        <div class="row_center btn_box">
+          <span
+            @click="searchHandle('create_time',3)"
+            :class="{
+              sortActive: sortActive === 3 ? true: false
+            }"
+          >时间</span>
         </div>
       </div>
       <div class="store_list_box column_center">
-        <div class="store_list_item row_between_center">
-          <router-link to="storeIndex" class="store_box column_start_start router-link-active">
+        <div
+          class="store_list_item row_between_center"
+          v-for="(item,index) in storeListData"
+          :key="index"
+        >
+          <router-link
+            :to="{
+            path: '/storeIndex',
+            query:{id:item.id}
+          }"
+            class="store_box column_start_start router-link-active"
+          >
             <div class="row_start_center store_img_info">
-              <img src="~assets/Qr_code.png" alt />
+              <img :src="img+item.logo" alt />
               <div class="store_info column_around_start">
-                <span>店铺名称</span>
-                <span>店铺主营商品</span>
+                <span>{{item.name}}</span>
+                <!-- <span>店铺主营商品</span> -->
               </div>
             </div>
             <div class="store_box_info column_start_start">
               <div class="row_start_center">
-                <span>销量</span>
-                <span>{{123123123}}</span>
+                <span>销&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;量: &nbsp;</span>
+                <span>{{item.orderCount}}</span>
               </div>
               <div class="row_start_center">
-                <span>联系商家</span>
-                <span>{{12312312}}</span>
+                <span>联系商家:&nbsp;</span>
+                <span>{{item.phone}}</span>
               </div>
             </div>
           </router-link>
           <div class="product_box row_around_center_nowrap">
-            <div class="product_box_item column_start_center">
-              <img src="~assets/Qr_code.png" alt />
-              <span>店铺名称</span>
-            </div>
-            <div class="product_box_item column_start_center">
-              <img src="~assets/Qr_code.png" alt />
-              <span>店铺名称</span>
-            </div>
-            <div class="product_box_item column_start_center">
-              <img src="~assets/Qr_code.png" alt />
-              <span>店铺名称</span>
-            </div>
-            <div class="product_box_item column_start_center">
-              <img src="~assets/Qr_code.png" alt />
-              <span>店铺名称</span>
-            </div>
-            <div class="product_box_item column_start_center">
-              <img src="~assets/Qr_code.png" alt />
-              <span>店铺名称</span>
-            </div>
+            <router-link
+              class="product_box_item column_start_center"
+              v-for="(each,index) in item.sjgtwMallGoodsVOS"
+              :key="index"
+              :to="{
+                path: '/goodsDetails',
+                query:{id:each.productId}}"
+            >
+              <img :src="img+each.mainImagePath" alt />
+              <div class="product_name uts">{{each.goodsName}}</div>
+            </router-link>
           </div>
         </div>
       </div>
     </div>
+    <pagination param="storeParams" funHandle="SearchEnterprise"></pagination>
   </div>
 </template>
 
 <script>
+import { mapMutations, mapActions, mapState } from "vuex";
 export default {
-  name: "",
+  name: "storeList",
   data() {
-    return {};
+    return {
+      sortActive: 1
+    };
   },
 
-  computed: {},
+  computed: mapState(["storeListData", "total", "img"]),
 
-  methods: {},
+  methods: {
+    searchHandle(val, num) {
+      this.sortActive = num;
+      this.storeParamsHandle(val);
+      this.SearchEnterprise();
+    },
+    ...mapMutations(["storeParamsHandle"]),
+    ...mapActions(["SearchEnterprise"])
+  },
 
-  created() {},
+  created() {
+    this.searchHandle();
+  },
 
   mounted() {},
 
@@ -88,6 +112,12 @@ export default {
 </script>
 
 <style scoped>
+.product_name {
+  width: 145px;
+  height: 20px;
+  line-height: 20px;
+  margin-top: 10px;
+}
 .margin {
   margin-top: 24px;
 }
@@ -98,7 +128,6 @@ export default {
 }
 .store_list_box {
   width: 100%;
-  border: 1px solid #efefef;
   margin: 12px 0px;
 }
 .store_box {
@@ -113,6 +142,8 @@ export default {
 }
 .store_list_item {
   width: 100%;
+  border: 1px solid #efefef;
+  margin-bottom: 24px;
 }
 .store_img_info {
   width: 100%;
@@ -153,9 +184,14 @@ export default {
   width: 100px;
   height: 50px;
   border: 1px solid #efefef;
+  cursor: pointer;
 }
 .btn_arr {
   font-size: 10px;
   padding-left: 5px;
+}
+.sortActive {
+  color: #1c7cce;
+  font-size: 15px;
 }
 </style>

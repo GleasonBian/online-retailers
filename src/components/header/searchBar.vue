@@ -12,9 +12,16 @@
       </div>
       <div class="shearchBox_input">
         <input
+          v-if="selectValue === 1"
           placeholder="输入商品名称、规格型号、店铺名称进行搜索"
           class="search_input"
           v-model="productParams.productName"
+        />
+        <input
+          v-else
+          placeholder="输入商品名称、规格型号、店铺名称进行搜索"
+          class="search_input"
+          v-model="storeParams.name"
         />
       </div>
       <div class="shearchBox_button" @click="toProductORStore">搜&nbsp; &nbsp;索</div>
@@ -42,7 +49,7 @@ export default {
   created() {},
   components: {},
 
-  computed: mapState(["productParams"]),
+  computed: mapState(["productParams", "storeParams"]),
 
   mounted() {},
 
@@ -60,6 +67,7 @@ export default {
           this.$router.push({
             name: "storeList"
           });
+          this.$store.dispatch("SearchEnterprise");
           break;
       }
     }
