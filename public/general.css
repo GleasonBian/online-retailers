@@ -208,10 +208,10 @@ span,p,div{
 
 /*文字超出部分使用省略号显示*/
 .uts {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap !important;
-    outline: 0 !important
+  overflow:hidden;
+  word-break:keep-all;
+  white-space:nowrap;
+  text-overflow:ellipsis;
 }
 .cursor{
   cursor: pointer;

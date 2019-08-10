@@ -1,36 +1,43 @@
-<!--  -->
+<!--
+ * @Description: 
+ * @Author: gleason
+ * @Github: https://github.com/GleasonBian
+ * @Date: 2019-08-05 09:54:15
+ * @LastEditors: OBKoro1
+ * @LastEditTime: 2019-08-10 21:41:32
+ -->
 <template>
   <div class="store_info_box column_between_center">
     <div class="store_info">
       <div class="store_title_bg bg"></div>
       <div class="store_mian_box column_between_start">
-        <div class="store_name">店铺名称</div>
+        <div class="store_name uts">{{name}}</div>
         <div class="store_avatar row_between_center">
-          <img src="~assets/Qr_code.png" alt />
+          <img :src="img + logo" alt />
           <img src="~assets/contact.png" alt />
         </div>
         <div class="Sale_amount">
           <span>销售量:</span>
-          <span style="color:#1C7CCE">233232</span>
+          <span style="color:#1C7CCE">{{orderCount}}</span>
           <span>件</span>
         </div>
       </div>
       <div class="store_info_item column_between_start">
         <div>
           <span>创建时间: &nbsp;</span>
-          <span class="uts">2020年12月30日</span>
+          <span class="uts">{{createTime}}</span>
         </div>
-        <div>
+        <div class="row_start_start">
           <span>所在地区: &nbsp;</span>
-          <span class="uts">2020年12月30日</span>
+          <span class="uts address">{{registeredAddress}}</span>
         </div>
         <div>
           <span>商品数量: &nbsp;</span>
-          <span class="uts">2020年12月30日</span>
+          <span class="uts">{{goodsCount}}</span>
         </div>
         <div>
           <span>联系电话: &nbsp;</span>
-          <span class="uts">2020年12月30日</span>
+          <span class="uts">{{phone}}</span>
         </div>
       </div>
     </div>
@@ -46,13 +53,23 @@
 </template>
 
 <script>
+import { mapMutations, mapActions, mapState } from "vuex";
 export default {
-  name: "",
+  name: "storeBarA",
   data() {
     return {};
   },
 
-  computed: {},
+  computed: mapState({
+    name: state => state.storeIndexData.name,
+    img: state => state.img,
+    logo: state => state.storeIndexData.logo,
+    phone: state => state.storeIndexData.phone,
+    orderCount: state => state.storeIndexData.orderCount,
+    registeredAddress: state => state.storeIndexData.registeredAddress,
+    goodsCount: state => state.storeIndexData.goodsCount,
+    createTime: state => state.storeIndexData.createTime
+  }),
 
   methods: {},
 
@@ -65,6 +82,10 @@ export default {
 </script>
 
 <style scoped>
+.address {
+  display: inline-block;
+  width: 140px;
+}
 .store_info_box {
   width: 230px;
   height: 560px;

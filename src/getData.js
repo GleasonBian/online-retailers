@@ -1,3 +1,11 @@
+/*
+ * @Description:
+ * @Author: gleason
+ * @Github: https://github.com/GleasonBian
+ * @Date: 2019-08-06 09:46:03
+ * @LastEditors: OBKoro1
+ * @LastEditTime: 2019-08-10 21:54:10
+ */
 // 引入 封装请求
 import fetch from "public/fetch.js";
 
@@ -53,7 +61,19 @@ export const productGetProduct = data =>
   fetch("product/getProduct", data, "post");
 
 /**
- * 店铺主页
+ * 店铺列表
  */
 export const enterpriseSearchEnterprise = data =>
   fetch("enterprise/searchEnterprise", data, "post");
+
+/**
+ * 店铺主页
+ */
+export const enterpriseEnterPriseDetial = data =>
+  fetch("enterprise/enterpriseDetial", data, "post");
+
+/**
+ * 商品分类
+ */
+export const getFrontClassForEnterprise = data =>
+  fetch("enterprise/getFrontClassForEnterprise", data, "post");

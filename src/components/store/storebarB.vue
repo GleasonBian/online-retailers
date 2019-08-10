@@ -1,4 +1,11 @@
-<!--  -->
+<!--
+ * @Description: 
+ * @Author: gleason
+ * @Github: https://github.com/GleasonBian
+ * @Date: 2019-08-05 11:20:47
+ * @LastEditors: OBKoro1
+ * @LastEditTime: 2019-08-10 22:14:58
+ -->
 <template>
   <div class="column_start_center storebarB_box">
     <div class="goods_class">
@@ -8,20 +15,30 @@
     <div class="goods_sell_well">
       <div class="goods_sell_well_title"></div>
       <div class="goods_sell_well_body column_start_start">
-        <div class="goods_sell_well_item row_center">
-          <div class="sell_well_item_index">1</div>
-          <img class="sell_well_item_img" src="~assets/Qr_code.png" alt />
+        <router-link
+          class="goods_sell_well_item row_center"
+          v-for="(item, index) in sjgtwMallGoodsVOS"
+          :to="{
+            path: '/goodsDetails',
+            query:{
+              id: item.productId
+            }
+          }"
+        >
+          <div class="sell_well_item_index">{{index+1}}</div>
+          <img class="sell_well_item_img" :src="img + item.mainImagePath" alt />
           <div class="sell_well_item_box column_between_center">
-            <div class="sell_well_item_name">发射点发射点发撒旦发射啊手动阀</div>
-            <div class="sell_well_item_price">¥ {{"123123"}}</div>
+            <div class="sell_well_item_name">{{item.goodsName}}</div>
+            <div class="sell_well_item_price">¥ {{item.goodsPrice}}</div>
           </div>
-        </div>
+        </router-link>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapMutations, mapActions, mapState } from "vuex";
 export default {
   name: "",
   data() {
@@ -90,7 +107,10 @@ export default {
     };
   },
 
-  computed: {},
+  computed: mapState({
+    sjgtwMallGoodsVOS: state => state.storeIndexData.sjgtwMallGoodsVOS,
+    img: state => state.img
+  }),
 
   methods: {
     handleNodeClick(data) {
@@ -137,6 +157,7 @@ export default {
 .goods_sell_well_item {
   width: 100%;
   height: 100px;
+  margin-bottom: 24px;
 }
 .sell_well_item_index {
   width: 20px;

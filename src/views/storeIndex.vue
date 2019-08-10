@@ -1,3 +1,11 @@
+<!--
+ * @Description: 
+ * @Author: gleason
+ * @Github: https://github.com/GleasonBian
+ * @Date: 2019-08-04 13:21:18
+ * @LastEditors: OBKoro1
+ * @LastEditTime: 2019-08-10 22:06:04
+ -->
 <!-- 店铺首页 -->
 <template>
   <div class="layout store_main">
@@ -15,54 +23,23 @@
     <div class="row_between_start box_width">
       <storebarB></storebarB>
       <div class="product_list_box row_start_start">
-        <div class="list_item_box column_between_start">
-          <img class="list_item_img" src="~assets/Qr_code.png" alt />
+        <router-link
+          :to="{
+          path: '/goodsDetails',
+          query:{
+            id: item.productId
+          }
+        }"
+          class="list_item_box column_between_start"
+          v-for="(item,index) in tjGoodsVOS"
+        >
+          <img class="list_item_img" :src="img+item.mainImagePath" alt />
           <div class="list_item_info_box column_center">
-            <div class="item_info_title item_info_main">13231</div>
-            <div class="item_info_brand item_info_main">123123</div>
-            <div class="item_info_price item_info_main">12312</div>
+            <div class="item_info_title item_info_main uts">{{item.goodsName}}</div>
+            <div class="item_info_brand item_info_main uts">{{item.brandName}}</div>
+            <div class="item_info_price item_info_main uts">¥ {{item.goodsPrice}}</div>
           </div>
-        </div>
-        <div class="list_item_box column_between_start">
-          <img class="list_item_img" src="~assets/Qr_code.png" alt />
-          <div class="list_item_info_box column_center">
-            <div class="item_info_title item_info_main">13231</div>
-            <div class="item_info_brand item_info_main">123123</div>
-            <div class="item_info_price item_info_main">12312</div>
-          </div>
-        </div>
-        <div class="list_item_box column_between_start">
-          <img class="list_item_img" src="~assets/Qr_code.png" alt />
-          <div class="list_item_info_box column_center">
-            <div class="item_info_title item_info_main">13231</div>
-            <div class="item_info_brand item_info_main">123123</div>
-            <div class="item_info_price item_info_main">12312</div>
-          </div>
-        </div>
-        <div class="list_item_box column_between_start">
-          <img class="list_item_img" src="~assets/Qr_code.png" alt />
-          <div class="list_item_info_box column_center">
-            <div class="item_info_title item_info_main">13231</div>
-            <div class="item_info_brand item_info_main">123123</div>
-            <div class="item_info_price item_info_main">12312</div>
-          </div>
-        </div>
-        <div class="list_item_box column_between_start">
-          <img class="list_item_img" src="~assets/Qr_code.png" alt />
-          <div class="list_item_info_box column_center">
-            <div class="item_info_title item_info_main">13231</div>
-            <div class="item_info_brand item_info_main">123123</div>
-            <div class="item_info_price item_info_main">12312</div>
-          </div>
-        </div>
-        <div class="list_item_box column_between_start">
-          <img class="list_item_img" src="~assets/Qr_code.png" alt />
-          <div class="list_item_info_box column_center">
-            <div class="item_info_title item_info_main">13231</div>
-            <div class="item_info_brand item_info_main">123123</div>
-            <div class="item_info_price item_info_main">12312</div>
-          </div>
-        </div>
+        </router-link>
       </div>
     </div>
   </div>
@@ -71,17 +48,27 @@
 <script>
 import storebarA from "#/store/storebarA.vue";
 import storebarB from "#/store/storebarB.vue";
+import { mapMutations, mapActions, mapState } from "vuex";
 export default {
-  name: "",
+  name: "storeIndex",
   data() {
     return {};
   },
 
-  computed: {},
+  computed: mapState({
+    tjGoodsVOS: state => state.storeIndexData.tjGoodsVOS,
+    img: state => state.img
+  }),
 
-  methods: {},
+  methods: {
+    ...mapActions(["storeIndexDetails"])
+  },
 
-  created() {},
+  created() {
+    this.storeIndexDetails({
+      id: this.$route.query.id
+    });
+  },
 
   mounted() {},
 
@@ -117,6 +104,7 @@ export default {
   box-sizing: border-box;
   margin: 15px 12px;
   background: #ffffff;
+  cursor: pointer;
 }
 .list_item_box:hover {
   box-shadow: rgba(51, 51, 51, 0.2) 5px 3px 10px;
@@ -144,5 +132,6 @@ export default {
 .item_info_main {
   height: 25px;
   line-height: 25px;
+  width: 90%;
 }
 </style>
