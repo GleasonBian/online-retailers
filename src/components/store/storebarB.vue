@@ -4,13 +4,13 @@
  * @Github: https://github.com/GleasonBian
  * @Date: 2019-08-05 11:20:47
  * @LastEditors: OBKoro1
- * @LastEditTime: 2019-08-10 22:14:58
+ * @LastEditTime: 2019-08-11 13:31:06
  -->
 <template>
   <div class="column_start_center storebarB_box">
     <div class="goods_class">
       <div class="goods_title bg"></div>
-      <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
+      <el-tree :data="classifyList" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
     </div>
     <div class="goods_sell_well">
       <div class="goods_sell_well_title"></div>
@@ -18,6 +18,7 @@
         <router-link
           class="goods_sell_well_item row_center"
           v-for="(item, index) in sjgtwMallGoodsVOS"
+          :key="index"
           :to="{
             path: '/goodsDetails',
             query:{
@@ -102,14 +103,15 @@ export default {
       ],
       defaultProps: {
         children: "children",
-        label: "label"
+        label: "frontName"
       }
     };
   },
 
   computed: mapState({
     sjgtwMallGoodsVOS: state => state.storeIndexData.sjgtwMallGoodsVOS,
-    img: state => state.img
+    img: state => state.img,
+    classifyList: state => state.classifyList
   }),
 
   methods: {

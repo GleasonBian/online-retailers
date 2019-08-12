@@ -4,7 +4,7 @@
  * @Github: https://github.com/GleasonBian
  * @Date: 2019-08-04 13:21:18
  * @LastEditors: OBKoro1
- * @LastEditTime: 2019-08-10 22:06:04
+ * @LastEditTime: 2019-08-11 13:24:10
  -->
 <!-- 店铺首页 -->
 <template>
@@ -61,11 +61,14 @@ export default {
   }),
 
   methods: {
-    ...mapActions(["storeIndexDetails"])
+    ...mapActions(["storeIndexDetails", "ClassForEnterprise"])
   },
 
   created() {
     this.storeIndexDetails({
+      id: this.$route.query.id
+    });
+    this.ClassForEnterprise({
       id: this.$route.query.id
     });
   },

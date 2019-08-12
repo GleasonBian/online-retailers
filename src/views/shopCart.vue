@@ -1,4 +1,11 @@
-<!-- 购物车 -->
+<!--
+ * @Description: 
+ * @Author: gleason
+ * @Github: https://github.com/GleasonBian
+ * @Date: 2019-08-06 11:02:31
+ * @LastEditors: OBKoro1
+ * @LastEditTime: 2019-08-12 09:31:58
+ -->
 <template>
   <div class="layout">
     <div class="box_width column_center">
@@ -12,11 +19,7 @@
       </div>
       <div class="list_item_box">
         <div>
-          <el-checkbox
-            :indeterminate="isIndeterminate"
-            v-model="checkAll"
-            @change="handleCheckAllChange"
-          >全选</el-checkbox>
+          <span>全选按钮</span>
         </div>
         <div>商品信息</div>
         <div>价格</div>
@@ -24,10 +27,21 @@
         <div>金额</div>
         <div>操作</div>
       </div>
-      <div class>
-        <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
-          <el-checkbox v-for="city in cities" :label="city" :key="city"></el-checkbox>
-        </el-checkbox-group>
+      <div>
+        <div class="box_width column_start_start">
+          <el-checkbox
+            :indeterminate="isIndeterminate"
+            v-model="checkAll"
+            @change="handleCheckAllChange"
+            class="store_checkAll_btn"
+            size="medium"
+          >店铺名称</el-checkbox>
+          <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
+            <el-checkbox v-for="city in cities" :key="city">
+              <div class="list_item_box"></div>
+            </el-checkbox>
+          </el-checkbox-group>
+        </div>
       </div>
     </div>
   </div>
@@ -70,6 +84,9 @@ export default {
 </script>
 
 <style scoped>
+.store_checkAll_btn {
+}
+
 .article_steps {
   margin: 24px;
   width: 826px;

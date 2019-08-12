@@ -1,3 +1,11 @@
+<!--
+ * @Description: 
+ * @Author: gleason
+ * @Github: https://github.com/GleasonBian
+ * @Date: 2019-07-30 19:27:58
+ * @LastEditors: OBKoro1
+ * @LastEditTime: 2019-08-11 11:08:12
+ -->
 <!-- 楼层 -->
 <template>
   <div>
@@ -27,7 +35,7 @@
           </div>
           <div class="floor_item_box">
             <router-link
-              :to="{ path: 'goodsDetails', query: { id:each.id  }}"
+              :to="{ path: 'goodsDetails', query: { id:each.productId  }}"
               class="floor_item"
               v-for="(each,index) in item.goodsVOList"
               :key="index"
@@ -49,7 +57,7 @@
               :key="index"
               :to="{ path: 'brand', query: { id:each.id  }}"
             >
-              <img :src="img+each.logoImg" />
+              <img :src="img + each.logoImg" />
             </router-link>
           </div>
         </div>

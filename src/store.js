@@ -4,7 +4,7 @@
  * @Github: https://github.com/GleasonBian
  * @Date: 2019-07-30 19:27:58
  * @LastEditors: OBKoro1
- * @LastEditTime: 2019-08-10 20:33:48
+ * @LastEditTime: 2019-08-11 13:29:47
  */
 import Vue from "vue";
 import Vuex from "vuex";
@@ -80,6 +80,8 @@ export default new Vuex.Store({
     storeListData: [],
     // 店铺主页
     storeIndexData: {},
+    // 商家主页
+    classifyList: [],
     // 分页总条数
     total: 0
   },
@@ -149,9 +151,13 @@ export default new Vuex.Store({
           break;
       }
     },
-    // 商店列表
+    // 商家主页
     storeIndexHandle(state, payload) {
       state.storeIndexData = payload.data;
+    },
+    // 分类处理
+    classifyListHandle(state, payload) {
+      state.classifyList = payload.data;
     },
     // 分页处理
     pagination(state, payload) {
@@ -188,6 +194,10 @@ export default new Vuex.Store({
     // 商家 主页
     async storeIndexDetails({ commit }, id) {
       commit("storeIndexHandle", await fun.enterpriseEnterPriseDetial(id));
+    },
+    // 商家 分类
+    async ClassForEnterprise({ commit }, id) {
+      commit("classifyListHandle", await fun.getFrontClassForEnterprise(id));
     }
   }
 });

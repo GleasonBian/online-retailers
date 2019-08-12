@@ -1,3 +1,11 @@
+<!--
+ * @Description: 
+ * @Author: gleason
+ * @Github: https://github.com/GleasonBian
+ * @Date: 2019-08-02 16:19:19
+ * @LastEditors: OBKoro1
+ * @LastEditTime: 2019-08-11 11:09:33
+ -->
 <!-- 商城介绍  规格参数 包装售后 -->
 <template>
   <div class="layout">
@@ -5,7 +13,7 @@
       <div class="store_info">
         <div class="store_title_bg"></div>
         <div class="stroe_Box column_between_center">
-          <div class="stroe_name">{{name}}</div>
+          <div class="stroe_name uts">{{name}}</div>
           <div class="row_between_start store_avatar_box">
             <img :src="logo" class="store_avatar" alt />
             <router-link
