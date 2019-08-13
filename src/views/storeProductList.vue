@@ -1,4 +1,11 @@
-<!--  -->
+<!--
+ * @Description: 
+ * @Author: gleason
+ * @Github: https://github.com/GleasonBian
+ * @Date: 2019-08-05 15:50:35
+ * @LastEditors: OBKoro1
+ * @LastEditTime: 2019-08-13 19:16:23
+ -->
 <template>
   <div class="layout store_product_list">
     <div class="box_width row_between_start">
@@ -11,9 +18,34 @@
         <div class="sort_search_box row_start_center">
           <div class="sort_search_text">排序</div>
           <div class="sort_search_select row_between_start">
-            <span style="color:#1C7CCE">默认排序</span>
-            <span>销量</span>
-            <span>
+            <span
+              :class="{
+              isActive: active === 1 ? true: false,
+              common: true
+            }"
+              @click="activeHandle(1)"
+            >默认排序</span>
+            <span
+              :class="{
+              isActive: active === 2 ? true: false,
+              common: true
+            }"
+              @click="activeHandle(2)"
+            >
+              销量
+              {{
+              params.sortPrice === "goodsPrice desc"
+              ? '↓'
+              : '↑'
+              }}
+            </span>
+            <span
+              :class="{
+              isActive: active === 3 ? true: false,
+              common: true
+            }"
+              @click="activeHandle(3)"
+            >
               价格
               <img src="~assets/Under.png" alt />
             </span>
@@ -22,29 +54,43 @@
           <div class="row_center interval_price">
             <input
               type="text"
-              v-model="minPrice"
-              @keyup="minPrice=minPrice.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')"
+              v-model="params.minPrice"
+              @keyup="params.minPrice=minPrice.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')"
             />-
             <input
               type="text"
-              v-model="maxPrice"
-              @keyup="maxPrice=maxPrice.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')"
+              v-model="params.maxPrice"
+              @keyup="params.maxPrice=maxPrice.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')"
             />
           </div>
           <div class="search_btn">搜&nbsp;索</div>
         </div>
         <div class="prod_list_box row_start_start">
-          <div class="prod_item_box_main column_center">
-            <img class="prod_item_img" src="~assets/Qr_code.png" alt />
+          <router-link
+            class="prod_item_box_main column_center"
+            v-for="(item, index) in data"
+            :key="index"
+            :to="{path:'/goodsDetails',query:{id:item.productId}}"
+          >
+            <img class="prod_item_img" :src="item.mainImagePath" alt />
             <div class="prod_item_main column_between_center">
-              <div class="prod_item_title text_left">鞍钢热轧卷板</div>
-              <div class="prod_item_brand text_left">品牌: {{"了多是"}}</div>
-              <div class="prod_item_unit text_left">单位: {{"个"}}</div>
-              <div class="prod_item_spec text_left">共{{"10"}}规格型号</div>
-              <div class="prod_item_price text_left">¥ &nbsp; {{900}}~{{3200}}</div>
+              <div class="prod_item_title text_left">{{item.goodsName}}</div>
+              <div class="prod_item_brand text_left">品牌: {{item.brandName}}</div>
+              <div class="prod_item_unit text_left">单位: {{item.unit}}</div>
+              <div class="prod_item_spec text_left">型号: {{item.typeModel}}</div>
+              <div class="prod_item_price text_left">¥ &nbsp; {{item.goodsPrice}}</div>
             </div>
-          </div>
+          </router-link>
         </div>
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="params.pageNo"
+          :page-sizes="[16, 24, 32, 64]"
+          :page-size="params.pageSize"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="total"
+        ></el-pagination>
       </div>
     </div>
   </div>
@@ -53,20 +99,59 @@
 <script>
 import storebarA from "#/store/storebarA.vue";
 import storebarB from "#/store/storebarB.vue";
+import { getEnterpriseGoods } from "@/getData.js";
 export default {
   name: "",
   data() {
     return {
-      minPrice: 0,
-      maxPrice: 99
+      active: 1,
+      data: [],
+      params: {
+        sortSale: "salesVolume desc", // 销量
+        sortPrice: "goodsPrice desc", // 价格 高=>底  goodsPrice desc  低=>高 goodsPrice desc
+        supplierId: this.$route.query.id, // 商家id
+        minPrice: 0, // 最小价格
+        maxPrice: 99, // 最大价格
+        pageNo: 1,
+        pageSize: 16,
+        offset: 0
+      },
+      currentPage: 1,
+      total: 0
     };
   },
 
   computed: {},
 
-  methods: {},
+  methods: {
+    async getEnterpriseGoodsHandle() {
+      const res = await getEnterpriseGoods(this.params);
+      this.data = res.rows;
+      this.total = res.total;
+    },
+    activeHandle(val) {
+      this.active = val;
+      if (val === 2) {
+        this.params.sortPrice === "goodsPrice desc"
+          ? (this.params.sortPrice = "goodsPrice asc")
+          : (this.params.sortPrice = "goodsPrice desc");
+      }
+      this.getEnterpriseGoodsHandle();
+    },
+    handleSizeChange(val) {
+      this.params.pageSize = this.params.offset * val;
+      this.getEnterpriseGoodsHandle();
+    },
+    handleCurrentChange(val) {
+      this.params.pageNo = val;
+      this.params.offset = (this.params.pageNo - 1) * this.params.pageSize;
+      this.getEnterpriseGoodsHandle();
+    }
+  },
 
-  created() {},
+  created() {
+    this.getEnterpriseGoodsHandle();
+  },
 
   mounted() {},
 
@@ -78,6 +163,12 @@ export default {
 </script>
 
 <style scoped>
+.common {
+  cursor: pointer;
+}
+.isActive {
+  color: #1c7cce;
+}
 .store_product_list {
   margin-top: 24px;
 }

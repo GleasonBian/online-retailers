@@ -4,7 +4,7 @@
  * @Github: https://github.com/GleasonBian
  * @Date: 2019-07-30 19:27:58
  * @LastEditors: OBKoro1
- * @LastEditTime: 2019-08-11 13:29:47
+ * @LastEditTime: 2019-08-13 11:16:34
  */
 import Vue from "vue";
 import Vuex from "vuex";
@@ -34,11 +34,6 @@ export default new Vuex.Store({
       {
         to: "/",
         name: "货车配件",
-        color: ""
-      },
-      {
-        to: "/",
-        name: "解决方案",
         color: ""
       },
       {
@@ -162,6 +157,10 @@ export default new Vuex.Store({
     // 分页处理
     pagination(state, payload) {
       state[payload.param][payload.field] = payload.value;
+    },
+    // 导航栏处理
+    navBarHandle(state, payload) {
+      state.navBar = payload;
     }
   },
   actions: {

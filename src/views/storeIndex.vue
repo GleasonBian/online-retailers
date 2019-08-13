@@ -4,7 +4,7 @@
  * @Github: https://github.com/GleasonBian
  * @Date: 2019-08-04 13:21:18
  * @LastEditors: OBKoro1
- * @LastEditTime: 2019-08-11 13:24:10
+ * @LastEditTime: 2019-08-13 13:32:02
  -->
 <!-- 店铺首页 -->
 <template>
@@ -33,7 +33,7 @@
           class="list_item_box column_between_start"
           v-for="(item,index) in tjGoodsVOS"
         >
-          <img class="list_item_img" :src="img+item.mainImagePath" alt />
+          <img class="list_item_img" :src="img + item.mainImagePath" alt />
           <div class="list_item_info_box column_center">
             <div class="item_info_title item_info_main uts">{{item.goodsName}}</div>
             <div class="item_info_brand item_info_main uts">{{item.brandName}}</div>
@@ -57,11 +57,33 @@ export default {
 
   computed: mapState({
     tjGoodsVOS: state => state.storeIndexData.tjGoodsVOS,
-    img: state => state.img
+    img: state => state.img,
+    navBar: state => state.navBar
   }),
 
   methods: {
-    ...mapActions(["storeIndexDetails", "ClassForEnterprise"])
+    ...mapActions(["storeIndexDetails", "ClassForEnterprise"]),
+    ...mapMutations(["navBarHandle"]),
+    /**
+     * 设置 导航栏
+     */
+    setNavBarHandle() {
+      this.navBarHandle([
+        {
+          to: "/",
+          name: "返回商城",
+          color: ""
+        },
+        {
+          to: {
+            path: "/storeProductList",
+            query: this.$route.query
+          },
+          name: "商品列表",
+          color: ""
+        }
+      ]);
+    }
   },
 
   created() {
@@ -71,9 +93,13 @@ export default {
     this.ClassForEnterprise({
       id: this.$route.query.id
     });
+    this.setNavBarHandle();
   },
 
   mounted() {},
+  updated() {
+    this.setNavBarHandle();
+  },
 
   components: {
     storebarA,
