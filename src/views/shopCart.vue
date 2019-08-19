@@ -4,12 +4,21 @@
  * @Github: https://github.com/GleasonBian
  * @Date: 2019-08-06 11:02:31
  * @LastEditors: OBKoro1
- * @LastEditTime: 2019-08-16 11:29:25
+ * @LastEditTime: 2019-08-19 10:18:22
  -->
 <template>
   <div class="layout">
     <div class="box_width column_center">
-      <div class="article_steps bg"></div>
+      <div
+        :class="{
+        article_steps:true,
+        bg:true,
+        one: steps === 1,
+        two: steps === 2,
+        three: steps === 3,
+        four: steps === 4
+      }"
+      ></div>
       <div class="shop_cart_text row_between_center">
         <div class="shop_cart_text_bottom">购物车</div>
         <div class="row_between_center">
@@ -97,7 +106,8 @@ export default {
       checkedOrder: [],
       cities: cityOptions,
       isIndeterminate: true,
-      num: 0
+      num: 0,
+      steps: 1
     };
   },
 
@@ -193,7 +203,18 @@ export default {
   margin: 24px;
   width: 826px;
   height: 45px;
+}
+.one {
   background: url("~assets/con-4.png");
+}
+.two {
+  background: url("~assets/con-3.png");
+}
+.three {
+  background: url("~assets/con-2.png");
+}
+.four {
+  background: url("~assets/con-1.png");
 }
 .shop_cart_text {
   width: 100%;

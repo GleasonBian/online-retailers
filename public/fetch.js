@@ -1,15 +1,24 @@
+/*
+ * @Description:
+ * @Author: gleason
+ * @Github: https://github.com/GleasonBian
+ * @Date: 2019-07-30 19:27:58
+ * @LastEditors: OBKoro1
+ * @LastEditTime: 2019-08-19 13:53:33
+ */
 // public/fetch.js
 import Vue from "vue";
 var qs = require("qs");
 import axios from "axios";
 
 // baseurl 就是 在 .env.development 和 .env.development.local 中 预设的域名
-console.log("当前环境", process.env.VUE_APP_URL); // => 'https://api.apiopen.top/'
 
 let baseurl =
   process.env.VUE_APP_TITLE === "local" // 通过判断 当前的环境变量 得知 项目 运行在 本地 或者 线上
     ? process.env.VUE_APP_PROXY // 本地 使用代理 => '/dev' 此处在 vue.config.js 中代理请求处有配置
     : process.env.VUE_APP_URL; // 线上 使用域名 => 'https://api.apiopen.top/'
+
+console.log("baseurl: ", baseurl);
 
 axios.defaults.baseURL = baseurl; // 将 baseurl 设置为 axios 的默认 baseURL
 

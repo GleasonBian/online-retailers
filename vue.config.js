@@ -1,3 +1,11 @@
+/*
+ * @Description:
+ * @Author: gleason
+ * @Github: https://github.com/GleasonBian
+ * @Date: 2019-07-30 19:27:58
+ * @LastEditors: OBKoro1
+ * @LastEditTime: 2019-08-19 09:50:05
+ */
 const path = require("path");
 function resolve(dir) {
   return path.join(__dirname, dir);
@@ -8,7 +16,7 @@ let baseurl =
     ? process.env.VUE_APP_PROXY // 本地 使用代理 => '/dev' 此处在 vue.config.js 中代理请求处有配置
     : process.env.VUE_APP_URL; // 线上 使用域名 => 'https://api.apiopen.top/'
 
-console.log("当前环境", baseurl);
+console.log("当前环境", baseurl, ":", process.env.VUE_APP_URL);
 
 /**
  *  Date: 1562573921043
