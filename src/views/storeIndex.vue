@@ -4,7 +4,7 @@
  * @Github: https://github.com/GleasonBian
  * @Date: 2019-08-04 13:21:18
  * @LastEditors: OBKoro1
- * @LastEditTime: 2019-08-13 13:32:02
+ * @LastEditTime: 2019-08-13 19:39:57
  -->
 <!-- 店铺首页 -->
 <template>
@@ -32,6 +32,7 @@
         }"
           class="list_item_box column_between_start"
           v-for="(item,index) in tjGoodsVOS"
+          :key="index"
         >
           <img class="list_item_img" :src="img + item.mainImagePath" alt />
           <div class="list_item_info_box column_center">

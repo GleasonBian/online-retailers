@@ -1,3 +1,11 @@
+/*
+ * @Description:
+ * @Author: gleason
+ * @Github: https://github.com/GleasonBian
+ * @Date: 2019-08-08 17:07:52
+ * @LastEditors: OBKoro1
+ * @LastEditTime: 2019-08-14 21:28:55
+ */
 import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
@@ -25,7 +33,8 @@ import {
   Upload,
   CheckboxGroup,
   Pagination,
-  Message
+  Message,
+  MessageBox
 } from "element-ui";
 Vue.use(Button);
 Vue.use(Select);
@@ -48,6 +57,7 @@ Vue.use(CheckboxGroup);
 Vue.use(Pagination);
 Vue.prototype.$loading = Loading.service;
 Vue.prototype.$message = Message;
+Vue.prototype.$confirm = MessageBox.confirm;
 new Vue({
   router,
   store,

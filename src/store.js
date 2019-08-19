@@ -4,7 +4,7 @@
  * @Github: https://github.com/GleasonBian
  * @Date: 2019-07-30 19:27:58
  * @LastEditors: OBKoro1
- * @LastEditTime: 2019-08-13 11:16:34
+ * @LastEditTime: 2019-08-14 21:22:51
  */
 import Vue from "vue";
 import Vuex from "vuex";
@@ -77,6 +77,8 @@ export default new Vuex.Store({
     storeIndexData: {},
     // 商家主页
     classifyList: [],
+    // 购物车主页
+    shopCartData: {},
     // 分页总条数
     total: 0
   },
@@ -161,7 +163,18 @@ export default new Vuex.Store({
     // 导航栏处理
     navBarHandle(state, payload) {
       state.navBar = payload;
+    },
+    // 购物车
+    userCartHandle(state, payload) {
+      state.shopCartData = payload.data;
+    },
+    // 购物车订单删除
+    shopCartdeleteOrderHandle(state, { index, idx }) {
+      state.shopCartData.shoppingCartEnterpriseVOS[
+        index
+      ].shoppingCartVOList.splice(idx, 1);
     }
+    // 购物车
   },
   actions: {
     async handle({ commit }) {
@@ -197,6 +210,10 @@ export default new Vuex.Store({
     // 商家 分类
     async ClassForEnterprise({ commit }, id) {
       commit("classifyListHandle", await fun.getFrontClassForEnterprise(id));
+    },
+    // 购物车
+    async shopCartHandle({ commit }) {
+      commit("userCartHandle", await fun.userCart());
     }
   }
 });

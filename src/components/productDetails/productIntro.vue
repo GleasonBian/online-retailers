@@ -1,12 +1,11 @@
 <!--
- * @Description: 
+ * @Description: 商城介绍  规格参数 包装售后 
  * @Author: gleason
  * @Github: https://github.com/GleasonBian
  * @Date: 2019-08-02 16:19:19
  * @LastEditors: OBKoro1
- * @LastEditTime: 2019-08-11 11:09:33
+ * @LastEditTime: 2019-08-16 13:30:53
  -->
-<!-- 商城介绍  规格参数 包装售后 -->
 <template>
   <div class="layout">
     <div class="box_width row_between_start">

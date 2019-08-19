@@ -4,7 +4,7 @@
  * @Github: https://github.com/GleasonBian
  * @Date: 2019-08-06 09:46:03
  * @LastEditors: OBKoro1
- * @LastEditTime: 2019-08-13 11:07:13
+ * @LastEditTime: 2019-08-14 14:12:12
  */
 // 引入 封装请求
 import fetch from "public/fetch.js";
@@ -83,3 +83,14 @@ export const getFrontClassForEnterprise = data =>
  */
 export const getEnterpriseGoods = data =>
   fetch("enterprise/getEnterpriseGoods", data, "post");
+
+/**
+ * 购物车 数量
+ */
+export const showCartInfo = data =>
+  fetch("/shoppingCart/showCartInfo", data, "post");
+
+/**
+ * 购物车主页
+ */
+export const userCart = data => fetch("/shoppingCart/userCart", data, "post");

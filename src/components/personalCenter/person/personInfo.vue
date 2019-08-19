@@ -1,6 +1,10 @@
 <!-- 商家入驻 -->
 <template>
   <div>
+    <!-- <div class="header_box">
+      <div></div>个人资料
+    </div> -->
+    <headerBox title="个人资料"></headerBox>
     <el-form
       :model="ruleForm"
       :rules="rules"
@@ -17,27 +21,33 @@
           :on-preview="handlePreview"
           :show-file-list="false"
         >
-          <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+          <el-button slot="trigger" size="small" type="primary">上传头像</el-button>
         </el-upload>
-        
       </el-form-item>
       <el-form-item label="真实姓名：" prop="name">
-        <el-input v-model="ruleForm.name"></el-input>
+        <!-- <el-input v-model="ruleForm.name"></el-input> -->
+        <div>世界高铁网</div>
       </el-form-item>
       <el-form-item label="登录账户：" prop="name">
-        <el-input v-model="ruleForm.name"></el-input>
+        <!-- <el-input v-model="ruleForm.name"></el-input> -->
+        <div>189****2222</div>
       </el-form-item>
       <el-form-item label="电子邮箱：" prop="name">
-        <el-input v-model="ruleForm.name"></el-input>
+        <!-- <el-input v-model="ruleForm.name"></el-input> -->
+        <div>sjgtw@sjgtw.com</div>
+        <el-button style="margin-left:80px;" type="text">修改></el-button>
       </el-form-item>
       <el-form-item label="所属企业：" prop="name">
-        <el-input v-model="ruleForm.name"></el-input>
+        <!-- <el-input v-model="ruleForm.name"></el-input> -->
+        <div>第五梁场</div>
+        <el-button style="margin-left:80px;" plain>关联企业</el-button>
       </el-form-item>
     </el-form>
   </div>
 </template>
 
 <script>
+import headerBox from "#/personalCenter/person/headerBox.vue"
 export default {
   name: "personInfo",
   data() {
@@ -57,7 +67,7 @@ export default {
       ruleForm: {
         name: "",
         address: ""
-      },
+      }
     };
   },
 
@@ -77,12 +87,25 @@ export default {
   mounted() {},
 
   components: {
-    
+    headerBox
   }
 };
 </script>
 
 <style scoped>
+/* .header_box {
+  display: flex;
+  margin: 15px;
+  align-items: center;
+  justify-content: flex-start;
+}
+.header_box > div {
+  width: 4px;
+  height: 26px;
+  background: skyblue;
+  margin-left: 15px;
+  margin-right: 15px;
+} */
 .demo-ruleForm {
   width: 855px;
   /* border: 1px solid red; */

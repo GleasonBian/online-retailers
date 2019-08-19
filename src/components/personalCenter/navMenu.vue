@@ -1,6 +1,6 @@
 <!-- 侧边导航 -->
 <template>
-  <div style="border: 1px solid red;width:20%;">
+  <div style="width:20%;">
     <el-menu
       router
       :default-active="this.$router.path"

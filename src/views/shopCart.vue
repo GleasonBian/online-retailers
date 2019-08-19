@@ -4,7 +4,7 @@
  * @Github: https://github.com/GleasonBian
  * @Date: 2019-08-06 11:02:31
  * @LastEditors: OBKoro1
- * @LastEditTime: 2019-08-12 13:34:18
+ * @LastEditTime: 2019-08-16 11:29:25
  -->
 <template>
   <div class="layout">
@@ -14,7 +14,6 @@
         <div class="shop_cart_text_bottom">购物车</div>
         <div class="row_between_center">
           <span>已选 &nbsp;{{2}}&nbsp; 件商品</span>
-          <div class="settlement">结算</div>
         </div>
       </div>
       <div class="list_item_box">
@@ -28,28 +27,47 @@
         <div>操作</div>
       </div>
       <div>
-        <div class="box_width column_start_start">
+        <div
+          class="box_width column_start_start"
+          v-for="(item, index) in shoppingCartEnterpriseVOS"
+          :key="index"
+        >
           <el-checkbox
             :indeterminate="isIndeterminate"
-            v-model="checkAll"
+            v-model="item.checkAll"
             @change="handleCheckAllChange"
             size="medium"
-          >店铺名称</el-checkbox>
-          <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
+          >{{item.enterpriseName}}</el-checkbox>
+          <el-checkbox-group
+            v-model="checkedOrder"
+            @change="handleCheckedCitiesChange"
+            v-for="(each,idx) in item.shoppingCartVOList"
+            :key="idx"
+          >
             <div class="list_item_box">
-              <el-checkbox></el-checkbox>
+              <el-checkbox :checked="each.check"></el-checkbox>
               <div class="product_info row_between_center">
-                <img src="~assets/Qr_code.png" alt />
+                <img :src="img + each.mainImagePath" alt />
                 <div class="column_between_center">
-                  <div class="product_info_name">12121</div>
-                  <div class="product_info_spec">规格型号: {{"23412撒旦发射点发射点发"}}</div>
+                  <div class="product_info_name">{{each.goodsName}}</div>
+                  <div class="product_info_spec">规格型号: {{each.typeModel}}</div>
                 </div>
               </div>
-              <div class="product_info_price">¥ {{233232}}</div>
-              <el-input-number v-model="num" @change="handleChange" :min="1" :max="10" size="small"></el-input-number>
-              <div class="product_info_total">¥ {{"23243242"}}</div>
+              <div class="product_info_price">¥ {{each.unitPrice}}</div>
+              <el-input-number
+                v-model="each.buyCount"
+                @change="inputNumberHandle(each,index,idx)"
+                :min="1"
+                :max="99999"
+                size="small"
+              ></el-input-number>
+              <div class="product_info_total">¥ {{each.total}}</div>
               <div>
-                <el-button type="primary" style="width:100px">删除</el-button>
+                <el-button
+                  type="primary"
+                  style="width:100px"
+                  @click="deleteOrderHandle(item,index,each,idx)"
+                >删除</el-button>
               </div>
             </div>
           </el-checkbox-group>
@@ -62,7 +80,7 @@
           <span style="font-size:18px; color: green;">&nbsp;{{2}} &nbsp;</span>件商品&nbsp;&nbsp; 总计:&nbsp;
           <span style="font-size:28px; color: red;">¥&nbsp;{{123}}</span>
         </div>
-        <div class="confirm_order">确认订单</div>
+        <div class="confirm_order" @click="confirmAnOrder()">确认订单</div>
       </div>
     </div>
   </div>
@@ -70,22 +88,28 @@
 
 <script>
 const cityOptions = ["上海", "北京", "广州", "深圳"];
+import { mapState, mapMutations, mapActions } from "vuex";
 export default {
   name: "shoppingCart",
   data() {
     return {
       checkAll: false,
-      checkedCities: ["上海", "北京"],
+      checkedOrder: [],
       cities: cityOptions,
       isIndeterminate: true,
       num: 0
     };
   },
 
-  computed: {},
+  computed: mapState({
+    shoppingCartEnterpriseVOS: state =>
+      state.shopCartData.shoppingCartEnterpriseVOS,
+    img: state => state.img
+  }),
 
   methods: {
     handleCheckAllChange(val) {
+      console.log(val);
       this.checkedCities = val ? cityOptions : [];
       this.isIndeterminate = false;
     },
@@ -94,10 +118,47 @@ export default {
       this.checkAll = checkedCount === this.cities.length;
       this.isIndeterminate =
         checkedCount > 0 && checkedCount < this.cities.length;
-    }
+    },
+    handleChange(val, item) {
+      console.log(val, item);
+    },
+    deleteOrderHandle(item, index, each, idx) {
+      this.$confirm("确定删除该订单吗?", "确定删除", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          this.shopCartdeleteOrderHandle({
+            index: index,
+            idx: idx
+          });
+          this.$message({
+            type: "success",
+            message: "删除成功!"
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
+        });
+    },
+    confirmAnOrder() {
+      this.$router.push();
+    },
+    // 单条订单加减事件
+    inputNumberHandle(each, index, idx) {
+      console.log(each, index, idx);
+    },
+    ...mapActions(["shopCartHandle"]),
+    ...mapMutations(["shopCartdeleteOrderHandle"])
   },
 
-  created() {},
+  created() {
+    this.shopCartHandle();
+  },
 
   mounted() {},
 
@@ -141,18 +202,6 @@ export default {
 .shop_cart_text_bottom {
   font-size: 24px;
   font-weight: 600;
-}
-.settlement {
-  width: 80px;
-  height: 40px;
-  color: #ffffff;
-  background: #1c7cce;
-  line-height: 40px;
-  border-radius: 5px;
-  margin-left: 24px;
-}
-.settlement:hover {
-  cursor: pointer;
 }
 .list_item_box {
   display: grid;

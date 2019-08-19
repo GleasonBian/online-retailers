@@ -36,18 +36,12 @@ export default {
 
 <style scoped>
 .personal_box {
-  border: 1px solid;
   display: flex;
-  align-items: center;
   justify-content: space-between;
   width: 1200px;
   margin: 10px auto;
 }
 .personal_title {
   width: 82%;
-  border: 1px solid blue;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
 }
 </style>

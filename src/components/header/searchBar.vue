@@ -1,3 +1,11 @@
+<!--
+ * @Description: 
+ * @Author: gleason
+ * @Github: https://github.com/GleasonBian
+ * @Date: 2019-07-30 19:27:58
+ * @LastEditors: OBKoro1
+ * @LastEditTime: 2019-08-14 12:45:55
+ -->
 <!-- 搜索栏 -->
 <template>
   <div class="searchBar">
@@ -31,7 +39,7 @@
       <router-link to="shoppingCart" class="shop_cart">
         <img src="~assets/shopCart.png" />
         <span>我的购物车</span>
-        <span class="shop_cart_count">0</span>
+        <span class="shop_cart_count">{{count}}</span>
       </router-link>
     </div>
   </div>
@@ -39,14 +47,18 @@
 
 <script>
 import { mapState } from "vuex";
+import { showCartInfo } from "@/getData.js";
 export default {
   name: "searchBar",
   data() {
     return {
-      selectValue: 1
+      selectValue: 1,
+      count: ""
     };
   },
-  created() {},
+  created() {
+    this.showCartInfoHandle();
+  },
   components: {},
 
   computed: mapState(["productParams", "storeParams"]),
@@ -70,6 +82,10 @@ export default {
           this.$store.dispatch("SearchEnterprise");
           break;
       }
+    },
+    async showCartInfoHandle() {
+      const res = await showCartInfo();
+      this.count = res.data.count;
     }
   }
 };
