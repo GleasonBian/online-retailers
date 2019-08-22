@@ -4,7 +4,7 @@
  * @Github: https://github.com/GleasonBian
  * @Date: 2019-07-30 19:27:58
  * @LastEditors: OBKoro1
- * @LastEditTime: 2019-08-14 21:22:51
+ * @LastEditTime: 2019-08-21 15:32:49
  */
 import Vue from "vue";
 import Vuex from "vuex";
@@ -80,7 +80,9 @@ export default new Vuex.Store({
     // 购物车主页
     shopCartData: {},
     // 分页总条数
-    total: 0
+    total: 0,
+    // 购物车步骤条
+    shopCartStep: 1
   },
   mutations: {
     gotData(state, res) {
@@ -173,8 +175,28 @@ export default new Vuex.Store({
       state.shopCartData.shoppingCartEnterpriseVOS[
         index
       ].shoppingCartVOList.splice(idx, 1);
+    },
+    // 购物车 步骤条
+    shopCartStepHandle(state, param) {
+      state.shopCartStep = param;
+    },
+    shopCartDeleteCheckedHandle(state, param) {
+      if ("shoppingCartEnterpriseVOS" in state.shopCartData) {
+        state.shopCartData.shoppingCartEnterpriseVOS.forEach(
+          (element, index) => {
+            if (element.checkAll) {
+              state.shopCartData.shoppingCartEnterpriseVOS.splice(index, 1);
+            } else {
+              element.shoppingCartVOList.forEach((item, idx) => {
+                if (item.check) {
+                  element.shoppingCartVOList.splice(idx, 1);
+                }
+              });
+            }
+          }
+        );
+      }
     }
-    // 购物车
   },
   actions: {
     async handle({ commit }) {

@@ -4,8 +4,9 @@
  * @Github: https://github.com/GleasonBian
  * @Date: 2019-07-30 19:27:58
  * @LastEditors: OBKoro1
- * @LastEditTime: 2019-08-19 13:53:33
+ * @LastEditTime: 2019-08-19 17:36:44
  */
+
 // public/fetch.js
 import Vue from "vue";
 var qs = require("qs");

@@ -1,3 +1,11 @@
+/*
+ * @Description: 路由
+ * @Author: gleason
+ * @Github: https://github.com/GleasonBian
+ * @Date: 2019-08-08 17:07:42
+ * @LastEditors: OBKoro1
+ * @LastEditTime: 2019-08-20 14:31:48
+ */
 import Vue from "vue";
 import Router from "vue-router";
 
@@ -81,7 +89,6 @@ export default new Router({
         }
       ]
     },
-
     {
       path: "/brand",
       name: "brand",
@@ -123,8 +130,29 @@ export default new Router({
         },
         {
           path: "/shoppingCart",
-          name: "shopCart",
-          component: () => import("views/shopCart.vue")
+          component: () => import("views/shopCart.vue"),
+          children: [
+            {
+              path: "/",
+              name: "myCart",
+              component: () => import("#/shopCart/myCart")
+            },
+            {
+              path: "/submitOrders",
+              name: "submitOrders",
+              component: () => import("#/shopCart/submitOrders")
+            },
+            {
+              path: "/downOrders",
+              name: "downOrders",
+              component: () => import("#/shopCart/downOrders")
+            },
+            {
+              path: "/paySuccess",
+              name: "paySuccess",
+              component: () => import("#/shopCart/paySuccess")
+            }
+          ]
         }
       ]
     }

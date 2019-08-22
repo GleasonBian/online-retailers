@@ -4,7 +4,7 @@
  * @Github: https://github.com/GleasonBian
  * @Date: 2019-07-30 19:27:58
  * @LastEditors: OBKoro1
- * @LastEditTime: 2019-08-19 09:50:05
+ * @LastEditTime: 2019-08-19 17:36:40
  */
 const path = require("path");
 function resolve(dir) {
@@ -120,11 +120,11 @@ module.exports = {
           "^/dev": ""
         }
       },
-      "/demo": {
+      "/pre": {
         target: process.env.VUE_APP_URL,
         changeOrigin: true,
         pathRewrite: {
-          "^/demo": ""
+          "^/pre": ""
         }
       },
       "/prod": {

@@ -4,13 +4,14 @@
  * @Github: https://github.com/GleasonBian
  * @Date: 2019-07-30 19:27:58
  * @LastEditors: OBKoro1
- * @LastEditTime: 2019-08-13 10:43:15
+ * @LastEditTime: 2019-08-20 13:10:24
  -->
 <!-- 首页 -->
 <template>
   <div class="homePage">
     <headerCom></headerCom>
     <router-view></router-view>
+    <div class="footer bg"></div>
   </div>
 </template>
 
@@ -83,5 +84,11 @@ export default {
   justify-content: space-between;
   align-items: center;
   background: #fafafa;
+}
+.footer {
+  margin-top: 50px;
+  height: 192px;
+  width: 1921px;
+  background: url("~assets/footer.png");
 }
 </style>

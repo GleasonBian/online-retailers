@@ -1,4 +1,11 @@
-<!-- 商品详情 -->
+<!--
+ * @Description: 商品详情
+ * @Author: gleason
+ * @Github: https://github.com/GleasonBian
+ * @Date: 2019-08-01 17:34:57
+ * @LastEditors: OBKoro1
+ * @LastEditTime: 2019-08-20 09:37:00
+ -->
 <template>
   <div class="layout">
     <productInfo></productInfo>
