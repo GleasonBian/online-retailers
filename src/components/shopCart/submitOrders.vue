@@ -4,7 +4,7 @@
  * @Github: https://github.com/GleasonBian
  * @Date: 2019-08-15 18:25:46
  * @LastEditors: OBKoro1
- * @LastEditTime: 2019-08-22 13:56:35
+ * @LastEditTime: 2019-08-22 17:11:39
  -->
 <template>
   <div class="shop_cart_submit_order column_start_start box_width">
@@ -34,7 +34,9 @@
     <div class="column_start_start common box_width">
       <div class="text">订单信息</div>
       <div class="column_start_start box_width">
-        <div class="order_info_title"></div>
+        <div class="order_info_title">
+          <div class></div>
+        </div>
         <div class="order_info_body"></div>
       </div>
     </div>
@@ -63,7 +65,7 @@ export default {
   methods: {
     submitOrderHandle() {
       this.$router.push({
-        name: "downOrders",
+        name: "payFail",
         params: {}
       });
     },

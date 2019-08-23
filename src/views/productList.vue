@@ -1,3 +1,11 @@
+<!--
+ * @Description: 
+ * @Author: gleason
+ * @Github: https://github.com/GleasonBian
+ * @Date: 2019-08-08 19:14:18
+ * @LastEditors: OBKoro1
+ * @LastEditTime: 2019-08-22 16:06:39
+ -->
 <!-- 商品列表 -->
 <template>
   <div class="column_between_center">
@@ -14,7 +22,7 @@
 <script>
 import classify from "#/productList/classify.vue";
 import brandSearch from "#/productList/brandSearch.vue";
-import productList from "#//productList/productList.vue";
+import productList from "#/productList/productList.vue";
 export default {
   name: "goodsList",
   data() {

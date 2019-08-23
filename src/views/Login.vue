@@ -1,3 +1,11 @@
+<!--
+ * @Description: 
+ * @Author: gleason
+ * @Github: https://github.com/GleasonBian
+ * @Date: 2019-08-05 13:09:31
+ * @LastEditors: OBKoro1
+ * @LastEditTime: 2019-08-22 17:42:51
+ -->
 <template>
   <div class="login">
     <div class="login_box">
@@ -19,7 +27,11 @@
             <el-button slot="prepend" icon="el-icon-search"></el-button>
           </el-input>
         </el-form-item>
-        <el-button style="margin-right:-180px;padding-top:0;" type="text" @click="toFindPassword">找回密码</el-button>
+        <el-button
+          style="margin-right:-180px;padding-top:0;"
+          type="text"
+          @click="toFindPassword"
+        >找回密码</el-button>
         <el-form-item>
           <el-button class="elBtn" type="primary" @click="login('ruleForm')">登录</el-button>
         </el-form-item>
@@ -64,7 +76,8 @@ export default {
     return {
       ruleForm: {
         userid: "",
-        password: ""
+        password: "",
+        userType: 10
       },
       rules: {
         auserid: [
@@ -105,7 +118,7 @@ export default {
         this.$router.push({
           name: "homePage",
           params: {
-            data: res.data.user
+            data: res.data
           }
         });
         this.$message.success(res.message);

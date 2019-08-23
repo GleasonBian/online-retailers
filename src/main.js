@@ -4,7 +4,7 @@
  * @Github: https://github.com/GleasonBian
  * @Date: 2019-08-08 17:07:52
  * @LastEditors: OBKoro1
- * @LastEditTime: 2019-08-14 21:28:55
+ * @LastEditTime: 2019-08-22 16:15:57
  */
 import Vue from "vue";
 import App from "./App.vue";
@@ -12,6 +12,7 @@ import router from "./router";
 import store from "./store";
 import "element-ui/lib/theme-chalk/index.css";
 import pagination from "#/other/pagination.vue";
+import ValidateUtils from "./validatorUtils.js";
 Vue.config.productionTip = false;
 Vue.component("pagination", pagination);
 import {
@@ -34,7 +35,11 @@ import {
   CheckboxGroup,
   Pagination,
   Message,
-  MessageBox
+  MessageBox,
+  Menu,
+  Submenu,
+  MenuItemGroup,
+  MenuItem
 } from "element-ui";
 Vue.use(Button);
 Vue.use(Select);
@@ -55,9 +60,14 @@ Vue.use(Cascader);
 Vue.use(Upload);
 Vue.use(CheckboxGroup);
 Vue.use(Pagination);
+Vue.use(Menu);
+Vue.use(Submenu);
+Vue.use(MenuItemGroup);
+Vue.use(MenuItem);
 Vue.prototype.$loading = Loading.service;
 Vue.prototype.$message = Message;
 Vue.prototype.$confirm = MessageBox.confirm;
+Vue.prototype.$Validate = ValidateUtils;
 new Vue({
   router,
   store,

@@ -4,7 +4,7 @@
  * @Github: https://github.com/GleasonBian
  * @Date: 2019-08-08 17:07:42
  * @LastEditors: OBKoro1
- * @LastEditTime: 2019-08-20 14:31:48
+ * @LastEditTime: 2019-08-22 18:07:12
  */
 import Vue from "vue";
 import Router from "vue-router";
@@ -14,6 +14,7 @@ Vue.use(Router);
 export default new Router({
   mode: "history",
   base: process.env.BASE_URL,
+  // base: "mall",
   routes: [
     {
       path: "/login",
@@ -148,9 +149,19 @@ export default new Router({
               component: () => import("#/shopCart/downOrders")
             },
             {
-              path: "/paySuccess",
+              path: "/alipay/success",
               name: "paySuccess",
               component: () => import("#/shopCart/paySuccess")
+            },
+            {
+              path: "/alipay/fail",
+              name: "payFail",
+              component: () => import("#/shopCart/payFail")
+            },
+            {
+              path: "/pay/error",
+              name: "payError",
+              component: () => import("#/shopCart/payFail")
             }
           ]
         }

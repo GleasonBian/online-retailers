@@ -1,27 +1,41 @@
+<!--
+ * @Description:      
+ * @Author: gleason
+ * @Github: https://github.com/GleasonBian
+ * @Date: 2019-08-05 13:09:31
+ * @LastEditors: OBKoro1
+ * @LastEditTime: 2019-08-22 18:12:45
+ -->
 <!--  -->
 <template>
   <div class="login">
     <div class="login_box">
       <h1>找回密码</h1>
-      <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm2" class="fromClass">
+      <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm3" class="fromClass">
+        <!-- <el-form-item prop="companyName" class="acompanyName">
+          <div style="width:100px;">公司名称:</div>
+          <el-input type="text" placeholder="不能包含非法字符，如* # / ～等" v-model="ruleForm.companyName">
+          </el-input>
+        </el-form-item>-->
         <el-form-item prop="phone">
           <el-input type="text" placeholder="11位手机号" v-model="ruleForm.phone">
             <el-button slot="prepend">+ 86</el-button>
           </el-input>
         </el-form-item>
-        <el-form-item prop="sidentify">
+        <!-- <el-form-item prop="sidentify">
           <el-col :span="15">
             <el-input placeholder="输入图形验证码" v-model="ruleForm.sidentify"></el-input>
           </el-col>
           <el-col :span="6" style="margin-left:10px;" @click.native="sx">
             <v-sidentify :identifyCode="identifyCode" ref="mychild"></v-sidentify>
+            <img src="?" alt id="imgInit" />
           </el-col>
-        </el-form-item>
+        </el-form-item>-->
         <el-form-item prop="phoneSidentify" class="aphoneSidentify">
           <el-col :span="15">
-            <el-input type="password" placeholder="请输入验证码" v-model="ruleForm.phoneSidentify"></el-input>
+            <el-input type="text" placeholder="请输入验证码" v-model="ruleForm.phoneSidentify"></el-input>
           </el-col>
-          <el-col :span="6" style="margin-left:10px;" @click.native="sx">
+          <el-col :span="6" style="margin-left:10px;" @click.native="getValid">
             <el-button type="primary">获取验证码</el-button>
           </el-col>
         </el-form-item>
@@ -42,10 +56,10 @@
             autocomplete="off"
           ></el-input>
         </el-form-item>
-        <el-form-item>
-          <el-button class="elBtn" type="primary" @click="submit('ruleForm')">
-            提交
-          </el-button>
+
+        <el-form-item style="margin-top:20px;">
+          <el-button class="elBtn" type="primary" @click="register('ruleForm3')">提交</el-button>
+          <!-- <el-button class="elBtn" type="text" @click="toLogin">使用已有账户登录</el-button> -->
         </el-form-item>
         <div class="login_foot">
           <el-button style="padding:0;" type="text" @click="toLogin">请登录</el-button>
@@ -57,57 +71,69 @@
 </template>
 
 <script>
-// import { login } from "@/getData.js";
+import {
+  generateImage,
+  getValid,
+  checkCaptcha,
+  checkphoneistrue,
+  saveRegister,
+  findBackPwd
+} from "@/getData.js";
 import vSidentify from "#/login&register/vsidentify.vue";
 export default {
   name: "register",
   data() {
-    var validateCompanyName = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请输入公司名称"));
-      } else {
-        if (this.ruleForm.companyName !== "") {
-          this.$refs.ruleForm.validateField("companyName");
+    // var validateCompanyName = async (rule, value, callback) => {
+    //   if (!value) return callback(new Error("请输入公司名称"));
+    //   else if (value) {
+    //     if (this.$Validate.noTitle(value)) {
+    //       this.$refs.ruleForm3.validateField("companyName");
+    //     } else {
+    //       callback(new Error("请输入正确的公司名称"));
+    //     }
+    //   }
+    // };
+    var validateAccount = async (rule, value, callback) => {
+      if (!value) return callback(new Error("手机号 不能为空"));
+      else if (value) {
+        if (this.$Validate.mobilephone(value)) {
+          const res = await checkphoneistrue({ userid: value });
+          if (!res) {
+            callback(new Error("手机号未注册"));
+          } else {
+          }
+        } else {
+          callback(new Error("请输入正确手机号"));
         }
-        callback();
       }
     };
-    var validateAccount = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请输入手机号"));
-      } else {
-        if (this.ruleForm.phone !== "") {
-          this.$refs.ruleForm.validateField("phone");
+    // var validateSidentify = (rule, value, callback) => {
+    //   if (value === "") {
+    //     callback(new Error("请输入图形验证码"));
+    //   } else {
+    //     if (this.ruleForm.sidentify !== "") {
+    //       this.$refs.ruleForm.validateField("sidentify");
+    //     }
+    //     callback();
+    //   }
+    // };
+    var phoneSidentify = async (rule, value, callback) => {
+      if (!value) return callback(new Error("请输入验证码"));
+      else if (value) {
+        if (this.$Validate.digits(value)) {
+          this.$refs.ruleForm3.validateField("phoneSidentify");
+        } else {
+          callback(new Error("请输入验证码"));
         }
-        callback();
       }
     };
-    var validateSidentify = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请输入图形验证码"));
-      } else {
-        if (this.ruleForm.sidentify !== "") {
-          this.$refs.ruleForm.validateField("sidentify");
-        }
-        callback();
-      }
-    };
-    var phoneSidentify = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请输入验证码"));
-      } else {
-        if (this.ruleForm.phoneSidentify !== "") {
-          this.$refs.ruleForm.validateField("phoneSidentify");
-        }
-        callback();
-      }
-    };
+
     var validatePass = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请输入密码"));
       } else {
         if (this.ruleForm.checkPass !== "") {
-          this.$refs.ruleForm.validateField("checkPass");
+          this.$refs.ruleForm3.validateField("checkPass");
         }
         callback();
       }
@@ -126,15 +152,15 @@ export default {
       /**验证码 */
       identifyCode: "7788",
       /**选中 我已阅读并同意用户协议和隐私政策 */
-      checked: true,
+      // checked: true,
       /**注册表单 */
       ruleForm: {
         /**公司名称 */
-        companyName: "",
+        // companyName: "",
         /**手机号 */
         phone: "",
         /**图形验证码 */
-        sidentify: "",
+        // sidentify: "",
         /**手机验证码 */
         phoneSidentify: "",
         /**密码 */
@@ -144,45 +170,45 @@ export default {
       },
       rules: {
         /**公司名称 */
-        companyName: [
-          {
-            validator: validateCompanyName,
-            trigger: "blur"
-          }
-        ],
+        // companyName: [
+        //   {
+        //     validator: validateCompanyName,
+        //     trigger: ["blur"]
+        //   }
+        // ],
         /**手机号 */
         phone: [
           {
             validator: validateAccount,
-            trigger: "blur"
+            trigger: ["blur"]
           }
         ],
         /**图形验证码 */
-        sidentify: [
-          {
-            validator: validateSidentify,
-            trigger: "blur"
-          }
-        ],
+        // sidentify: [
+        //   {
+        //     validator: validateSidentify,
+        //     trigger: ["blur"]
+        //   }
+        // ],
         /**手机验证码 */
         phoneSidentify: [
           {
             validator: phoneSidentify,
-            trigger: "blur"
+            trigger: ["blur"]
           }
         ],
         /**密码 */
         pass: [
           {
             validator: validatePass,
-            trigger: "blur"
+            trigger: ["blur"]
           }
         ],
         /**确认密码 */
         checkPass: [
           {
             validator: validatePass2,
-            trigger: "blur"
+            trigger: ["blur"]
           }
         ]
       }
@@ -194,45 +220,70 @@ export default {
   methods: {
     /** 注册验证按钮 */
     register(formName) {
+      // this.checkCaptcha();
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.getUserInfo();
+          this.saveRegister();
         } else {
           console.log("error submit!!");
           return false;
         }
       });
     },
-    async getUserInfo() {
-      let dataJson = Object.assign(this.ruleForm);
-      console.log("datajson", dataJson);
-      // const res = await login(dataJson);
-      // if (res.errorCode === 200) {
-      // console.log(res);
-      // this.$router.push({
-      //   name: "HomePage",
-      //   params: {
-      //     data: res.data.user
-      //   }
-      // });
-      //   this.$message.success(res.message);
-      // } else {
-      //   this.$message.warning(res.message);
-      // }
+    /**
+     * 检测验证码图片是否正确
+     */
+    // async checkCaptcha() {
+    //   const res = await checkCaptcha({ captcha: this.ruleForm.sidentify });
+    //   console.log("检测验证码图片是否正确", res);
+    // },
+
+    async saveRegister() {
+      let dataJson = {
+        userid: this.ruleForm.phone,
+        userPwd: this.ruleForm.pass,
+        // companyName: this.ruleForm.companyName,
+        mcaptcha: this.ruleForm.phoneSidentify
+      };
+      const res = await findBackPwd(dataJson);
+      console.log("aaaa", res);
+      if (res.data) {
+        this.$message.success(res.message);
+        this.$router.push({ name: "login" });
+      } else {
+        this.$message.warning(res.message);
+      }
     },
     /**跳转 登录页 */
     toLogin() {
       this.$router.push({ name: "login" });
     },
     /**获取验证码 */
-    sx() {
-      this.$refs.mychild.drawPic();
+    async sx() {
+      document.getElementById("imgInit").src =
+        process.env.VUE_APP_URL + "/generateImage";
+      // this.$refs.mychild.drawPic();
+      // const res = await generateImage()
+      // console.log('generateImage',res)
+    },
+    async getValid() {
+      console.log(this.ruleForm.phone);
+      const res = await getValid({ mobile: this.ruleForm.phone });
+      console.log(res);
+    },
+    /**跳转 登录页 */
+    toLogin() {
+      this.$router.push({ name: "login" });
     }
   },
 
-  created() {},
+  created() {
+    console.log(this.$Validate);
+  },
 
-  mounted() {},
+  mounted() {
+    // this.sx();
+  },
 
   components: {
     vSidentify
@@ -266,7 +317,7 @@ export default {
   margin-bottom: 35px;
 }
 .elBtn {
-  width: 100%;
+  width: 155px;
 }
 .fromClass >>> input {
   background: #c6e2ff;
@@ -287,17 +338,5 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-/* .acompanyName >>> .el-input__inner{
-  border: 1px solid blue;
-  background: #ffffff;
-} */
-.login_foot {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  border-top: 1px solid gray;
-  width: 95%;
-  height: 45px;
 }
 </style>

@@ -4,7 +4,7 @@
  * @Github: https://github.com/GleasonBian
  * @Date: 2019-08-06 09:46:03
  * @LastEditors: OBKoro1
- * @LastEditTime: 2019-08-14 14:12:12
+ * @LastEditTime: 2019-08-22 18:00:43
  */
 // 引入 封装请求
 import fetch from "public/fetch.js";
@@ -38,6 +38,11 @@ export const saveRegister = data => fetch("/saveRegister", data, "post");
  * 手机号登录
  */
 export const loginByPhone = data => fetch("/loginByPhone", data, "post");
+/**
+ * 找回密码
+ */
+export const findBackPwd = data => fetch("/findBackPwd", data, "post");
+
 /**
  * 首页-楼层
  */
@@ -94,3 +99,9 @@ export const showCartInfo = data =>
  * 购物车主页
  */
 export const userCart = data => fetch("/shoppingCart/userCart", data, "post");
+
+/**
+ * 购物车 生成订单
+ */
+export const shoppingCartSaveCatOrder = data =>
+  fetch("/shoppingCart/saveCatOrder", data, "post");

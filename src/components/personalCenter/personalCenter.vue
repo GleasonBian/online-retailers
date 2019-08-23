@@ -1,3 +1,11 @@
+<!--
+ * @Description: 
+ * @Author: gleason
+ * @Github: https://github.com/GleasonBian
+ * @Date: 2019-08-07 10:01:41
+ * @LastEditors: OBKoro1
+ * @LastEditTime: 2019-08-22 16:10:49
+ -->
 <!-- 个人中心 -->
 <template>
   <div>

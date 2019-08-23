@@ -4,11 +4,11 @@
  * @Github: https://github.com/GleasonBian
  * @Date: 2019-08-15 18:27:48
  * @LastEditors: OBKoro1
- * @LastEditTime: 2019-08-20 15:23:51
+ * @LastEditTime: 2019-08-22 15:15:54
  -->
 <template>
   <div class="shop_cart_down_order">
-    <div class="down_orders" @click="downOrdersHandle">下单成功</div>
+    <div class="down_orders" @click="downOrdersHandle">立即付款</div>
   </div>
 </template>
 
@@ -24,10 +24,14 @@ export default {
 
   methods: {
     downOrdersHandle() {
-      this.$router.push({
-        name: "paySuccess",
-        params: {}
-      });
+      window.location.href = `${process.env.VUE_APP_URL}v1/alipay/pcPay?outTradeNo=145127588508000`;
+      console.log(
+        `${process.env.VUE_APP_URL}v1/alipay/pcPay?outTradeNo=145127588508000`
+      );
+      // this.$router.push({
+      //   name: "payFail",
+      //   params: {}
+      // });
     },
     ...mapMutations(["shopCartStepHandle"])
   },

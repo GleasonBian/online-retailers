@@ -1,3 +1,11 @@
+<!--
+ * @Description: 
+ * @Author: gleason
+ * @Github: https://github.com/GleasonBian
+ * @Date: 2019-08-05 13:09:31
+ * @LastEditors: OBKoro1
+ * @LastEditTime: 2019-08-22 17:52:30
+ -->
 <!--  -->
 <template>
   <div class="login">
@@ -10,15 +18,15 @@
           </el-input>
         </el-form-item>
 
-        <el-form-item prop="sidentify">
+        <!-- <el-form-item prop="sidentify">
           <el-col :span="15">
             <el-input placeholder="输入图形验证码" v-model="ruleForm.sidentify"></el-input>
           </el-col>
           <el-col :span="6" style="margin-left:10px;" @click.native="sx">
-            <!-- <v-sidentify :identifyCode="identifyCode" ref="mychild"></v-sidentify> -->
-            <img src="?" alt="" id='imgInit'>
+            <v-sidentify :identifyCode="identifyCode" ref="mychild"></v-sidentify>
+            <img src="?" alt id="imgInit" />
           </el-col>
-        </el-form-item>
+        </el-form-item>-->
 
         <el-form-item prop="phoneSidentify" class="aphoneSidentify">
           <el-col :span="15">
@@ -43,47 +51,78 @@
 </template>
 
 <script>
-import { generateImage, getValid, checkCaptcha, checkphoneistrue, loginByPhone } from "@/getData.js";
+import {
+  generateImage,
+  getValid,
+  checkCaptcha,
+  checkphoneistrue,
+  loginByPhone
+} from "@/getData.js";
 import vSidentify from "#/login&register/vsidentify.vue";
 export default {
   name: "phoneLogin",
   data() {
-    var validateAccount = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请输入手机号"));
-      } else {
-        if (this.ruleForm.phone !== "") {
-          this.$refs.ruleForm1.validateField("phone");
+    // var validateAccount = (rule, value, callback) => {
+    //   if (value === "") {
+    //     callback(new Error("请输入手机号"));
+    //   } else {
+    //     if (this.ruleForm.phone !== "") {
+    //       this.$refs.ruleForm1.validateField("phone");
+    //     }
+    //     callback();
+    //   }
+    // };
+    var validateAccount = async (rule, value, callback) => {
+      if (!value) return callback(new Error("手机号 不能为空"));
+      else if (value) {
+        if (this.$Validate.mobilephone(value)) {
+          const res = await checkphoneistrue({ userid: value });
+          if (!res) {
+            callback(new Error("手机号未注册"));
+          } else {
+          }
+        } else {
+          callback(new Error("请输入正确手机号"));
         }
-        callback();
       }
     };
-    var validateSidentify = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请输入图形验证码"));
-      } else {
-        if (this.ruleForm.sidentify !== "") {
-          this.$refs.ruleForm1.validateField("sidentify");
-        }
-        callback();
-      }
-    };
-    var validatePass = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请输入验证码"));
-      } else {
-        if (this.ruleForm.phoneSidentify !== "") {
+
+    // var validateSidentify = (rule, value, callback) => {
+    //   if (value === "") {
+    //     callback(new Error("请输入图形验证码"));
+    //   } else {
+    //     if (this.ruleForm.sidentify !== "") {
+    //       this.$refs.ruleForm1.validateField("sidentify");
+    //     }
+    //     callback();
+    //   }
+    // };
+    var validatePass = async (rule, value, callback) => {
+      if (!value) return callback(new Error("请输入验证码"));
+      else if (value) {
+        if (this.$Validate.digits(value)) {
           this.$refs.ruleForm1.validateField("phoneSidentify");
+        } else {
+          callback(new Error("请输入验证码"));
         }
-        callback();
       }
     };
+    // var validatePass = (rule, value, callback) => {
+    //   if (value === "") {
+    //     callback(new Error("请输入验证码"));
+    //   } else {
+    //     if (this.ruleForm.phoneSidentify !== "") {
+    //       this.$refs.ruleForm1.validateField("phoneSidentify");
+    //     }
+    //     callback();
+    //   }
+    // };
     return {
       ruleForm: {
         /**验证码 */
         identifyCode: "7788",
         phone: "",
-        sidentify: "",
+        // sidentify: "",
         phoneSidentify: ""
       },
       rules: {
@@ -93,12 +132,12 @@ export default {
             trigger: "blur"
           }
         ],
-        sidentify: [
-          {
-            validator: validateSidentify,
-            trigger: "blur"
-          }
-        ],
+        // sidentify: [
+        //   {
+        //     validator: validateSidentify,
+        //     trigger: "blur"
+        //   }
+        // ],
         phoneSidentify: [
           {
             validator: validatePass,
@@ -115,6 +154,7 @@ export default {
     login(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
+          console.log("f1", valid);
           this.loginByPhone();
         } else {
           console.log("error submit!!");
@@ -124,21 +164,21 @@ export default {
     },
     async loginByPhone() {
       let dataJson = {
-        userid:this.ruleForm.phone,
-        mcaptcha:this.ruleForm.phoneSidentify
-      }
+        userid: this.ruleForm.phone,
+        mcaptcha: this.ruleForm.phoneSidentify
+      };
       const res = await loginByPhone(dataJson);
       console.log(res);
-      if (res.errorCode === 200) {
-      // this.$router.push({
-      //   name: "HomePage",
-      //   params: {
-      //     data: res.data.user
-      //   }
-      // });
-        this.$message.success(res.message);
-      } else {
+      if (JSON.stringify(res.data) === "{}") {
         this.$message.warning(res.message);
+      } else {
+        this.$router.push({
+          name: "homePage",
+          params: {
+            data: res.data
+          }
+        });
+        this.$message.success(res.message);
       }
     },
     toLogin() {
@@ -147,20 +187,21 @@ export default {
     toRegister() {
       this.$router.push({ name: "register" });
     },
-    sx() {
-     document.getElementById('imgInit').src = process.env.VUE_APP_URL + '/generateImage'
-    },
+    // sx() {
+    //   document.getElementById("imgInit").src =
+    //     process.env.VUE_APP_URL + "/generateImage";
+    // },
     async getValid() {
-      console.log(this.ruleForm.phone)
-      const res = await getValid({mobile:this.ruleForm.phone})
-      console.log(res)
+      console.log(this.ruleForm.phone);
+      const res = await getValid({ mobile: this.ruleForm.phone });
+      console.log(res);
     }
   },
 
   created() {},
 
   mounted() {
-    this.sx()
+    // this.sx();
   },
 
   components: {

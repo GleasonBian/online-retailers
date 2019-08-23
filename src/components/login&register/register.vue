@@ -1,3 +1,11 @@
+<!--
+ * @Description:      
+ * @Author: gleason
+ * @Github: https://github.com/GleasonBian
+ * @Date: 2019-08-05 13:09:31
+ * @LastEditors: OBKoro1
+ * @LastEditTime: 2019-08-22 17:26:04
+ -->
 <!--  -->
 <template>
   <div class="login">
@@ -15,15 +23,15 @@
             <el-button slot="prepend">+ 86</el-button>
           </el-input>
         </el-form-item>
-        <el-form-item prop="sidentify">
+        <!-- <el-form-item prop="sidentify">
           <el-col :span="15">
             <el-input placeholder="输入图形验证码" v-model="ruleForm.sidentify"></el-input>
           </el-col>
           <el-col :span="6" style="margin-left:10px;" @click.native="sx">
-            <!-- <v-sidentify :identifyCode="identifyCode" ref="mychild"></v-sidentify> -->
-            <img src="?" alt="" id='imgInit'>
+            <v-sidentify :identifyCode="identifyCode" ref="mychild"></v-sidentify>
+            <img src="?" alt id="imgInit" />
           </el-col>
-        </el-form-item>
+        </el-form-item>-->
         <el-form-item prop="phoneSidentify" class="aphoneSidentify">
           <el-col :span="15">
             <el-input type="text" placeholder="请输入验证码" v-model="ruleForm.phoneSidentify"></el-input>
@@ -65,69 +73,68 @@
 </template>
 
 <script>
-import { generateImage, getValid, checkCaptcha, checkphoneistrue, saveRegister } from "@/getData.js";
+import {
+  generateImage,
+  getValid,
+  checkCaptcha,
+  checkphoneistrue,
+  saveRegister
+} from "@/getData.js";
 import vSidentify from "#/login&register/vsidentify.vue";
 export default {
   name: "register",
   data() {
-    // var validateCompanyName = (rule, value, callback) => {
+    var validateCompanyName = async (rule, value, callback) => {
+      if (!value) return callback(new Error("请输入公司名称"));
+      else if (value) {
+        if (this.$Validate.noTitle(value)) {
+          this.$refs.ruleForm2.validateField("companyName");
+        } else {
+          callback(new Error("请输入正确的公司名称"));
+        }
+      }
+    };
+    var validateAccount = async (rule, value, callback) => {
+      if (!value) return callback(new Error("手机号 不能为空"));
+      else if (value) {
+        if (this.$Validate.mobilephone(value)) {
+          const res = await checkphoneistrue({ userid: value });
+          if (res) {
+            callback(new Error("手机号已存在"));
+          } else {
+          }
+        } else {
+          callback(new Error("请输入正确手机号"));
+        }
+      }
+    };
+    // var validateSidentify = (rule, value, callback) => {
     //   if (value === "") {
-    //     callback(new Error("请输入公司名称"));
+    //     callback(new Error("请输入图形验证码"));
     //   } else {
-    //     if (this.ruleForm.companyName !== "") {
-    //       this.$refs.ruleForm.validateField("companyName");
+    //     if (this.ruleForm.sidentify !== "") {
+    //       this.$refs.ruleForm.validateField("sidentify");
     //     }
     //     callback();
     //   }
     // };
-    var validateCompanyName = async (rule, value, callback) => {
-      if (!value)
-        return callback(new Error("请输入公司名称"));
+    var phoneSidentify = async (rule, value, callback) => {
+      if (!value) return callback(new Error("请输入验证码"));
       else if (value) {
-        if (this.ruleForm.companyName !== "") {
-          this.$refs.ruleForm.validateField("companyName");
-        }
-        callback();
-      }
-    };
-    var validateAccount = async (rule, value, callback) => {
-      if (!value)
-        return callback(new Error('手机号 不能为空'));
-      else if (value) {
-        const res = await checkphoneistrue({userid: value});
-        if (res) {
-          callback(new Error("手机号已存在"));
+        if (this.$Validate.digits(value)) {
+          this.$refs.ruleForm2.validateField("phoneSidentify");
         } else {
-          callback();
+          callback(new Error("请输入验证码"));
         }
       }
     };
-    var validateSidentify = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请输入图形验证码"));
-      } else {
-        if (this.ruleForm.sidentify !== "") {
-          this.$refs.ruleForm.validateField("sidentify");
-        }
-        callback();
-      }
-    };
-    var phoneSidentify = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请输入验证码"));
-      } else {
-        if (this.ruleForm.phoneSidentify !== "") {
-          this.$refs.ruleForm.validateField("phoneSidentify");
-        }
-        callback();
-      }
-    };
+
     var validatePass = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请输入密码"));
       } else {
         if (this.ruleForm.checkPass !== "") {
-          this.$refs.ruleForm.validateField("checkPass");
+          this.$refs.ruleForm2.validateField("checkPass");
         }
         callback();
       }
@@ -143,7 +150,6 @@ export default {
     };
 
     return {
-      checkphone:'',
       /**验证码 */
       identifyCode: "7788",
       /**选中 我已阅读并同意用户协议和隐私政策 */
@@ -179,12 +185,12 @@ export default {
           }
         ],
         /**图形验证码 */
-        sidentify: [
-          {
-            validator: validateSidentify,
-            trigger: ["blur"]
-          }
-        ],
+        // sidentify: [
+        //   {
+        //     validator: validateSidentify,
+        //     trigger: ["blur"]
+        //   }
+        // ],
         /**手机验证码 */
         phoneSidentify: [
           {
@@ -215,11 +221,11 @@ export default {
   methods: {
     /** 注册验证按钮 */
     register(formName) {
-      this.checkCaptcha()
+      // this.checkCaptcha();
       this.$refs[formName].validate(valid => {
         if (valid) {
-          console.log("valid", valid)
-          // this.saveRegister();
+          console.log("valid1", valid);
+          this.saveRegister();
         } else {
           console.log("error submit!!");
           return false;
@@ -229,35 +235,22 @@ export default {
     /**
      * 检测验证码图片是否正确
      */
-    async checkCaptcha(){
-      const res = await checkCaptcha({captcha:this.ruleForm.sidentify})
-      console.log("检测验证码图片是否正确", res)
-    },
-    /**
-     * 检测手机号码是否不存在
-     */
-    // async checkphoneistrue(){
-    //   const res = await checkphoneistrue({userid:this.ruleForm.phone})
-    //   console.log(res)
-    //   this.checkphone = res
+    // async checkCaptcha() {
+    //   const res = await checkCaptcha({ captcha: this.ruleForm.sidentify });
+    //   console.log("检测验证码图片是否正确", res);
     // },
+
     async saveRegister() {
       let dataJson = {
-        userid:this.ruleForm.phone,
-        password:this.ruleForm.pass,
-        companyName:this.ruleForm.companyName,
-        mcaptcha:this.ruleForm.phoneSidentify
-      }
+        userid: this.ruleForm.phone,
+        password: this.ruleForm.pass,
+        companyName: this.ruleForm.companyName,
+        mcaptcha: this.ruleForm.phoneSidentify
+      };
       const res = await saveRegister(dataJson);
-      console.log(res);
       if (res.errorCode === 200) {
-      // this.$router.push({
-      //   name: "HomePage",
-      //   params: {
-      //     data: res.data.user
-      //   }
-      // });
         this.$message.success(res.message);
+        this.$router.push({ name: "login" });
       } else {
         this.$message.warning(res.message);
       }
@@ -268,24 +261,25 @@ export default {
     },
     /**获取验证码 */
     async sx() {
-      document.getElementById('imgInit').src = process.env.VUE_APP_URL + '/generateImage'
+      document.getElementById("imgInit").src =
+        process.env.VUE_APP_URL + "/generateImage";
       // this.$refs.mychild.drawPic();
       // const res = await generateImage()
       // console.log('generateImage',res)
     },
     async getValid() {
-      console.log(this.ruleForm.phone)
-      const res = await getValid({mobile:this.ruleForm.phone})
-      console.log(res)
+      console.log(this.ruleForm.phone);
+      const res = await getValid({ mobile: this.ruleForm.phone });
+      console.log(res);
     }
   },
 
   created() {
-    
+    console.log(this.$Validate);
   },
 
   mounted() {
-    this.sx()
+    // this.sx();
   },
 
   components: {
