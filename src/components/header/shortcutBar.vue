@@ -12,7 +12,8 @@
     </div>
     <div></div>
     <div class="shortcutBar_entrance">
-      <router-link to="/personalCenter">个人中心</router-link>
+      <!--<router-link to="/personalCenter">个人中心</router-link>-->
+      <router-link to="/personInfo">个人中心</router-link>
       <span>|</span>
       <router-link to="/myOrder">我的订单</router-link>
       <span>|</span>

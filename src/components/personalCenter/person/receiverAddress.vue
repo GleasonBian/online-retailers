@@ -3,12 +3,12 @@
   <div>
     <headerBox title="收货地址"></headerBox>
     <el-form :inline="true" :model="formInline" class="demo-form-inline inlieStyle">
-      <el-form-item label="收货地址：" style="margin-right:185px;">
+      <el-form-item label="收货地址" >
         <el-input class="ipt" v-model="formInline.user" placeholder="详情地址"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button size="small" type="primary" @click="onSubmit">搜索</el-button>
-        <el-button size="small" @click="resetForm('ruleForm')">重置</el-button>
+        <el-button size="small" type="primary" @click="onSubmit" class="address_search">搜索</el-button>
+        <el-button size="small" @click="resetForm('ruleForm')" class="address_word">重置</el-button>
       </el-form-item>
     </el-form>
     <div class="addClass">
@@ -44,8 +44,8 @@
         </el-form>
       </div>
       <div>
-        <el-button v-if="item.flag === 1" size="small" type="primary"  @click="dialogFormVisible = true">编辑</el-button>
-        <div v-else>
+        <el-button v-if="item.flag === 1" size="small" type="primary"  @click="dialogFormVisible = true" class="address_search">编 辑</el-button>
+        <div v-else class="address_default">
           <el-button type="text" size="small">设为默认地址</el-button>
           <el-button type="text" size="small" @click="dialogFormVisible = true">编辑</el-button>
         </div>
@@ -568,6 +568,21 @@ export default {
 </script>
 
 <style scoped>
+  .address_search{
+    width: 120px;
+    height: 40px;
+    border-radius:5px;
+    background: #1c7cce;
+    color: white;
+    font-size: 18px;
+  }
+  .address_word{
+    width: 120px;
+    height: 43px;
+    border-radius:5px;
+    background: #e6e6e6;
+    font-size: 18px;
+  }
 .inlieStyle {
   display: flex;
   justify-content: space-between;
@@ -589,9 +604,10 @@ export default {
   border: 1px solid #dcdfe6;
   padding: 10px;
   margin-top: 10px;
+  position: relative;
 }
 .addressClass:hover {
-  background: skyblue;
+  /*background: skyblue;*/
 }
 .addressClass > :nth-of-type(1) {
   width: 70%;
@@ -628,4 +644,9 @@ export default {
 .dialogClass >>> .el-dialog__header{
   display: flex;
 }
+  .address_default{
+    position: absolute;
+    bottom: 0;
+    right: 20px;
+  }
 </style>

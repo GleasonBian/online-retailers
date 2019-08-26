@@ -114,7 +114,8 @@ export default {
       // let dataJson = Object.assign(this.ruleForm);
       const res = await login(this.ruleForm);
       if (res.errorCode === 0) {
-        console.log(res);
+        let loginInfo = res.data;
+        sessionStorage.setItem('loginInfo',JSON.stringify(loginInfo));
         this.$router.push({
           name: "homePage",
           params: {

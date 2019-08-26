@@ -3,8 +3,8 @@
  * @Author: gleason
  * @Github: https://github.com/GleasonBian
  * @Date: 2019-08-05 13:09:31
- * @LastEditors: OBKoro1
- * @LastEditTime: 2019-08-22 17:26:04
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2019-08-23 13:35:20
  -->
 <!--  -->
 <template>
@@ -248,11 +248,11 @@ export default {
         mcaptcha: this.ruleForm.phoneSidentify
       };
       const res = await saveRegister(dataJson);
-      if (res.errorCode === 200) {
+      if (JSON.stringify(res.data) === "{}") {
+        this.$message.warning(res.message);
+      } else {
         this.$message.success(res.message);
         this.$router.push({ name: "login" });
-      } else {
-        this.$message.warning(res.message);
       }
     },
     /**跳转 登录页 */

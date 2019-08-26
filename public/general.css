@@ -34,7 +34,7 @@ table {
 ol,ul,li { list-style:none;}
 
 /* 定义图片边框，当图片作为链接内容被填充时，会有默认边框出现，重定义掉 */
-img{ 
+img{
    border:none;
    vertical-align:baseline;
 }

@@ -105,3 +105,16 @@ export const userCart = data => fetch("/shoppingCart/userCart", data, "post");
  */
 export const shoppingCartSaveCatOrder = data =>
   fetch("/shoppingCart/saveCatOrder", data, "post");
+
+/**
+ * 修改密码
+ */
+export const editPassword = data => fetch("/user/modifyUserPassword",data,"post");
+/**
+ * 个人信息数据获取
+ */
+export const userInfo = data => fetch('/user/getUserById',data,'post');
+/**
+ * 修改邮箱
+ */
+export const editUserInfo = data =>fetch('/user/saveOrUpdateUser',data,'post')

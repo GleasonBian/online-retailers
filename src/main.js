@@ -39,7 +39,8 @@ import {
   Menu,
   Submenu,
   MenuItemGroup,
-  MenuItem
+  MenuItem,
+  Dialog
 } from "element-ui";
 Vue.use(Button);
 Vue.use(Select);
@@ -64,10 +65,13 @@ Vue.use(Menu);
 Vue.use(Submenu);
 Vue.use(MenuItemGroup);
 Vue.use(MenuItem);
+Vue.use(Dialog)
 Vue.prototype.$loading = Loading.service;
 Vue.prototype.$message = Message;
 Vue.prototype.$confirm = MessageBox.confirm;
 Vue.prototype.$Validate = ValidateUtils;
+Vue.prototype.$msgbox = MessageBox
+Vue.prototype.$alert = MessageBox.alert
 new Vue({
   router,
   store,

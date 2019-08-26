@@ -4,7 +4,7 @@
  * @Github: https://github.com/GleasonBian
  * @Date: 2019-08-15 18:25:46
  * @LastEditors: OBKoro1
- * @LastEditTime: 2019-08-22 17:11:39
+ * @LastEditTime: 2019-08-26 09:16:59
  -->
 <template>
   <div class="shop_cart_submit_order column_start_start box_width">
@@ -35,9 +35,28 @@
       <div class="text">订单信息</div>
       <div class="column_start_start box_width">
         <div class="order_info_title">
-          <div class></div>
+          <div class="order_title_box row_between_center">
+            <div class="order_store_name">店铺名称</div>
+            <div class="order_concat_stroe">联系商家</div>
+          </div>
+          <div class="order_nav_bar row_start_center">
+            <div>商品信息</div>
+            <div>规格型号</div>
+            <div>价格</div>
+            <div>数量</div>
+            <div>金额</div>
+          </div>
         </div>
-        <div class="order_info_body"></div>
+        <div class="order_info_body">
+          <div class="order_info_item row_start_center box_width">
+            <img src="~assets/Qr_code.png" class="order_info_item_img" />
+            <div class="order_info_item_name">商品名称商品名称商品名称商品名称商品名称商品名称商品名称商品名称</div>
+            <div class="order_info_item_spec"></div>
+            <div class="order_info_item_price"></div>
+            <div class="order_info_item_count"></div>
+            <div class="order_info_item_amount"></div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="column_start_start common box_width">
@@ -95,6 +114,15 @@ export default {
   color: #e6e6e6;
   margin-right: 50px;
   cursor: pointer;
+}
+.order_info_item {
+  border: 1px solid red;
+}
+.order_info_item_img {
+  width: 150px;
+  height: 150px;
+}
+.order_info_item_name {
 }
 .shop_cart_submit_order {
   min-height: 409px;
@@ -160,6 +188,37 @@ export default {
   border: 1px solid #eaeaea;
   width: 100%;
   margin-top: 24px;
+}
+
+.order_title_box {
+  background: hsla(212, 82%, 74%, 0.808);
+  height: 40px;
+}
+.order_concat_stroe,
+.order_store_name {
+  width: 200px;
+}
+.order_store_name {
+  font-size: 18px;
+  font-weight: bold;
+}
+.order_nav_bar {
+  width: 100%;
+  height: 50px;
+  background: red;
+}
+.order_nav_bar div {
+  width: 100px;
+  height: 100%;
+  background: #1c7cce;
+  line-height: 50px;
+}
+.order_nav_bar div:nth-child(1) {
+  margin-left: 270px;
+}
+.order_info_body {
+}
+.order_concat_stroe {
 }
 .select_address_box {
 }

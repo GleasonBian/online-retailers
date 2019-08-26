@@ -153,6 +153,7 @@ export default new Vuex.Store({
     // 商家主页
     storeIndexHandle(state, payload) {
       state.storeIndexData = payload.data;
+      console.log(payload)
     },
     // 分类处理
     classifyListHandle(state, payload) {
@@ -165,6 +166,7 @@ export default new Vuex.Store({
     // 导航栏处理
     navBarHandle(state, payload) {
       state.navBar = payload;
+
     },
     // 购物车
     userCartHandle(state, payload) {
