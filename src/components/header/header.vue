@@ -1,4 +1,10 @@
-<!-- 头部组件包含 快捷栏, 搜索栏 -->
+<!--
+ * @Description: 头部组件包含 快捷栏, 搜索栏
+ * @Author: your name
+ * @Date: 2019-08-05 13:09:31
+ * @LastEditTime: 2019-09-05 15:26:00
+ * @LastEditors: OBKoro1
+ -->
 <template>
   <div class="head_container">
     <div class="shortcu_bar">
@@ -41,7 +47,7 @@ export default {
 
 <style scoped>
 .head_container {
-  width: 100vw;
+  /* width: 100vw; */
   display: flex;
   flex-direction: column;
   justify-content: space-between;

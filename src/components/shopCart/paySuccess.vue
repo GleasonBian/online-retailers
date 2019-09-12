@@ -4,40 +4,79 @@
  * @Github: https://github.com/GleasonBian
  * @Date: 2019-08-15 18:29:19
  * @LastEditors: OBKoro1
- * @LastEditTime: 2019-08-20 15:22:04
+ * @LastEditTime: 2019-08-29 14:06:02
  -->
 <template>
-  <div class="shop_cart_pay">
-    <div class="down_orders" @click="downOrdersHandle">支付成功</div>
+  <div class="shop_cart_pay box_width column_center">
+    <div class="down_orders bg"></div>
+    <div class="order_info">{{`您的订单 (订单编号: ${downOrders.orderNumber}) 已支付成功!`}}</div>
+    <div class="box_width button_box row_center">
+      <router-link class="button_btn" to="{name:'homePage'}">继续采购</router-link>
+      <router-link class="button_btn" :to="{name:'myOrderDetails', query: {id:downOrders.id}}">查看订单</router-link>
+    </div>
   </div>
 </template>
-
-<script>
+     <script>
 import { mapState, mapMutations, mapActions } from "vuex";
 export default {
   name: "paySuccess",
   data() {
-    return {};
+    return {
+      downOrders: {}
+    };
   },
 
   computed: {},
 
-  methods: {
-    ...mapMutations(["shopCartStepHandle"])
-  },
+  methods: {},
 
   created() {
-    this.shopCartStepHandle(4);
+    let a = sessionStorage["downOrders"]
+    a ? this.downOrders = JSON.parse(sessionStorage["downOrders"]) : this.downOrders.orderNumber="无支付成功订单"
   },
 
-  mounted() {},
+  mounted() {
+  },
 
   components: {}
 };
 </script>
 
 <style scoped>
+ @import '~public/general.css';
 .shop_cart_pay {
-  height: 409px;
+  height: 377px;
+  background: #ffffff;
+}
+
+.down_orders {
+  width: 144px;
+  height: 144px;
+  background: url("~assets/zhifu-img.png");
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center center;
+}
+.order_info {
+  margin-top: 49px;
+  color: #1c7cce;
+  font-size: 30px;
+}
+.button_box {
+  margin-top: 49px;
+}
+.button_btn {
+  display:block;
+  width: 160px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 10px;
+  margin-left: 50px;
+  background: #1c7cce;
+  font-size: 20px;
+  font-weight: bold;
+  color: #ffffff;
+  margin-right: 50px;
+  cursor: pointer;
 }
 </style>

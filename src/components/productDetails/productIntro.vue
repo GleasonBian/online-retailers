@@ -4,7 +4,7 @@
  * @Github: https://github.com/GleasonBian
  * @Date: 2019-08-02 16:19:19
  * @LastEditors: OBKoro1
- * @LastEditTime: 2019-08-16 13:30:53
+ * @LastEditTime: 2019-09-10 17:44:25
  -->
 <template>
   <div class="layout">
@@ -14,9 +14,9 @@
         <div class="stroe_Box column_between_center">
           <div class="stroe_name uts">{{name}}</div>
           <div class="row_between_start store_avatar_box">
-            <img :src="logo" class="store_avatar" alt />
+            <img :src="img + logo" class="store_avatar" alt />
             <router-link
-              :to="{ path: 'storeIndex', query: { id:id }}"
+              :to="{ path: 'storeIndex', query: { supplierId:id }}"
               style="margin-top:10px;color:#1C7CCE"
             >进入店铺</router-link>
           </div>
@@ -38,7 +38,7 @@
                 <td>品牌</td>
                 <td>{{brandName}}</td>
               </tr>
-              <tr>
+              <!-- <tr>
                 <td>规格型号</td>
                 <td>
                   <table class="table_attr">
@@ -52,9 +52,9 @@
                     </tr>
                   </table>
                 </td>
-              </tr>
+              </tr>-->
               <tr>
-                <td>材质</td>
+                <td>规格型号</td>
                 <td>
                   <table class="table_attr">
                     <tr class="table_tr">
@@ -116,7 +116,8 @@ export default {
       attributeList: state => state.productDetails.attributeList, //关键属性
       attributes: state => state.productDetails.attributes, // 规格型号
       afterSaleService: state => state.productDetails.afterSaleService,
-      dispatchExplain: state => state.productDetails.dispatchExplain
+      dispatchExplain: state => state.productDetails.dispatchExplain,
+      img: "img"
     })
   },
 
@@ -157,7 +158,7 @@ export default {
 }
 .store_info {
   width: 230px;
-  height: 230px;
+  min-height: 230px;
 }
 .store_title_bg {
   width: 230px;
@@ -166,13 +167,18 @@ export default {
 }
 .product_intro {
   width: 950px;
+  min-height: 230px;
 }
 
 .options_btn_box {
   width: 100%;
 }
 .introduce {
-  width: 100%;
+  max-width: 918px;
+  min-height: 182px;
+}
+.introduce >>> img {
+  max-width: 918px;
 }
 table {
   width: 100%;

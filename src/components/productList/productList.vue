@@ -1,4 +1,11 @@
-<!-- 商品列表 -->
+<!--
+ * @Description: 商品列表
+ * @Author: gleason
+ * @Github: https://github.com/GleasonBian
+ * @Date: 2019-08-01 16:06:37
+ * @LastEditors: OBKoro1
+ * @LastEditTime: 2019-09-11 14:59:39
+ -->
 <template>
   <div class="layout">
     <div class="box_width row_start_start">
@@ -11,11 +18,19 @@
         <div class="product_item column_between_center">
           <img :src="img + item.mianImgPath" alt />
           <div class="product_desc column_start_start">
-            <span class="product_desc_name uts">{{ item.productName }}</span>
+            <div
+              :class="{
+              'proprietary_tag': item.dealer === 1,
+              'proprietary_tag_height': item.dealer !== 1,
+            }"
+            >
+              <div class="product_desc_name uts">{{ item.productName }}</div>
+            </div>
             <span class="product_desc_brand uts">品牌: {{ item.brandName }}</span>
-            <span class="product_desc_unit uts">单位: {{ "没有字段" }}</span>
+            <span class="product_desc_unit uts">单位: {{ "" }}</span>
             <span class="product_desc_spec uts">共{{ item.goodsCount }}个规格型号</span>
-            <span class="product_desc_price">¥ {{ item.minPrice }} - {{ item.maxPrice }}</span>
+            <span class="product_desc_price" v-if="userInfo">¥ 面议</span>
+            <span class="product_desc_price" v-else>登录-查看价格</span>
           </div>
         </div>
       </router-link>
@@ -33,7 +48,7 @@ export default {
     return {};
   },
 
-  computed: mapState(["productData", "img"]),
+  computed: mapState(["productData", "img", "userInfo"]),
 
   methods: {},
 
@@ -66,6 +81,7 @@ export default {
   padding: 20px 15px 0px 15px;
 }
 .product_desc_name {
+  width: 200px;
   font-size: 16px;
   font-weight: bold;
   margin-bottom: 15px;
@@ -79,6 +95,18 @@ export default {
 .product_desc_price {
   margin-top: 5px;
   font-size: 16px;
-  color: red;
+  color: #ff2731;
+}
+.proprietary_tag {
+  width: 250px;
+  height: 30px;
+  line-height: 30px;
+  background: url("~assets/tit.png.png");
+  background-repeat: no-repeat;
+  background-position: right center;
+  text-align: left;
+}
+.proprietary_tag_height {
+  height: 30px;
 }
 </style>

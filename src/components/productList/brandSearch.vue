@@ -1,3 +1,11 @@
+<!--
+ * @Description: 
+ * @Author: gleason
+ * @Github: https://github.com/GleasonBian
+ * @Date: 2019-08-01 14:40:38
+ * @LastEditors: OBKoro1
+ * @LastEditTime: 2019-09-10 10:20:43
+ -->
 <!-- 品牌搜索框 -->
 <template>
   <div class="brand_search_container row_center">
@@ -69,15 +77,17 @@ export default {
 .interval_price input {
   display: block;
   width: 60px;
-  height: 20px;
+  height: 24px;
   border: 1px solid #cccccc;
   color: #1c7cce;
 }
 .brand_input input {
   display: block;
   width: 215px;
-  height: 20px;
+  height: 24px;
   border: 1px solid #cccccc;
+  font-size: 14px;
+  padding-left: 10px;
 }
 .synthesis_order {
   width: 100%;

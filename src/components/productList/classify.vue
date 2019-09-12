@@ -1,4 +1,11 @@
-<!-- 三级分类 -->
+<!--
+ * @Description: 三级分类
+ * @Author: gleason
+ * @Github: https://github.com/GleasonBian
+ * @Date: 2019-08-01 10:26:33
+ * @LastEditors: OBKoro1
+ * @LastEditTime: 2019-09-11 14:21:17
+ -->
 <template>
   <div class="classify_layout column_center">
     <div class="classify_container column_center">
@@ -16,38 +23,38 @@
       <div class="classify_items">
         <div class="row_between_center classify_items_layout">
           <div class="classify_items_name">一级类目</div>
-          <div class="row_between_center classify_items_body">
-            <div
+          <div class="row_start_start classify_items_body">
+            <!-- <div
               class="classify_items_body_text"
               v-for="(item,index) in LevelOneData"
               :key="index"
               v-if="index < 8"
               @click="LevelTwo(item,index)"
-            >{{item.frontName}}</div>
+            >{{item.frontName}}</div>-->
+            <div class="classify_items_body_text" @click="LevelTwo({id:1},index)">通信产品</div>
           </div>
           <div class="classify_items_more" @click="dropDownHandle('showdropDownOne')">
-            <span v-show="LevelOneData.length >= 8">更多 ﹀</span>
+            <!-- <span v-show="LevelOneData.length >= 8">更多 ﹀</span> -->
           </div>
         </div>
         <transition name="fade">
-          <div
-            class="classify_items_drop_down_body row_between_center_wrap"
-            v-show="showdropDownOne"
-          >
-            <div
-              class="classify_items_drop_down_body_name"
-              v-for="(item,index) in LevelOneData"
-              :key="index"
-              v-if="index >= 8"
-              @click="LevelTwo(item,index)"
-            >{{item.frontName}}</div>
+          <div class="classify_items_drop_down_body" v-show="showdropDownOne">
+            <div class="container_box row_start_start">
+              <div
+                class="classify_items_drop_down_body_name"
+                v-for="(item,index) in LevelOneData"
+                :key="index"
+                v-if="index >= 8"
+                @click="LevelTwo(item,index)"
+              >{{item.frontName}}</div>
+            </div>
           </div>
         </transition>
       </div>
       <div class="classify_items" v-show="LevelTwoData.length> 0">
         <div class="row_between_center classify_items_layout">
           <div class="classify_items_name">二级类目</div>
-          <div class="row_between_center classify_items_body">
+          <div class="row_start_start classify_items_body">
             <div
               class="classify_items_body_text"
               v-for="(item,index) in LevelTwoData"
@@ -61,24 +68,23 @@
           </div>
         </div>
         <transition name="fade">
-          <div
-            class="classify_items_drop_down_body row_between_center_wrap"
-            v-show="showdropDownTwo"
-          >
-            <div
-              class="classify_items_drop_down_body_name"
-              v-for="(item,index) in LevelTwoData"
-              :key="index"
-              v-if="index >= 8"
-              @click="LevelThree(item,index)"
-            >{{item.frontName}}</div>
+          <div class="classify_items_drop_down_body" v-show="showdropDownTwo">
+            <div class="container_box row_start_start">
+              <div
+                class="classify_items_drop_down_body_name"
+                v-for="(item,index) in LevelTwoData"
+                :key="index"
+                v-if="index >= 8"
+                @click="LevelThree(item,index)"
+              >{{item.frontName}}</div>
+            </div>
           </div>
         </transition>
       </div>
       <div class="classify_items" v-show="LevelThreeData.length> 0">
         <div class="row_between_center classify_items_layout">
           <div class="classify_items_name">三级类目</div>
-          <div class="row_between_center classify_items_body">
+          <div class="row_start_start classify_items_body">
             <div
               class="classify_items_body_text"
               v-for="(item,index) in LevelThreeData"
@@ -92,17 +98,16 @@
           </div>
         </div>
         <transition name="fade">
-          <div
-            class="classify_items_drop_down_body row_between_center_wrap"
-            v-show="showdropDownThree"
-          >
-            <div
-              class="classify_items_drop_down_body_name"
-              v-for="(item,index) in LevelThreeData"
-              :key="index"
-              v-if="index >= 8"
-              @click="JumpHandle(item,index)"
-            >{{item.frontName}}</div>
+          <div class="classify_items_drop_down_body" v-show="showdropDownThree">
+            <div class="container_box row_start_start">
+              <div
+                class="classify_items_drop_down_body_name"
+                v-for="(item,index) in LevelThreeData"
+                :key="index"
+                v-if="index >= 8"
+                @click="JumpHandle(item,index)"
+              >{{item.frontName}}</div>
+            </div>
           </div>
         </transition>
       </div>
@@ -122,11 +127,12 @@ export default {
       showdropDownThree: false,
       LevelOneData: [],
       LevelTwoData: [],
-      LevelThreeData: []
+      LevelThreeData: [],
+      index:''
     };
   },
 
-  computed: mapState(["classify", "total"]),
+  computed: mapState(["classify", "total", "productParams"]),
 
   methods: {
     dropDownHandle(param) {
@@ -144,9 +150,11 @@ export default {
      */
     async LevelTwo(item, index) {
       this.isLevelTwoShow = true;
+      // this.productParams.secondFrontClassId = item.id;
       const res = await loadChildListData({ parentId: item.id });
       this.LevelTwoData = res.data;
       this.classifyHandle(item);
+      this.LevelThreeData = [];
     },
     /**
      * 三级分类
@@ -159,8 +167,13 @@ export default {
     },
     JumpHandle(item) {
       this.classifyHandle(item);
-      this.$router.push({ path: "goodsList", query: { id: item.id } });
+      this.$router.push({
+        path: "goodsList",
+        query: { frontClassId: item.id }
+      });
+      this.productParams.offset=0
       this.levelThreeHandle({ id: item.id });
+      this.$store.dispatch("productListData");
     },
     ...mapMutations(["classifyHandle", "levelThreeHandle"])
   },
@@ -176,7 +189,6 @@ export default {
 </script>
 
 <style scoped>
-/* box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.2); */
 .classify_layout {
   width: 100vw;
 }
@@ -212,7 +224,7 @@ export default {
 .classify_items_name {
   width: 90px;
   border-right: 1px solid rgba(0, 0, 0, 0.2);
-  color: red;
+  color: rgb(28, 124, 206);
 }
 .classify_items_more {
   width: 90px;
@@ -237,10 +249,16 @@ export default {
 } */
 .classify_items_drop_down_body_name {
   margin-bottom: 10px;
-  width: 166px;
   height: 30px;
+  margin-right: 70px;
   line-height: 30px;
-  border: 1px solid #dbdbdb;
+  text-align: left;
+}
+.classify_items_body_text {
+  margin-right: 50px;
+}
+.classify_items_body_text:last-child {
+  margin-right: 0px;
 }
 .classify_items_drop_down_body_name:hover,
 .classify_items_body_text:hover {
@@ -253,5 +271,9 @@ export default {
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
+}
+.container_box {
+  width: 1000px;
+  margin-left: 120px;
 }
 </style>

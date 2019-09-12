@@ -4,7 +4,7 @@
  * @Github: https://github.com/GleasonBian
  * @Date: 2019-08-05 13:09:31
  * @LastEditors: OBKoro1
- * @LastEditTime: 2019-08-22 18:12:45
+ * @LastEditTime: 2019-09-09 14:31:47
  -->
 <!--  -->
 <template>
@@ -269,6 +269,7 @@ export default {
     async getValid() {
       console.log(this.ruleForm.phone);
       const res = await getValid({ mobile: this.ruleForm.phone });
+      if (res.result) this.$message.warning(res.message);
       console.log(res);
     },
     /**跳转 登录页 */

@@ -1,4 +1,11 @@
-<!-- 首页 主体 -->
+<!--
+ * @Description: 首页 主体
+ * @Author: gleason
+ * @Github: https://github.com/GleasonBian
+ * @Date: 2019-08-01 20:39:52
+ * @LastEditors: OBKoro1
+ * @LastEditTime: 2019-09-05 09:42:41
+ -->
 <template>
   <div class="column_center">
     <banner class="classify_banner_box"></banner>
@@ -41,7 +48,7 @@ export default {
   width: 1200px;
   height: 114px;
   color: aliceblue;
-  background: url("~assets/tit-new.png") no-repeat;
+  background: url("~assets/tit-HOT.png") no-repeat;
   background-size: 100%;
   background-position: center center;
 }

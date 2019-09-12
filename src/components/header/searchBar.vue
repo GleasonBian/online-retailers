@@ -1,15 +1,14 @@
 <!--
- * @Description: 
+ * @Description: 搜索栏
  * @Author: gleason
  * @Github: https://github.com/GleasonBian
  * @Date: 2019-07-30 19:27:58
  * @LastEditors: OBKoro1
- * @LastEditTime: 2019-08-14 12:45:55
+ * @LastEditTime: 2019-09-05 15:26:12
  -->
-<!-- 搜索栏 -->
 <template>
   <div class="searchBar">
-    <div class="logo"></div>
+    <div class="logo" @click="toHomePageHandle"></div>
     <div></div>
     <div class="searchBar_shearchBox">
       <div class="shearchBox_select">
@@ -36,18 +35,17 @@
     </div>
     <div></div>
     <div class="searchBar_shopCart">
-      <router-link to="shoppingCart" class="shop_cart">
+      <div class="shop_cart" @click="toShoppingCartHandle">
         <img src="~assets/shopCart.png" />
         <span>我的购物车</span>
-        <span class="shop_cart_count">{{count}}</span>
-      </router-link>
+        <span class="shop_cart_count">{{shopCartCount}}</span>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
-import { showCartInfo } from "@/getData.js";
+import { mapState, mapMutations, mapActions } from "vuex";
 export default {
   name: "searchBar",
   data() {
@@ -61,7 +59,12 @@ export default {
   },
   components: {},
 
-  computed: mapState(["productParams", "storeParams"]),
+  computed: mapState([
+    "productParams",
+    "storeParams",
+    "shopCartCount",
+    "userInfo"
+  ]),
 
   mounted() {},
 
@@ -83,10 +86,22 @@ export default {
           break;
       }
     },
-    async showCartInfoHandle() {
-      const res = await showCartInfo();
-      this.count = res.data.count;
-    }
+    toShoppingCartHandle() {
+      let userInfo = this.userInfo;
+      if (userInfo) {
+        this.$router.replace({
+          path: "/shoppingCart"
+        });
+      } else {
+        this.$message.warning("未登录, 请登录");
+        this.$router.push("login");
+      }
+    },
+    toHomePageHandle() {
+      this.$router.push("/");
+    },
+    ...mapMutations(["shopCartCountHandle"]),
+    ...mapActions(["showCartInfoHandle"])
   }
 };
 </script>
@@ -97,6 +112,7 @@ export default {
   background: url("~assets/logo.png") no-repeat;
   background-size: 100%;
   background-position: center center;
+  cursor: pointer;
 }
 .searchBar {
   width: 1200px;

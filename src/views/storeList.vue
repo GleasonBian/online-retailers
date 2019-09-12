@@ -1,3 +1,11 @@
+<!--
+ * @Description: 
+ * @Author: gleason
+ * @Github: https://github.com/GleasonBian
+ * @Date: 2019-08-03 14:50:40
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2019-09-06 09:38:08
+ -->
 <!--  -->
 <template>
   <div class="layout margin">
@@ -37,7 +45,7 @@
           <router-link
             :to="{
             path: '/storeIndex',
-            query:{id:item.id}
+            query:{supplierId:item.id}
           }"
             class="store_box column_start_start router-link-active"
           >
@@ -68,8 +76,8 @@
                 path: '/goodsDetails',
                 query:{id:each.productId}}"
             >
-              <img :src="img+each.mainImagePath" alt />
-              <div class="product_name uts">{{each.goodsName}}</div>
+              <img :src="img + each.mainImagePath" alt />
+              <div class="product_name uts">{{ each.goodsName }}</div>
             </router-link>
           </div>
         </div>
@@ -118,6 +126,9 @@ export default {
   line-height: 20px;
   margin-top: 10px;
 }
+.product_name:hover {
+  color: #1c7cce;
+}
 .margin {
   margin-top: 24px;
 }
@@ -157,6 +168,9 @@ export default {
   width: 160px;
   height: 120px;
 }
+.store_info > span:hover {
+  color: #1c7cce;
+}
 .store_info :first-child {
   font-size: 20px;
   font-weight: 600;
@@ -193,5 +207,12 @@ export default {
 .sortActive {
   color: #1c7cce;
   font-size: 15px;
+}
+a {
+  text-decoration: none;
+}
+
+.router-link-active {
+  text-decoration: none;
 }
 </style>

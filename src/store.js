@@ -3,12 +3,12 @@
  * @Author: gleason
  * @Github: https://github.com/GleasonBian
  * @Date: 2019-07-30 19:27:58
- * @LastEditors: OBKoro1
- * @LastEditTime: 2019-08-21 15:32:49
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2019-09-10 14:56:14
  */
 import Vue from "vue";
 import Vuex from "vuex";
-
+import router from "./router";
 import * as fun from "@/getData.js";
 Vue.use(Vuex);
 
@@ -22,7 +22,12 @@ export default new Vuex.Store({
         color: ""
       },
       {
-        to: "/",
+        to: {
+          path: "/goodsList",
+          query: {
+            id: 123123
+          }
+        },
         name: "通讯设备",
         color: ""
       },
@@ -54,13 +59,16 @@ export default new Vuex.Store({
     productDetails: {},
     // 产品获取传参
     productParams: {
+      firstFrontClassId: "", // 一级分类
+      secondFrontClassId: "", // 二级分类
+      frontClassId: "", // 三级分类id
       productStatusCode: 0,
       brandName: "", // 品牌名称
       productName: "", // 产品名称
-      frontClassId: "", // 三级分类id
       startPrice: "", // 最小价格
       endPrice: "", //  最大价格
-      limit: 12,
+      pageNo: 1,
+      pageSize: 12,
       offset: 0
     },
     // 店铺列表 传参
@@ -81,33 +89,81 @@ export default new Vuex.Store({
     shopCartData: {},
     // 分页总条数
     total: 0,
-    // 购物车步骤条
-    shopCartStep: 1
+    // 购物车 商品数量
+    shopCartCount: 0,
+    // 我的 消息 数量
+    messageNum: 0,
+    // 登录 用户信息
+    userInfo: false
+  },
+  getters: {
+    checkedCount: state => {
+      let count = 0;
+      if ("shoppingCartEnterpriseVOS" in state.shopCartData) {
+        state.shopCartData.shoppingCartEnterpriseVOS.forEach(element => {
+          count += element.selectedArray.length;
+        });
+      }
+      return count;
+    }
   },
   mutations: {
     gotData(state, res) {
+      let color = [
+        {
+          img: "floor1",
+          hover: "floor_1"
+        },
+        {
+          img: "floor2",
+          hover: "floor_2"
+        },
+        {
+          img: "floor3",
+          hover: "floor_3"
+        },
+        {
+          img: "floor4",
+          hover: "floor_4"
+        },
+        {
+          img: "floor5",
+          hover: "floor_5"
+        },
+        {
+          img: "floor6",
+          hover: "floor_6"
+        },
+        {
+          img: "floor7",
+          hover: "floor_7"
+        },
+        {
+          img: "floor8",
+          hover: "floor_8"
+        },
+        {
+          img: "floor9",
+          hover: "floor_9"
+        },
+        {
+          img: "floor10",
+          hover: "floor_10"
+        }
+      ];
+      let count = 0;
+      res.data.forEach((element, index) => {
+        if (count < 10) {
+          element.floor = color[count++];
+        } else {
+          count = 0;
+          element.floor = color[count++];
+        }
+      });
       state.floor = res.data;
     },
     classifyHandle(state, payload) {
-      // classify 没有元素直接 将 payload 添加到数组
-      state.classify.length === 0 && state.classify.push(payload);
-      // 遍历 函数
-      const ret = item => {
-        return payload.level === item.level;
-      };
-      // 存在同一级 返回 true
-      let arr = [];
-      state.classify.forEach(element => {
-        if (payload.level === element.level) arr.push(1);
-      });
-
-      // 如果存在 同一级
-      if (arr.length > 0) {
-        // 找到 该 元素位置
-        let idx = state.classify.findIndex(ret);
-        // 替换 该 元素
-        state.classify.splice(idx, 1, payload);
-      } else state.classify.push(payload); // 不存在 直接添加 元素
+      // console.log("TCL: classifyHandle -> payload", payload);
     },
     // 分类
     levelThreeHandle(state, payload) {
@@ -117,6 +173,22 @@ export default new Vuex.Store({
     productListHandle(state, payload) {
       state.productData = payload.rows;
       state.total = payload.total;
+    },
+    // 商品搜索参数重置
+    productParamsReset(state) {
+      state.productParams = {
+        firstFrontClassId: "", // 一级分类
+        secondFrontClassId: "", // 二级分类
+        frontClassId: "", // 三级分类id
+        productStatusCode: 0,
+        brandName: "", // 品牌名称
+        productName: "", // 产品名称
+        startPrice: "", // 最小价格
+        endPrice: "", //  最大价格
+        pageNo: 1,
+        pageSize: 12,
+        offset: 0
+      };
     },
     // 商品详情
     productDetailsHandle(state, payload) {
@@ -140,6 +212,7 @@ export default new Vuex.Store({
           {
             storeParams.sortSale = "";
             storeParams.timeSort = payload;
+            ``;
           }
           break;
         default:
@@ -153,7 +226,6 @@ export default new Vuex.Store({
     // 商家主页
     storeIndexHandle(state, payload) {
       state.storeIndexData = payload.data;
-      console.log(payload)
     },
     // 分类处理
     classifyListHandle(state, payload) {
@@ -166,38 +238,40 @@ export default new Vuex.Store({
     // 导航栏处理
     navBarHandle(state, payload) {
       state.navBar = payload;
-
     },
     // 购物车
     userCartHandle(state, payload) {
-      state.shopCartData = payload.data;
-    },
-    // 购物车订单删除
-    shopCartdeleteOrderHandle(state, { index, idx }) {
-      state.shopCartData.shoppingCartEnterpriseVOS[
-        index
-      ].shoppingCartVOList.splice(idx, 1);
-    },
-    // 购物车 步骤条
-    shopCartStepHandle(state, param) {
-      state.shopCartStep = param;
-    },
-    shopCartDeleteCheckedHandle(state, param) {
-      if ("shoppingCartEnterpriseVOS" in state.shopCartData) {
-        state.shopCartData.shoppingCartEnterpriseVOS.forEach(
-          (element, index) => {
-            if (element.checkAll) {
-              state.shopCartData.shoppingCartEnterpriseVOS.splice(index, 1);
-            } else {
-              element.shoppingCartVOList.forEach((item, idx) => {
-                if (item.check) {
-                  element.shoppingCartVOList.splice(idx, 1);
-                }
-              });
-            }
-          }
-        );
+      if ("shoppingCartEnterpriseVOS" in payload.data) {
+        payload.data.shoppingCartEnterpriseVOS.forEach(item => {
+          item.isIndeterminate = false;
+          item.selectedArray = [];
+        });
+        state.shopCartData = payload.data;
       }
+    },
+    // 单条订单删除
+    shopCartdeleteOrderHandle(state, { index, idx }) {
+      let array = state.shopCartData.shoppingCartEnterpriseVOS;
+      array[index].shoppingCartVOList.splice(idx, 1);
+      if (array[index].shoppingCartVOList.length === 0) {
+        array.splice(index, 1);
+      }
+    },
+    // 修改购物车 数量
+    shopCartCountHandle(state, param) {
+      if (param !== "") {
+        state.shopCartCount = param.data.count;
+        state.messageNum = param.data.num;
+      } else {
+        state.messageNum = 0;
+        state.shopCartCount = 0;
+      }
+    },
+    // 登录
+    loginInfoHandle(state) {
+      let user = sessionStorage["loginInfo"];
+      if (user) state.userInfo = JSON.parse(user);
+      else state.userInfo = false;
     }
   },
   actions: {
@@ -238,6 +312,29 @@ export default new Vuex.Store({
     // 购物车
     async shopCartHandle({ commit }) {
       commit("userCartHandle", await fun.userCart());
+    },
+    // 购物车 小图标
+    async showCartInfoHandle({ commit }) {
+      commit("shopCartCountHandle", await fun.showCartInfo());
+    },
+    // 登录处理
+    async loginInfo({ commit }, loginPrams) {
+      const res = await fun.login(loginPrams);
+      if (res.errorCode === 0) {
+        sessionStorage["loginInfo"] = JSON.stringify(res.data);
+        router.push({
+          name: "homePage",
+          params: {
+            data: res.data
+          }
+        });
+        window.location.href = "/";
+        Vue.prototype.$message.success(res.message);
+      } else {
+        sessionStorage["loginInfo"] = false;
+        Vue.prototype.$message.warning(res.message);
+      }
+      commit("loginInfoHandle");
     }
   }
 });

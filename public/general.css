@@ -31,7 +31,7 @@ table {
   border-collapse:collapse;
   border-spacing:0;
 }
-ol,ul,li { list-style:none;}
+ol,ul,li { list-style:none; }
 
 /* 定义图片边框，当图片作为链接内容被填充时，会有默认边框出现，重定义掉 */
 img{
@@ -46,6 +46,13 @@ a, a:link, a:visited{
 a:hover{ 
   color:#000; 
   text-decoration:underline;
+}
+a {
+  text-decoration: none;
+}
+ 
+.router-link-active {
+  text-decoration: none;
 }
 /* 标签属性，textarea,input 强制输入时内容超出时换行，打断 */
 textarea,input{ 
@@ -197,6 +204,20 @@ span,p,div{
   justify-content:flex-start;
   align-items: center;
 }
+.row_start_center_wrap{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content:flex-start;
+  align-items: center;
+}
+.row_start_start_wrap{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content:flex-start;
+  align-items:flex-start;
+}
 /* 行 - 起点对齐 - 子项居中对齐 */
 .row_end_center{
   display: flex;
@@ -232,4 +253,30 @@ a {
   background-repeat: no-repeat;
   background-size: 100%;
   background-position: center center;
+}
+
+ 
+::-webkit-scrollbar {
+  width: 14px;
+  height: 14px;
+}
+ 
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  border: 5px solid transparent;
+}
+ 
+::-webkit-scrollbar-track {
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2) inset;
+}
+ 
+::-webkit-scrollbar-thumb {
+  min-height: 20px;
+  background-clip: content-box;
+  box-shadow: 0 0 0 5px rgba(0, 0, 0, 0.2) inset;
+}
+ 
+::-webkit-scrollbar-corner {
+  background: transparent;
 }

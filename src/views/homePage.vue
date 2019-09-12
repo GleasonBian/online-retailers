@@ -4,7 +4,7 @@
  * @Github: https://github.com/GleasonBian
  * @Date: 2019-07-30 19:27:58
  * @LastEditors: OBKoro1
- * @LastEditTime: 2019-08-20 13:10:24
+ * @LastEditTime: 2019-09-10 11:25:23
  -->
 <!-- 首页 -->
 <template>
@@ -52,25 +52,40 @@ export default {
           color: ""
         },
         {
-          to: "/goodsList",
-          name: "通讯设备",
-          color: ""
-        },
-        {
-          to: "/goodsList",
-          name: "梁场物料",
-          color: ""
-        },
-        {
-          to: "/goodsList",
-          name: "货车配件",
-          color: ""
-        },
-        {
-          to: "/brand",
-          name: "企业品牌",
+          to: {
+            path: "/goodsList",
+            query: {
+              firstFrontClassId: "1"
+            }
+          },
+          name: "自营商城",
           color: ""
         }
+        // {
+        //   to: {
+        //     path: "/goodsList",
+        //     query: {
+        //       id: "2"
+        //     }
+        //   },
+        //   name: "梁场物料",
+        //   color: ""
+        // },
+        // {
+        //   to: {
+        //     path: "/goodsList",
+        //     query: {
+        //       id: "3"
+        //     }
+        //   },
+        //   name: "货车配件",
+        //   color: ""
+        // },
+        // {
+        //   to: "/brand",
+        //   name: "企业品牌",
+        //   color: ""
+        // }
       ]);
     }
   }

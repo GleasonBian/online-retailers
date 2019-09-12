@@ -4,7 +4,7 @@
  * @Github: https://github.com/GleasonBian
  * @Date: 2019-08-05 13:09:31
  * @LastEditors: OBKoro1
- * @LastEditTime: 2019-08-22 17:42:51
+ * @LastEditTime: 2019-09-03 11:40:08
  -->
 <template>
   <div class="login">
@@ -45,11 +45,7 @@
 </template>
 
 <script>
-// @ is an alias to /src
-// import HelloWorld from "@/components/HelloWorld.vue";
-// 引入 接口
-import { login } from "@/getData.js";
-console.log(login);
+import { mapMutations, mapActions, mapState } from "vuex";
 export default {
   name: "login",
   data() {
@@ -103,29 +99,11 @@ export default {
     login(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.getUserInfo();
+          this.loginInfo(this.ruleForm);
         } else {
-          console.log("error submit!!");
           return false;
         }
       });
-    },
-    async getUserInfo() {
-      // let dataJson = Object.assign(this.ruleForm);
-      const res = await login(this.ruleForm);
-      if (res.errorCode === 0) {
-        let loginInfo = res.data;
-        sessionStorage.setItem('loginInfo',JSON.stringify(loginInfo));
-        this.$router.push({
-          name: "homePage",
-          params: {
-            data: res.data
-          }
-        });
-        this.$message.success(res.message);
-      } else {
-        this.$message.warning(res.message);
-      }
     },
     toPhoneLogin() {
       this.$router.push({
@@ -141,8 +119,10 @@ export default {
       this.$router.push({
         name: "findPassword"
       });
-    }
-  }
+    },
+    ...mapActions(["loginInfo"])
+  },
+  computed: mapState(["userInfo"])
 };
 </script>
 <style scoped>

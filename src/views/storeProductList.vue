@@ -1,10 +1,10 @@
 <!--
- * @Description: 
+ * @Description: 商家商品列表
  * @Author: gleason
  * @Github: https://github.com/GleasonBian
  * @Date: 2019-08-05 15:50:35
  * @LastEditors: OBKoro1
- * @LastEditTime: 2019-08-13 19:16:23
+ * @LastEditTime: 2019-09-10 10:17:47
  -->
 <template>
   <div class="layout store_product_list">
@@ -63,22 +63,24 @@
               @keyup="params.maxPrice=maxPrice.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')"
             />
           </div>
-          <div class="search_btn">搜&nbsp;索</div>
+          <div class="search_btn" @click="storeSearchHandle">搜&nbsp;索</div>
         </div>
         <div class="prod_list_box row_start_start">
           <router-link
-            class="prod_item_box_main column_center"
+            class="prod_item_box_main column_start_start"
             v-for="(item, index) in data"
             :key="index"
             :to="{path:'/goodsDetails',query:{id:item.productId}}"
           >
-            <img class="prod_item_img" :src="item.mainImagePath" alt />
-            <div class="prod_item_main column_between_center">
+            <img class="prod_item_img" :src="img + item.mainImagePath" alt />
+            <div class="prod_item_main uts column_between_center">
               <div class="prod_item_title text_left">{{item.goodsName}}</div>
               <div class="prod_item_brand text_left">品牌: {{item.brandName}}</div>
               <div class="prod_item_unit text_left">单位: {{item.unit}}</div>
               <div class="prod_item_spec text_left">型号: {{item.typeModel}}</div>
-              <div class="prod_item_price text_left">¥ &nbsp; {{item.goodsPrice}}</div>
+              <div class="prod_item_spec text_left">销量: {{item.salesVolume}}</div>
+              <!--<div class="prod_item_price text_left">¥ &nbsp; {{item.goodsPrice}}</div>-->
+              <div class="prod_item_price text_left">¥ &nbsp; {{userMain?'面议':'登录-查看价格'}}</div>
             </div>
           </router-link>
         </div>
@@ -100,8 +102,9 @@
 import storebarA from "#/store/storebarA.vue";
 import storebarB from "#/store/storebarB.vue";
 import { getEnterpriseGoods } from "@/getData.js";
+import { mapMutations, mapActions, mapState } from "vuex";
 export default {
-  name: "",
+  name: "storeProductList",
   data() {
     return {
       active: 1,
@@ -109,20 +112,40 @@ export default {
       params: {
         sortSale: "salesVolume desc", // 销量
         sortPrice: "goodsPrice desc", // 价格 高=>底  goodsPrice desc  低=>高 goodsPrice desc
-        supplierId: this.$route.query.id, // 商家id
-        minPrice: 0, // 最小价格
-        maxPrice: 99, // 最大价格
+        supplierId: this.$route.query.supplierId, // 商家id
+        frontClassId: this.$route.query.frontClassId
+          ? this.$route.query.frontClassId
+          : "",
+        minPrice: "", // 最小价格
+        maxPrice: "", // 最大价格
         pageNo: 1,
         pageSize: 16,
         offset: 0
       },
       currentPage: 1,
-      total: 0
+      total: 0,
+      userMain:[]
     };
   },
 
-  computed: {},
+  computed: mapState({
+    img: state => state.img,
+  })
+  ,
 
+  created() {
+    let userInfoList  = JSON.parse(sessionStorage.getItem('loginInfo'))
+    this.userMain = userInfoList
+    console.log(this.userMain)
+    this.setNavBarHandle();
+    this.getEnterpriseGoodsHandle();
+    this.storeIndexDetails({
+      id: this.$route.query.supplierId
+    });
+    this.ClassForEnterprise({
+      id: this.$route.query.supplierId
+    });
+  },
   methods: {
     async getEnterpriseGoodsHandle() {
       const res = await getEnterpriseGoods(this.params);
@@ -146,19 +169,50 @@ export default {
       this.params.pageNo = val;
       this.params.offset = (this.params.pageNo - 1) * this.params.pageSize;
       this.getEnterpriseGoodsHandle();
-    }
+    },
+    /**
+     * 商家列表 导航条
+     */
+    setNavBarHandle() {
+      this.navBarHandle([
+        {
+          to: "/",
+          name: "返回商城",
+          color: ""
+        },
+        {
+          to: {
+            path: "/storeIndex",
+            query: {
+              supplierId: this.$route.query.supplierId,
+              frontClassId: this.$route.query.frontClassId
+            }
+          },
+          name: "店铺主页",
+          color: ""
+        }
+      ]);
+    },
+    /**
+     * 店铺列表搜索
+     */
+    storeSearchHandle() {
+      this.getEnterpriseGoodsHandle();
+    },
+    ...mapActions(["storeIndexDetails", "ClassForEnterprise"]),
+    ...mapMutations(["navBarHandle"])
   },
 
-  created() {
-    this.getEnterpriseGoodsHandle();
+  updated() {
+    this.setNavBarHandle();
   },
-
   mounted() {},
 
   components: {
     storebarA,
     storebarB
-  }
+  },
+  watch: {}
 };
 </script>
 
@@ -180,6 +234,8 @@ export default {
 }
 .prod_list_box {
   width: 946px;
+  padding-top: 24px;
+  min-height: 1496px;
 }
 .all_product {
   height: 30px;
@@ -199,7 +255,11 @@ export default {
   width: 212px;
   height: 350px;
   background: #ffffff;
-  margin: 15px 12px;
+  margin-right: 32px;
+  margin-bottom: 18px;
+}
+.prod_list_box > .prod_item_box_main:nth-child(4n) {
+  margin-right: 0px;
 }
 /* .prod_item_box_main :hover {
   border-top: 2px solid #1c7cce;
@@ -218,7 +278,7 @@ export default {
 .interval_price input {
   display: block;
   width: 60px;
-  height: 20px;
+  height: 24px;
   border: 1px solid #cccccc;
   color: #1c7cce;
 }
@@ -237,12 +297,15 @@ export default {
   font-size: 15px;
   font-weight: 600;
 }
+.search_btn:hover {
+  cursor: pointer;
+}
 .prod_item_img {
-  width: 99%;
+  width: 100%;
   height: 170px;
 }
 .prod_item_main {
-  width: 100%;
+  width: 200px;
   height: 170px;
 }
 .prod_item_main div {
@@ -264,5 +327,16 @@ export default {
 .prod_item_price {
   color: red;
   font-size: 16px;
+}
+a {
+  text-decoration: none;
+}
+
+.router-link-active {
+  text-decoration: none;
+}
+.prod_item_box_main:hover {
+  box-shadow: rgba(51, 51, 51, 0.2) 1px 1px 1px;
+  border-top: 2px solid #1c7cce;
 }
 </style>

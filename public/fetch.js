@@ -4,11 +4,12 @@
  * @Github: https://github.com/GleasonBian
  * @Date: 2019-07-30 19:27:58
  * @LastEditors: OBKoro1
- * @LastEditTime: 2019-08-19 17:36:44
+ * @LastEditTime: 2019-09-10 15:56:16
  */
 
 // public/fetch.js
 import Vue from "vue";
+import router from "../src/router";
 var qs = require("qs");
 import axios from "axios";
 
@@ -54,6 +55,9 @@ axios.interceptors.request.use(
  */
 axios.interceptors.response.use(
   function(response) {
+    if ("refresh" in response.headers) {
+      router.replace({ path: "/login" });
+    }
     loading.close();
     return response;
   },

@@ -3,8 +3,8 @@
  * @Author: gleason
  * @Github: https://github.com/GleasonBian
  * @Date: 2019-08-08 17:07:42
- * @LastEditors: OBKoro1
- * @LastEditTime: 2019-08-22 18:07:12
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2019-08-29 20:22:21
  */
 import Vue from "vue";
 import Router from "vue-router";
@@ -13,9 +13,13 @@ Vue.use(Router);
 
 export default new Router({
   mode: "history",
-  base: process.env.BASE_URL,
-  // base: "mall",
+  base: "/",
   routes: [
+    {
+      // 会匹配所有路径
+      path: "*",
+      redirect: { name: "homePage" }
+    },
     {
       path: "/login",
       name: "login",
@@ -91,6 +95,26 @@ export default new Router({
       ]
     },
     {
+      path: "/myOrderDetails",
+      name: "myOrderDetails",
+      component: () => import("#/personalCenter/order/myOrderDetails.vue")
+    },
+    {
+      path: "/logistics",
+      name: "logistics",
+      component: () => import("#/personalCenter/order/logistics.vue")
+    },
+    {
+      path: "/receipt",
+      name: "receipt",
+      component: () => import("#/personalCenter/order/receipt.vue")
+    },
+    {
+      path: "/applyAfterSale",
+      name: "applyAfterSale",
+      component: () => import("#/personalCenter/order/applyAfterSale.vue")
+    },
+    {
       path: "/brand",
       name: "brand",
       component: () => import("#/store/brand.vue")
@@ -149,19 +173,19 @@ export default new Router({
               component: () => import("#/shopCart/downOrders")
             },
             {
-              path: "/alipay/success",
+              path: "/paySuccess",
               name: "paySuccess",
               component: () => import("#/shopCart/paySuccess")
             },
             {
-              path: "/alipay/fail",
+              path: "/payFail",
               name: "payFail",
               component: () => import("#/shopCart/payFail")
             },
             {
-              path: "/pay/error",
+              path: "/payError",
               name: "payError",
-              component: () => import("#/shopCart/payFail")
+              component: () => import("#/shopCart/payError")
             }
           ]
         }

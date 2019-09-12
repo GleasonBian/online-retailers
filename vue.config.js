@@ -29,7 +29,7 @@ console.log("当前环境", baseurl, ":", process.env.VUE_APP_URL);
 const CompressionPlugin = require("compression-webpack-plugin"); //Gzip
 module.exports = {
   // 基本路径
-  publicPath: "./",
+  publicPath: "./", // /mall/
 
   // 输出文件目录
   outputDir: "dist",

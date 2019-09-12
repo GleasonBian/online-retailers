@@ -4,7 +4,7 @@
  * @Github: https://github.com/GleasonBian
  * @Date: 2019-08-05 11:20:47
  * @LastEditors: OBKoro1
- * @LastEditTime: 2019-08-11 13:31:06
+ * @LastEditTime: 2019-09-05 09:47:01
  -->
 <template>
   <div class="column_start_center storebarB_box">
@@ -29,8 +29,9 @@
           <div class="sell_well_item_index">{{index+1}}</div>
           <img class="sell_well_item_img" :src="img + item.mainImagePath" alt />
           <div class="sell_well_item_box column_between_center">
-            <div class="sell_well_item_name">{{item.goodsName}}</div>
-            <div class="sell_well_item_price">¥ {{item.goodsPrice}}</div>
+            <div class="sell_well_item_name">{{ item.goodsName }}</div>
+            <!--<div class="sell_well_item_price">¥ {{ item.goodsPrice }}</div>-->
+            <div class="sell_well_item_price">¥ {{ userInfo?'面议':'登录-查看价格' }}</div>
           </div>
         </router-link>
       </div>
@@ -44,63 +45,6 @@ export default {
   name: "",
   data() {
     return {
-      data: [
-        {
-          label: "一级 1",
-          children: [
-            {
-              label: "二级 1-1",
-              children: [
-                {
-                  label: "三级 1-1-1"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          label: "一级 2",
-          children: [
-            {
-              label: "二级 2-1",
-              children: [
-                {
-                  label: "三级 2-1-1"
-                }
-              ]
-            },
-            {
-              label: "二级 2-2",
-              children: [
-                {
-                  label: "三级 2-2-1"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          label: "一级 3",
-          children: [
-            {
-              label: "二级 3-1",
-              children: [
-                {
-                  label: "三级 3-1-1"
-                }
-              ]
-            },
-            {
-              label: "二级 3-2",
-              children: [
-                {
-                  label: "三级 3-2-1"
-                }
-              ]
-            }
-          ]
-        }
-      ],
       defaultProps: {
         children: "children",
         label: "frontName"
@@ -111,12 +55,23 @@ export default {
   computed: mapState({
     sjgtwMallGoodsVOS: state => state.storeIndexData.sjgtwMallGoodsVOS,
     img: state => state.img,
-    classifyList: state => state.classifyList
+    classifyList: state => state.classifyList,
+    userInfo:state=>state.userInfo
   }),
 
   methods: {
     handleNodeClick(data) {
-      console.log(data);
+      if (data.level === 3) {
+        this.$router.push({
+          path: "/storeProductList",
+          query: {
+            frontClassId: data.id,
+            supplierId: this.$route.query.supplierId
+          }
+        });
+        this.$parent.params.frontClassId = data.id;
+        this.$parent.getEnterpriseGoodsHandle();
+      }
     }
   },
 
@@ -188,7 +143,17 @@ export default {
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
 }
+.sell_well_item_name:hover {
+  color: #1c7cce;
+}
 .sell_well_item_price {
   color: red;
+}
+a {
+  text-decoration: none;
+}
+
+.router-link-active {
+  text-decoration: none;
 }
 </style>

@@ -1,6 +1,13 @@
+<!--
+ * @Description: In User Settings Edit
+ * @Author: your name
+ * @Date: 2019-08-07 10:13:08
+ * @LastEditTime: 2019-08-28 10:32:39
+ * @LastEditors: Please set LastEditors
+ -->
 <!-- 侧边导航 -->
 <template>
-  <div style="width:20%;">
+  <div style="width:180px;">
     <el-menu
       router
       :default-active="this.$router.path"
@@ -9,17 +16,22 @@
       @open="handleOpen"
       @close="handleClose"
     >
-      <el-submenu v-for="(item,i) in navList" :key="i" :index="item.name">
+      <el-submenu v-for="(item,i) in navList" :key="i" :index="item.name" style="padding:0;">
         <template slot="title">
-          <i class="el-icon-location"></i>
+          <i class="el-icon-user" style="color: #1c7cce" v-if="item.name=='个人中心'"></i>
+          <i class="el-icon-tickets" style="color: #1c7cce" v-else></i>
           <span>{{item.name}}</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item v-for="(ite,index) in item.child" :key="index" :index="ite.name">{{ite.navItem}}</el-menu-item>
+          <el-menu-item
+            style="padding:0;min-width:180px;"
+            v-for="(ite,index) in item.child"
+            :key="index"
+            :index="ite.name"
+          >{{ite.navItem}}</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
     </el-menu>
-
   </div>
 </template>
 
@@ -27,7 +39,7 @@
 export default {
   data() {
     return {
-      openeds:["个人中心","订单中心"],
+      openeds: ["个人中心", "订单中心"],
       navList: [
         {
           name: "个人中心",

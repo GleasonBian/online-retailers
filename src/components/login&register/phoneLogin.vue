@@ -4,7 +4,7 @@
  * @Github: https://github.com/GleasonBian
  * @Date: 2019-08-05 13:09:31
  * @LastEditors: OBKoro1
- * @LastEditTime: 2019-08-22 17:52:30
+ * @LastEditTime: 2019-09-09 14:32:41
  -->
 <!--  -->
 <template>
@@ -32,8 +32,11 @@
           <el-col :span="15">
             <el-input type="password" placeholder="请输入验证码" v-model="ruleForm.phoneSidentify"></el-input>
           </el-col>
-          <el-col :span="6" style="margin-left:10px;" @click.native="getValid">
+          <el-col :span="6" style="margin-left:10px;" @click.native="getValid" v-if="phoneShow">
             <el-button type="primary">获取验证码</el-button>
+          </el-col>
+          <el-col :span="6" style="margin-left:10px;" v-else>
+            <el-button type="info" >{{this.phoneSecond}}秒后重发</el-button>
           </el-col>
         </el-form-item>
 
@@ -144,7 +147,9 @@ export default {
             trigger: "blur"
           }
         ]
-      }
+      },
+      phoneShow:true,
+      phoneSecond:60
     };
   },
 
@@ -192,9 +197,19 @@ export default {
     //     process.env.VUE_APP_URL + "/generateImage";
     // },
     async getValid() {
-      console.log(this.ruleForm.phone);
       const res = await getValid({ mobile: this.ruleForm.phone });
-      console.log(res);
+      if (res.result) this.$message.warning(res.message);
+      // if(res.result==true){
+        let secound =setInterval(()=>{//验证码计时器
+          this.phoneSecond --;
+          this.phoneShow = false;
+          if(this.phoneSecond==0){
+            this.phoneSecond = 60;
+            this.phoneShow = true;
+            clearInterval(secound)
+          }
+        },1300)
+      // }
     }
   },
 

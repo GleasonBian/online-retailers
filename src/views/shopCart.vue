@@ -4,12 +4,12 @@
  * @Github: https://github.com/GleasonBian
  * @Date: 2019-08-06 11:02:31
  * @LastEditors: OBKoro1
- * @LastEditTime: 2019-08-20 14:01:47
+ * @LastEditTime: 2019-08-28 16:50:51
  -->
 <template>
   <div class="layout">
-    <div class="box_width column_center">
-      <div
+    <div class="box_width column_center box_cart">
+      <!-- <div
         :class="{
         article_steps: true,
         bg: true,
@@ -18,7 +18,7 @@
         three: shopCartStep === 3,
         four: shopCartStep === 4
       }"
-      ></div>
+      ></div>-->
       <router-view></router-view>
     </div>
   </div>
@@ -30,15 +30,21 @@ export default {
   name: "shoppingCart",
   data() {
     return {
-      steps: 1
+      steps: 1,
+      count: 0
     };
   },
 
   computed: mapState({
-    shopCartStep: state => state.shopCartStep
+    shopCartStep: state => state.shopCartStep,
+    shopCartCount: state => state.shopCartCount
   }),
 
-  methods: {},
+  methods: {
+    goBuyButton() {
+      this.$router.push("/");
+    }
+  },
 
   created() {},
 
@@ -65,5 +71,24 @@ export default {
 }
 .four {
   background: url("~assets/con-1.png");
+}
+.empty_shopping_cart {
+  height: 322px;
+}
+.emty_img {
+  width: 439px;
+  height: 74px;
+  background: url("~assets/empty-car-img.png");
+}
+.go_buy_button {
+  position: relative;
+  top: -26px;
+  left: -80px;
+  font-size: 18px;
+  color: #1c7cce;
+  cursor: pointer;
+}
+.box_cart {
+  padding-top: 24px;
 }
 </style>

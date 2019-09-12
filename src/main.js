@@ -3,8 +3,8 @@
  * @Author: gleason
  * @Github: https://github.com/GleasonBian
  * @Date: 2019-08-08 17:07:52
- * @LastEditors: OBKoro1
- * @LastEditTime: 2019-08-22 16:15:57
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2019-08-28 11:42:42
  */
 import Vue from "vue";
 import App from "./App.vue";
@@ -40,7 +40,11 @@ import {
   Submenu,
   MenuItemGroup,
   MenuItem,
-  Dialog
+  Dialog,
+  RadioGroup,
+  Radio,
+  DatePicker,
+  Option
 } from "element-ui";
 Vue.use(Button);
 Vue.use(Select);
@@ -66,12 +70,31 @@ Vue.use(Submenu);
 Vue.use(MenuItemGroup);
 Vue.use(MenuItem);
 Vue.use(Dialog)
+Vue.use(DatePicker)
+Vue.use(Radio)
+Vue.use(Option)
+Vue.use(RadioGroup)
+Vue.use(DatePicker);
 Vue.prototype.$loading = Loading.service;
 Vue.prototype.$message = Message;
 Vue.prototype.$confirm = MessageBox.confirm;
 Vue.prototype.$Validate = ValidateUtils;
-Vue.prototype.$msgbox = MessageBox
-Vue.prototype.$alert = MessageBox.alert
+Vue.prototype.$msgbox = MessageBox;
+Vue.prototype.$alert = MessageBox.alert;
+
+//未登录状态限制
+let userInfo = JSON.parse(sessionStorage.getItem('loginInfo'));
+router.beforeEach((to,from,next)=>{
+    if(to.path!=='/personInfo'){
+        next()
+    }else{
+        if(!userInfo){
+            next('/login')
+        }else{
+            next()
+        }
+    }
+});
 new Vue({
   router,
   store,

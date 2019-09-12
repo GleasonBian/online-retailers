@@ -1,42 +1,53 @@
-<!-- 商品详情下半截 -->
+<!--
+ * @Description: 商品详情下半截
+ * @Author: gleason
+ * @Github: https://github.com/GleasonBian
+ * @Date: 2019-08-01 20:03:57
+ * @LastEditors: OBKoro1
+ * @LastEditTime: 2019-09-05 16:40:04
+ -->
 <template>
   <div class="column_center">
     <div class="product_info box_width">
       <div class="selected_class_box row_start_center">
         <div class="selected_class">已选类目</div>
-        <span v-for="(item,index) in classify" :key="index" class="classify">
+        <span v-for="( item, index ) in classify" :key="index" class="classify">
           <span v-if="index !== 0">&nbsp;＞</span>
-          {{item.frontName}}
+          {{ item.frontName }}
         </span>
       </div>
       <div class="product_intro row_center">
         <div class="preview_wrap column_between_center">
           <div class="preview_img_box">
-            <img :src="img + bigImg[imgMain]" class="preview_img" />
+            <img :src="imgPath" class="preview_img" />
           </div>
           <div class="preview_img_list row_center">
             <img
-              :src="img + item"
-              v-for="(item, index) in smallImg"
-              @click="switchImgIndex(index)"
+              v-for="(item, index) in imageList"
               :key="index"
+              :src="img + item.imagePath"
+              @click="switchImgIndex(index)"
+              v-show="index < 6"
+              class="preview_img_click"
             />
           </div>
         </div>
         <div class="itemInfo_wrap column_between_center">
-          <div class="itemInfo_title">{{productName}}</div>
+          <div class="itemInfo_title">{{ productName }}</div>
           <div class="itemInfo_price row_start_center">
             <span>价格</span>
-            <span>¥{{minPrice}}~{{maxPrice}}</span>
+            <!--<span v-if="userInfo">¥{{ minPrice }}~{{ maxPrice }}</span>-->
+            <span v-if="userInfo">面议</span>
+            <span v-else>登录查看价格</span>
           </div>
           <div class="itemInfo_other column_between_center">
             <div class="itemInfo_other_distribution row_start_center">
               <span>配送方式</span>
-              <span>商家配送</span>
+              <span>{{ dispatchExplain }}</span>
             </div>
             <div class="itemInfo_other_specification row_start_center">
               <span>规格型号</span>
-              <span>共计{{GoodsAttrCount}}种型号</span>
+              <span>共计&nbsp;&nbsp;{{ goodsAttrCount }}&nbsp;&nbsp;种型号</span>
             </div>
           </div>
           <div class="itemInfo_img row_around_center">
@@ -55,10 +66,10 @@ export default {
   name: "productDetailsBottom",
   data() {
     return {
-      img: process.env.VUE_APP_IMG,
-      imgMain: 0,
+      imgIndex: 0,
       bigImg: [],
-      smallImg: []
+      smallImg: [],
+      img: process.env.VUE_APP_IMG
     };
   },
 
@@ -68,24 +79,29 @@ export default {
       imageList: state => state.productDetails.imageList,
       minPrice: state => state.productDetails.minPrice,
       maxPrice: state => state.productDetails.maxPrice,
-      GoodsAttrCount: state => state.productDetails.GoodsAttrCount,
-      classify: "classify"
+      goodsAttrCount: state => state.productDetails.goodsAttrCount,
+      dispatchExplain: state => state.productDetails.dispatchExplain,
+      classify: "classify",
+      imgPath(state) {
+        if ("imageList" in state.productDetails)
+          return (
+            this.img + state.productDetails.imageList[this.imgIndex].imagePath
+          );
+      },
+      userInfo: "userInfo"
     })
   },
 
   methods: {
     switchImgIndex(index) {
-      this.imgMain = index;
+      this.imgIndex = index;
     }
   },
 
   created() {},
 
   mounted() {},
-  updated() {
-    this.bigImg = this.imageList[0]["imagePaths"];
-    this.smallImg = this.imageList[1]["imagePaths"];
-  },
+  updated() {},
   components: {}
 };
 </script>
@@ -103,7 +119,7 @@ export default {
 }
 .product_intro {
   width: 100%;
-  height: 460px;
+  min-height: 460px;
 }
 .selected_class {
   height: 48px;
@@ -138,6 +154,9 @@ export default {
   height: 45px;
   margin: 0px 3px;
 }
+.preview_img_click:hover {
+  cursor: pointer;
+}
 .itemInfo_title {
   font-size: 28px;
   align-self: flex-start;
@@ -146,7 +165,7 @@ export default {
 .itemInfo_price {
   width: 100%;
   height: 50px;
-  background: #8dbde6;
+  background: rgba(141, 189, 230, 0.2);
   align-self: flex-start;
 }
 .itemInfo_price :first-child {

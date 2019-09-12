@@ -1,23 +1,21 @@
 <!--
- * @Description: 
+ * @Description: 导航栏
  * @Author: gleason
  * @Github: https://github.com/GleasonBian
  * @Date: 2019-08-06 14:47:58
  * @LastEditors: OBKoro1
- * @LastEditTime: 2019-08-13 13:26:20
+ * @LastEditTime: 2019-09-11 14:56:24
  -->
-<!-- 导航栏 -->
 <template>
   <div class="navBar">
     <div class="nav_bar_items">
-      <router-link
+      <div
         class="nav_bar_link"
+        @click="jumpHandle(item.to)"
         v-for="(item, index) in navBar"
         :key="index"
-        :to="item.to"
         :style="`color:${item.color}`"
-      >{{ item.name }}</router-link>
-
+      >{{ item.name }}</div>
     </div>
     <div class="phone"></div>
   </div>
@@ -28,15 +26,40 @@ import { mapState } from "vuex";
 export default {
   name: "navBar",
   data() {
-    return {};
+    return {
+      statement: false
+    };
   },
-  computed: mapState(["navBar"]),
+  computed: mapState(["navBar", "productParams"]),
 
   created() {},
 
   mounted() {},
 
-  methods: {},
+  methods: {
+    jumpHandle(to) {
+      if (typeof to === "object") {
+        this.productParams.firstFrontClassId = to.query.firstFrontClassId;
+        if (this.statement) {
+          // this.$store.dispatch("productListData");
+          this.productParams = {
+            secondFrontClassId: "", // 二级分类
+            frontClassId: "", // 三级分类id
+            productStatusCode: 0,
+            brandName: "", // 品牌名称
+            productName: "", // 产品名称
+            startPrice: "", // 最小价格
+            endPrice: "", //  最大价格
+            pageNo: 1,
+            pageSize: 12,
+            offset: 0
+          };
+        }
+      }
+
+      this.$router.push(to);
+    }
+  },
 
   components: {}
 };
@@ -74,5 +97,9 @@ export default {
 }
 .nav_bar_link {
   margin-right: 65px;
+  cursor: pointer;
+}
+.nav_bar_link:hover {
+  color: #1c7cce;
 }
 </style>

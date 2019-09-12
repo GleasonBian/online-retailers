@@ -6,7 +6,8 @@
     "serve": "vue-cli-service serve",
     "serve-dev": "vue-cli-service serve --mode development",
     "serve-pre": "vue-cli-service serve --mode prepare",
-    "build": "vue-cli-service build",
+    "serve-prod": "vue-cli-service serve --mode production",
+    "build": "vue-cli-service build --mode production",
     "build-dev": "vue-cli-service build --mode development",
     "build-pre": "vue-cli-service build --mode prepare",
     "lint": "vue-cli-service lint"
