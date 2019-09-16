@@ -116,7 +116,7 @@
                     : process.env.VUE_APP_URL; // 线上 使用域名 => 'https://api.apiopen.top/'
           this.uploadPath = baseurl + "/applicaForm/uploadFile";
           this.paramsId = this.$route.query.id;
-          this.imgBaseUrl = baseurl
+          this.imgBaseUrl = baseurl;
           console.log(this.$route.query.id)
         },
         mounted() {
@@ -129,7 +129,7 @@
               this.detailList = res.data
           },
           async handelGoodsDetail(){
-              const res = await receiptGoodsDetail({applicaFormId:this.paramsId,pageNo:this.pageNumber})
+              const res = await receiptGoodsDetail({applicaFormId:this.paramsId,pageNo:this.pageNumber});
               let a = 0;
               res.rows.map((item,index)=>{
                   a+=Number(item.goodsTotalPrice)
@@ -138,7 +138,7 @@
               this.goodsDetail = res
           },
           handelPageChange(page){
-              this.pageNumber = page
+              this.pageNumber = page;
               this.handelGoodsDetail()
           },
           handelReceiptShow(){

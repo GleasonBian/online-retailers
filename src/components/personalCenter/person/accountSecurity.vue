@@ -37,7 +37,7 @@
         ></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button size="small" type="primary" class="account_font" @click="handelEditPassword">修改密码</el-button>
+        <el-button size="small" type="primary" class="account_font" @click="handelEditPassword('ruleForm')">修改密码</el-button>
       </el-form-item>
     </el-form>
     <headerBox title="修改手机号"></headerBox>
@@ -102,25 +102,19 @@ import { editPassword, editPhone, getValid } from "@/getData.js";
 import { mapState } from "vuex";
 export default {
   data() {
-    var oldpass = (rule, value, callback) => {
+    var oldpass1 = (rule, value, callback) => {
       //验证密码
       if (value === "") {
-        callback(new Error("请输入密码"));
+        callback(new Error("请输入原密码"));
       } else {
-        if (this.ruleForm.oldpass !== "") {
-          this.$refs.ruleForm.validateField("oldpass");
-        }
         callback();
       }
     };
-    var validatePass = (rule, value, callback) => {
+    var validatePass1 = (rule, value, callback) => {
       //验证新密码
       if (value === "") {
-        callback(new Error("请输入密码"));
+        callback(new Error("请输入新密码"));
       } else {
-        if (this.ruleForm.checkPass !== "") {
-          this.$refs.ruleForm.validateField("checkPass");
-        }
         callback();
       }
     };
@@ -160,9 +154,9 @@ export default {
         oldpass: ""
       },
       rules: {
-        pass: [{ validator: validatePass, trigger: "blur" }],
-        checkPass: [{ validator: validatePass2, trigger: "blur" }],
-        oldpass: [{ validator: oldpass, trigger: "blur" }]
+        oldpass:    [{ validator: oldpass1, trigger: "blur" }],
+        pass:       [{ validator: validatePass1, trigger: "blur" }],
+        checkPass:  [{ validator: validatePass2, trigger: "blur" }],
       },
       fromData: {
         oldPhone: "",
@@ -187,7 +181,16 @@ export default {
   computed: mapState(["userInfo"]),
 
   methods: {
-    async handelEditPassword() {
+    async handelEditPassword(ruleForm) {
+      this.$refs[ruleForm].validate(valid => {
+        if(valid){
+          this.handelChangePassword()
+        }else{
+          return false
+        }
+      })
+    },
+    async handelChangePassword(){
       if (this.ruleForm.checkPass == "") {
         this.$message({
           message: "请您先确认密码",
@@ -208,7 +211,6 @@ export default {
     },
     async handelValid() {
       //获取手机验证码
-
       if (this.userInfos.userName != this.fromData.oldPhone) {
         this.$message.error("原手机号输入错误");
       } else {
@@ -228,6 +230,7 @@ export default {
     async handelEdit(fromData) {
       this.$refs[fromData].validate(valid => {
         if (valid) {
+          this.handelEditPhone()
         } else {
           return false;
         }

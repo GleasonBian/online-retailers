@@ -1,0 +1,21 @@
+    classifyHandle(state, payload) {
+      // classify 没有元素直接 将 payload 添加到数组
+      state.classify.length === 0 && state.classify.push(payload);
+      // 遍历 函数
+      const ret = item => {
+        return payload.level === item.level;
+      };
+      // 存在同一级 返回 true
+      let arr = [];
+      state.classify.forEach(element => {
+        if (payload.level === element.level) arr.push(1);
+      });
+
+      // 如果存在 同一级
+      if (arr.length > 0) {
+        // 找到 该 元素位置
+        let idx = state.classify.findIndex(ret);
+        // 替换 该 元素
+        state.classify.splice(idx, 1, payload);
+      } else state.classify.push(payload); // 不存在 直接添加 元素
+    },

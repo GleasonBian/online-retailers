@@ -254,8 +254,9 @@ export default {
      */
     confirmAnOrder() {
       // 没有选中商品提示
+      console.log(this.amount)
       if (this.amount === "0.00") {
-        this.$message.warning("请选择商品");
+        this.$message.warning("商品总额为0.00 不可提交");
         return;
       }
       // 将数组重新保存

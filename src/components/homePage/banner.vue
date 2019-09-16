@@ -25,7 +25,7 @@
         v-show="index <= 9"
       >
         <span>{{ item.frontName }}</span>
-        <span>＞</span>
+        <span class="el-icon-arrow-right"></span>
       </div>
     </div>
     <!--  -->

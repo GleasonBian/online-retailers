@@ -48,11 +48,13 @@ export default {
     return {};
   },
 
-  computed: mapState(["productData", "img", "userInfo"]),
+  computed: mapState(["productData", "img", "userInfo",'productParams']),
 
   methods: {},
 
-  created() {},
+  created() {
+    this.productParams.pageNo=1
+  },
 
   mounted() {},
 

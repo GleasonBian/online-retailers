@@ -331,8 +331,14 @@ export default new Vuex.Store({
         window.location.href = "/";
         Vue.prototype.$message.success(res.message);
       } else {
+        if(loginPrams.userid==''){
+          Vue.prototype.$message.warning('请输入账号');
+        }else if(loginPrams.password==''){
+          Vue.prototype.$message.warning('请输入密码');
+        }else{
+          Vue.prototype.$message.warning(res.message);
+        }
         sessionStorage["loginInfo"] = false;
-        Vue.prototype.$message.warning(res.message);
       }
       commit("loginInfoHandle");
     }
